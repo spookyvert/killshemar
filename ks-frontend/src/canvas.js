@@ -1,9 +1,10 @@
 let spr1;
 let GRAVITY = 0.8;
 let GROUND_Y = 350;
-let JUMP = -5; // how powerful is jump?
+let JUMP = -8; // how powerful is jump?
 let img;
 let platformSpr;
+let platformSwitch;
 
 const p1 = {
   x: 400,
@@ -18,7 +19,15 @@ const platform1 = {
   w: 40,
   h: 20
 }
-let platformRight = true;
+
+
+
+function randomDirection() {
+  return (Math.floor(Math.random() * 2) == 0) ? platformSwitch = true : platformSwitch = false;
+}
+
+randomDirection()
+
 
 function preload() {
   img = loadImage('assets/grass.png');
@@ -26,14 +35,15 @@ function preload() {
 
 function setup() {
   createCanvas(800, 400);
+  let r = random(650);
 
   spr1 = createSprite(
     p1.x, p1.y, p1.w, p1.h);
   spr1.shapeColor = color(255, 0, 0);
   spr1.velocity.y = 0;
 
-  platformSpr = createSprite(platform1.x, 330, 70, 20)
-  spr1.shapeColor = color(0, 200, 0)
+  platformSpr = createSprite(r, 330, 70, 20)
+
 
 }
 
@@ -61,38 +71,41 @@ function draw() {
   fill(100);
 
 
-  if (platformRight === true){
-    if (platform1.x >= 810){
-      platformRight = false;
-    }
-    else {
-      platform1.x += 0.5;
-    }
-  }
-  else {
-    if (platform1.x <= 80){
-      platformRight = true
-    }
-    else {
-      platform1.x -= 0.5
-    }
-  }
-  spr1.collide(platformSpr)
-  platformSpr.collide(spr1)
-}
+  if (platformSwitch === true) {
+    if (platformSpr.position.x >= 810) {
+      platformSwitch = false;
+    } else {
 
-function keyPressed() {
-  if (keyCode == RIGHT_ARROW) {
-    spr1.setSpeed(3.5, 0);
-  } else if (keyCode == LEFT_ARROW) {
-    spr1.setSpeed(3.5, 180);
-  } else if (keyCode == UP_ARROW && spr1.position.y > 330) {
+      platformSpr.position.x += 1.5;
+    }
+  } else {
+    if (platformSpr.position.x <= 80) {
+      platformSwitch = true
+    } else {
+
+      platformSpr.position.x -= 1.5
+    }
+  }
+
+
+  spr1.collide(platformSpr)
+
+
+
+  if (keyIsDown(RIGHT_ARROW)) {
+
+    spr1.position.x += 5;
+
+
+  } else if (keyIsDown(LEFT_ARROW)) {
+    spr1.position.x -= 5;
+
+  } else if (keyIsDown(UP_ARROW) && spr1.position.y > 330) {
     // p1.y -= 100
     spr1.velocity.y = JUMP;
   } else if (key == ' ') {
     spr1.setSpeed(0, 0);
   }
   return false;
-
 
 }
