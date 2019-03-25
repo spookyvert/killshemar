@@ -3,7 +3,7 @@ let GRAVITY = 0.8;
 let GROUND_Y = 350;
 let JUMP = -5; // how powerful is jump?
 let img;
-
+let platformSpr;
 
 const p1 = {
   x: 400,
@@ -11,6 +11,14 @@ const p1 = {
   w: 20,
   h: 20
 }
+
+const platform1 = {
+  x: 50,
+  y: 40,
+  w: 40,
+  h: 20
+}
+let platformRight = true;
 
 function preload() {
   img = loadImage('assets/grass.png');
@@ -24,6 +32,9 @@ function setup() {
   spr1.shapeColor = color(255, 0, 0);
   spr1.velocity.y = 0;
 
+  platformSpr = createSprite(platform1.x, 330, 70, 20)
+  spr1.shapeColor = color(0, 200, 0)
+
 }
 
 function draw() {
@@ -34,11 +45,7 @@ function draw() {
   text("use arrow keys, or SPACE to stop",
     width / 2, height * 0.67);
 
-
-
-
-
-  // Ground Image
+  // // Ground Image
   image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
@@ -46,17 +53,14 @@ function draw() {
 
   drawSprites();
 
-  // spr1.velocity.y += GRAVITY;
   if (spr1.position.y <= 330) {
-    // spr1.velocity.y *= -1
-    // spr1.position.y = 350
     spr1.velocity.y += GRAVITY;
   } else if (spr1.position.y >= 390) {
     spr1.velocity.y = 0
   }
   fill(100);
 
-  rect(platform1.x, 300, 70, 20)
+
   if (platformRight === true){
     if (platform1.x >= 810){
       platformRight = false;
@@ -73,6 +77,8 @@ function draw() {
       platform1.x -= 0.5
     }
   }
+  spr1.collide(platformSpr)
+  platformSpr.collide(spr1)
 }
 
 function keyPressed() {
