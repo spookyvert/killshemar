@@ -45,7 +45,7 @@ canvas {
   position: absolute;
   z-index: 1;
   width: 100%;
-  background-image: url("rollercoaster1.gif");
+  background-image: url("images/rollercoaster1.gif");
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
