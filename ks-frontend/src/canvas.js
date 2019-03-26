@@ -6,6 +6,8 @@ let img;
 let platformSpr;
 let platformSwitch;
 
+
+
 const playerOne = {
   x: 400,
   y: 390,
@@ -13,14 +15,13 @@ const playerOne = {
   h: 20
 }
 
-
+platformSwitch = false;
 // helper methods
 function randomDirection() {
-  return (Math.floor(Math.random() * 2) == 0) ? platformSwitch = true : platformSwitch = false;
+  return (Math.floor(Math.random() * 2) == 0) ? platformX = 20 : platformX = 800;
 }
 
 randomDirection()
-
 
 function preload() {
   img = loadImage('assets/grass.png');
@@ -28,14 +29,16 @@ function preload() {
 
 function setup() {
   createCanvas(800, 400);
-  let r = random(650);
 
-  spr1 = createSprite(
-    playerOne.x, playerOne.y, playerOne.w, playerOne.h);
+
+  spr1 = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
   spr1.shapeColor = color(255, 0, 0);
   spr1.velocity.y = 0;
+  let temp =  new Platform
+  let p = temp.sprite()
+  
 
-  platformSpr = createSprite(r, 330, 70, 20)
+  platformSpr = createSprite(platformX, p.y, p.w, 20)
 
 
 
@@ -63,6 +66,7 @@ function draw() {
     spr1.velocity.y = 0
   }
   fill(100);
+
 
 
   if (platformSwitch === true) {
