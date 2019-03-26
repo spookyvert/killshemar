@@ -84,6 +84,14 @@ function draw() {
   image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
 
+  spr1.collide(platformSpr)
+  spr1.collide(platformSpr2)
+
+  // if (spr1.collide(platformSpr)){
+  //   jumpCount = 0;
+  //   jumpSwitch = true;
+  // }
+
   drawSprites();
 
   if (spr1.position.y <= 330) {
@@ -124,16 +132,6 @@ function draw() {
       platformSpr2.position.x -= 1.5
     }
   }
-
-
-  spr1.collide(platformSpr)
-  spr1.collide(platformSpr2)
-
-  // if (spr1.collide(platformSpr)){
-  //   spr1.velocity.y = 0;
-  //   jumpCount = 0;
-  //   jumpSwitch = true;
-  // }
 
 
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
