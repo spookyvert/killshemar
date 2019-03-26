@@ -16,6 +16,7 @@ let rocketImg;
 let bulletSpr;
 let bg;
 let bullets = []
+let socket
 
 
 const playerOne = {
@@ -54,8 +55,15 @@ function preload() {
   bg = loadImage('assets/background.jpg')
 }
 
+
+
 function setup() {
   createCanvas(800, 400);
+
+
+  //
+  socket = io.connect('http://localhost:8000/')
+
 
   fill(0, 255, 0)
   portalSpr = createSprite(portal.x, portal.y, portal.w, portal.h)
@@ -81,8 +89,82 @@ function setup() {
   let q = temp2.sprite()
   let s = stat.sprite()
 
+
+  socket.on('mouse', (data) => {
+    spr2.attractionPoint(70, data.x, data.y);
+
+  });
+
+
+
+
+  socket.on('shoot', (data) => {
+    bulletSpr = createSprite(width / 4, height / 4, 2, 10);
+
+
+    bulletSpr.velocity.y = data.velocityY;
+    bulletSpr.velocity.x = data.velocityX;
+    bulletSpr.position.x = data.x;
+    bulletSpr.position.y = data.y;
+    bullets.push(bulletSpr)
+
+    console.log(0)
+
+
+  });
+
+
+
+  socket.on('linearS1', (data) => {
+    spr1.position.x = data.x
+
+  });
+
+
+  socket.on('jumpS1', (data) => {
+
+
+    spr1.position.y = data.y,
+      spr1.position.x = data.x,
+      spr1.velocity.x = data.vX,
+      spr1.velocity.y = data.vY
+
+  });
+
+
+
   platformSpr = createSprite(platformX, p.y, p.w, 20)
+
+  let plaformData1 = {
+    x: platformX,
+    y: p.y,
+    w: p.w
+
+  }
+  socket.emit('platform1', plaformData1)
+
+
+  socket.on('platform1', (data) => {
+    platformSpr = createSprite(data.x, data.y, data.w, 20)
+
+  });
+
   platformSpr2 = createSprite(platformX, p.y - 50, p.w, 20)
+
+  let plaformData2 = {
+    x: platformX,
+    y: p.y - 50,
+    w: p.w
+
+  }
+  socket.emit('platform2', plaformData2)
+
+  socket.on('platform2', (data) => {
+    platformSpr2 = createSprite(data.x, data.y, data.w, 20)
+
+  });
+
+
   staticPlatformSpr = createSprite(200, 220, 40, 20)
 
 }
@@ -98,7 +180,6 @@ function draw() {
   image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
 
-
   // Regular Movement
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
     spr1.position.x += 5;
@@ -106,10 +187,25 @@ function draw() {
     spr1.position.x -= 5;
   }
 
+
+
   // PLAYER TWO CLICK MOVEMENT
   if (mouseIsPressed) {
+
+    // THIS SENDS IT TO THE SERVER, OTHER SERVER
+    let data = {
+      x: mouseX,
+      y: mouseY
+    }
+    socket.emit('mouse', data)
+
+
+
     spr2.attractionPoint(70, mouseX, mouseY);
+
   }
+
+
   //timer stuff
   if (frameCount % 60 == 0 && timer > 0) {
     timer--;
@@ -122,61 +218,59 @@ function draw() {
   if (timer <= 0) {
     textSize(20);
     textAlign(CENTER, CENTER);
-    text("SHEMAR WINS", width/2, 20);
+    text("SHEMAR WINS", width / 2, 20);
   }
 
   if (spr1.position.y >= 390) {
     spr1.position.y = 390;
   }
-  if (spr1.position.x >= 790){
+  if (spr1.position.x >= 790) {
     spr1.position.x = 790;
   }
-  if (spr1.position.x <= 10){
+  if (spr1.position.x <= 10) {
     spr1.position.x = 10;
   }
 
-//player 1 platform collisions
-  if (spr1.collide(staticPlatformSpr)){
+  //player 1 platform collisions
+  if (spr1.collide(staticPlatformSpr)) {
     jumpCount = -1;
     jumpSwitch = true;
     spr1.velocity.y = GRAVITY * 2
   }
 
-  if (spr1.collide(platformSpr) || spr1.collide(platformSpr2)){
+  if (spr1.collide(platformSpr) || spr1.collide(platformSpr2)) {
     jumpCount = -1;
     jumpSwitch = true;
-    if ((platformSwitch === false) || (platformSpr2 === false)){
+    if ((platformSwitch === false) || (platformSpr2 === false)) {
       spr1.velocity.x = -1.5
-    }
-    else {
+    } else {
       spr1.velocity.x = 1.5
     }
   }
 
-  if (spr1.position.y >= 390){
+  if (spr1.position.y >= 390) {
     spr1.velocity.x = 0
   }
 
   //player 2 ship collisions
-  if (spr2.collide(staticPlatformSpr) || spr2.collide(platformSpr) || spr2.collide(platformSpr2)){
+  if (spr2.collide(staticPlatformSpr) || spr2.collide(platformSpr) || spr2.collide(platformSpr2)) {
     timer = 0;
   }
-  if (spr2.collide(spr1)){
+  if (spr2.collide(spr1)) {
     textSize(20);
     textAlign(CENTER, CENTER);
-    text("SHIP WINS", width/2, 20);
+    text("SHIP WINS", width / 2, 20);
     noLoop();
   }
 
-  if (bullets.length != 0){
-    for(let b of bullets){
-      if (b.collide(spr1)){
+  if (bullets.length != 0) {
+    for (let b of bullets) {
+      if (b.collide(spr1)) {
         textSize(20);
         textAlign(CENTER, CENTER);
-        text("SHIP WINS", width/2, 20);
+        text("SHIP WINS", width / 2, 20);
         noLoop();
-      }
-      else if (b.collide(staticPlatformSpr) || b.collide(platformSpr) || b.collide(platformSpr2)){
+      } else if (b.collide(staticPlatformSpr) || b.collide(platformSpr) || b.collide(platformSpr2)) {
         b.remove()
       }
     }
@@ -230,11 +324,22 @@ function draw() {
   }
 
 
+  // Movement
+
+
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
     spr1.position.x += 5;
   } else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
     spr1.position.x -= 5;
   }
+
+
+  let dataS1 = {
+    x: spr1.position.x,
+  }
+  socket.emit('linearS1', dataS1)
+
+
 }
 
 // SPECIAL MOVEMENTS
@@ -245,8 +350,22 @@ function keyPressed() {
       jumpSwitch = false
     } else {
       spr1.velocity.y = JUMP;
+
       jumpCount++
+
+      let dataS1 = {
+        x: spr1.position.x,
+        y: spr1.position.y,
+        vY: spr1.velocity.y,
+        vX: spr1.velocity.x
+
+      }
+
+      socket.emit('jumpS1', dataS1)
+
     }
+
+
   } else if (keyIsDown(DOWN_ARROW) && spr1.position.x >= 602 && spr1.position.x <= 607 && spr1.position.y === 390) {
     spr1.position.x = 200
     spr1.position.y = 200
@@ -254,14 +373,30 @@ function keyPressed() {
     // PLAYER TWO CONTROLS
   } else if (keyIsDown(32)) {
 
-    bulletSpr = createSprite(width / 4, height / 4,
-      2, 10);
-    bulletSpr.shapeColor = color(255);
+
+
+    bulletSpr = createSprite(width / 4, height / 4, 2, 10);
+
     bulletSpr.velocity.y = 2;
     bulletSpr.velocity.x = random(-1, 1);
     bulletSpr.position.x = spr2.position.x;
     bulletSpr.position.y = spr2.position.y;
     bullets.push(bulletSpr)
+
+    let data = {
+      x: bulletSpr.position.x,
+      y: bulletSpr.position.y,
+      velocityY: bulletSpr.velocity.y,
+      velocityX: bulletSpr.velocity.x
+
+    }
+
+
+    socket.emit('shoot', data)
+
+
+
+
   }
 
 }
