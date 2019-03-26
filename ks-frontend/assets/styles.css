@@ -2,19 +2,22 @@ body {
   background-color: #C3CDE6;
 }
 
+#controls {
+  display: block;
+}
+
 canvas {
   position: relative;
   padding-left: 0 !important;
   padding-right: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  display: none;
   margin-top: 20vh;
+  display: none;
   -webkit-animation-name: canvasUp;
   -webkit-animation-duration: 1s;
   animation-name: canvasUp;
   animation-duration: 1s
-}
 }
 
 @-webkit-keyframes canvasUp {

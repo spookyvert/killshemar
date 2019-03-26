@@ -14,6 +14,7 @@ let portalSpr;
 let rocketImg;
 let timer = 60;
 let bulletSpr;
+let bg;
 
 const playerOne = {
   x: 400,
@@ -48,6 +49,7 @@ randomDirection()
 function preload() {
   img = loadImage('assets/grass.png');
   rocketImg = loadImage('assets/rocket.png');
+  bg = loadImage('assets/background.jpg')
 }
 
 function setup() {
@@ -81,15 +83,14 @@ function setup() {
   platformSpr = createSprite(platformX, p.y, p.w, 20)
   platformSpr2 = createSprite(platformX, p.y - 50, p.w, 20)
   staticPlatformSpr = createSprite(200, 220, 40, 20)
-  rect = createSprite(600, 100, 200, 100);
+
 }
 
 function draw() {
-  background(50);
+  background(bg);
   fill(255);
   noStroke();
-  textAlign(CENTER, CENTER);
-  text("use arrow keys, or SPACE to stop", width / 2, height * 0.67);
+
 
   // // Ground Image
   image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8);
