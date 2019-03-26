@@ -92,7 +92,6 @@ function draw() {
   fill(255);
   noStroke();
 
-
   // // Ground Image
   image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8);
@@ -106,7 +105,6 @@ function draw() {
   } else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
     spr1.position.x -= 5;
   }
-
 
   // PLAYER TWO CLICK MOVEMENT
   if (mouseIsPressed) {
@@ -170,16 +168,21 @@ function draw() {
     noLoop();
   }
 
-if (bullets.length != 0){
-  for(let b of bullets){
-    if (b.collide(spr1)){
-      textSize(20);
-      textAlign(CENTER, CENTER);
-      text("SHIP WINS", width/2, 20);
-      noLoop();
+  if (bullets.length != 0){
+    for(let b of bullets){
+      if (b.collide(spr1)){
+        textSize(20);
+        textAlign(CENTER, CENTER);
+        text("SHIP WINS", width/2, 20);
+        noLoop();
+      }
+      else if (b.collide(staticPlatformSpr) || b.collide(platformSpr) || b.collide(platformSpr2)){
+        b.remove()
+      }
     }
   }
-}
+
+
 
   //limits jumping to 2 consecutive jumps
   if (spr1.position.y >= 370) {
