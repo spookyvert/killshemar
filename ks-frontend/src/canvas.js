@@ -5,6 +5,7 @@ let JUMP = -8; // how powerful is jump?
 let img;
 let platformSpr;
 let platformSwitch;
+let platformSwitch2;
 let jumpSwitch = true;
 let jumpCount = 0;
 let portalSpr;
@@ -26,6 +27,7 @@ const portal = {
 }
 
 platformSwitch = false;
+platformSwitch2 = true;
 // helper methods
 function randomDirection() {
   return (Math.floor(Math.random() * 2) == 0) ? platformX = 20 : platformX = 800;
@@ -47,13 +49,14 @@ function setup() {
   spr1 = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
   spr1.shapeColor = color(255, 0, 0);
   spr1.velocity.y = 0;
-  let temp =  new Platform
+  let temp = new Platform
+  let temp2 = new Platform
   let p = temp.sprite()
-
+  let q = temp2.sprite()
 
   platformSpr = createSprite(platformX, p.y, p.w, 20)
 
-
+  platformSpr2 = createSprite(platformX, p.y - 50, p.w, 20)
 
 }
 
@@ -93,23 +96,44 @@ function draw() {
 
 
   if (platformSwitch === true) {
-    if (platformSpr.position.x >= 810) {
+    if (platformSpr.position.x >= 850) {
       platformSwitch = false;
     } else {
 
       platformSpr.position.x += 1.5;
     }
   } else {
-    if (platformSpr.position.x <= 80) {
+    if (platformSpr.position.x <= -80) {
       platformSwitch = true
     } else {
-
       platformSpr.position.x -= 1.5
+    }
+  }
+
+  if (platformSwitch2 === true) {
+    if (platformSpr2.position.x >= 1850) {
+      platformSwitch2 = false;
+    } else {
+
+      platformSpr2.position.x += 1.5;
+    }
+  } else {
+    if (platformSpr2.position.x <= -480) {
+      platformSwitch2 = true
+    } else {
+      platformSpr2.position.x -= 1.5
     }
   }
 
 
   spr1.collide(platformSpr)
+  spr1.collide(platformSpr2)
+
+  // if (spr1.collide(platformSpr)){
+  //   spr1.velocity.y = 0;
+  //   jumpCount = 0;
+  //   jumpSwitch = true;
+  // }
 
 
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
