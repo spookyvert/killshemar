@@ -4,14 +4,15 @@ let GROUND_Y = 350;
 let JUMP = -8; // how powerful is jump?
 let img;
 let platformSpr;
+let platformSpr2;
+let staticPlatformSpr;
 let platformSwitch;
 let platformSwitch2;
 let jumpSwitch = true;
 let jumpCount = 0;
 let portalSpr;
 let rocketImg;
-
-
+let timer = 60
 
 const playerOne = {
   x: 400,
@@ -71,11 +72,14 @@ function setup() {
 
   let temp = new Platform
   let temp2 = new Platform
+  let stat = new Platform
   let p = temp.sprite()
   let q = temp2.sprite()
+  let s = stat.sprite()
 
   platformSpr = createSprite(platformX, p.y, p.w, 20)
   platformSpr2 = createSprite(platformX, p.y - 50, p.w, 20)
+  staticPlatformSpr = createSprite(200, 220, 40, 20)
 }
 
 function draw() {
@@ -106,7 +110,22 @@ function draw() {
   if (mouseIsPressed) {
     spr2.attractionPoint(70, mouseX, mouseY);
   }
-
+  //timer stuff
+  if (frameCount % 60 == 0 && timer > 0) {
+    timer--;
+  }
+  if (timer != 0) {
+    textSize(18);
+    text(timer + "s", width - 30, 20);
+  }
+  if (frameCount % 60 == 0 && timer > 0) {
+    timer--;
+  }
+  // if (timer <= 0) {
+  //   textSize(18);
+  //   textAlign(CENTER, CENTER);
+  //   text("SHEMAR WINS");
+  // }
 
   //limits jumping to 2 consecutive jumps
   if (spr1.position.y >= 370) {
@@ -118,6 +137,11 @@ function draw() {
     spr1.position.y = 390;
   }
 
+
+
+  spr1.collide(platformSpr)
+  spr1.collide(platformSpr2)
+  spr1.collide(staticPlatformSpr)
 
 
   // if (spr1.collide(platformSpr)){
@@ -134,13 +158,11 @@ function draw() {
     spr1.velocity.y = 0
   }
 
-
-  // PLATFORM LOGIC
+  // PLATFORM 1 LOGIC
   if (platformSwitch === true) {
     if (platformSpr.position.x >= 850) {
       platformSwitch = false;
     } else {
-
       platformSpr.position.x += 1.5;
     }
   } else {
@@ -156,7 +178,6 @@ function draw() {
     if (platformSpr2.position.x >= 1850) {
       platformSwitch2 = false;
     } else {
-
       platformSpr2.position.x += 1.5;
     }
   } else {
@@ -168,8 +189,11 @@ function draw() {
   }
 
 
-
-
+  if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
+    spr1.position.x += 5;
+  } else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
+    spr1.position.x -= 5;
+  }
 
 }
 
