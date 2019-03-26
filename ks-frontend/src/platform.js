@@ -14,7 +14,7 @@ class Platform {
         y: rY,
         w: rW
     }
-    
+
      return pSpecs
   }
 }

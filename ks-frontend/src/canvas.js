@@ -16,6 +16,17 @@ let rocketImg;
 let bulletSpr;
 let bg;
 
+class Bullet {
+  constructor(createSprite, shapeColor){
+    this.createSprite = createSprite;
+    this.shapeColor = shapeColor;
+    // this.velocityY = velocityY;
+    // this.velocityX = velocityX;
+    // this.positionY = positionY;
+    // this.positionX = positionX;
+  }
+}
+
 const playerOne = {
   x: 400,
   y: 390,
@@ -162,6 +173,35 @@ function draw() {
   if (spr2.collide(staticPlatformSpr) || spr2.collide(platformSpr) || spr2.collide(platformSpr2)){
     timer = 0;
   }
+  if (spr2.collide(spr1)){
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    text("SHIP WINS", width/2, 20);
+  }
+
+  //bullet collisions
+
+
+
+  if (bulletSpr != undefined){
+    if (bulletSpr.collide(spr1)){
+      console.log("hit")
+      textSize(20);
+      textAlign(CENTER, CENTER);
+      text("SHIP WINS", width/2, 20);
+      noLoop()
+    }
+  }
+
+  // if (bulletSpr != undefined && bulletSpr.collide.spr1){
+  //   console.log("hit")
+  //   textSize(20);
+  //   textAlign(CENTER, CENTER);
+  //   text("SHIP WINS", width/2, 20);
+  // }
+  if (bulletSpr != undefined && bulletSpr.position.y >= 400){
+    bulletSpr.remove()
+  }
 
   //limits jumping to 2 consecutive jumps
   if (spr1.position.y >= 370) {
@@ -236,14 +276,15 @@ function keyPressed() {
 
     // PLAYER TWO CONTROLS
   } else if (keyIsDown(32)) {
-    bulletSpr = createSprite(width / 4, height / 4,
-      2, 10);
-    bulletSpr.shapeColor = color(255);
-    bulletSpr.velocity.y = 2;
-    bulletSpr.velocity.x = random(-1, 1);
-    bulletSpr.position.x = spr2.position.x;
-    bulletSpr.position.y = spr2.position.y;
-
+    let bullet = new Bullet(createSprite(width / 4, height / 4,
+      2, 10), color(255))
+    // bulletSpr = createSprite(width / 4, height / 4,
+    //   2, 10);
+    // bulletSpr.shapeColor = color(255);
+    bullet.velocity.y = 2;
+    bullet.velocity.x = random(-1, 1);
+    bullet.position.x = spr2.position.x;
+    bullet.position.y = spr2.position.y;
   }
 
 }
