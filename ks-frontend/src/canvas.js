@@ -44,14 +44,16 @@ function setup() {
   portalSpr = createSprite(portal.x, portal.y, portal.w, portal.h)
 
 
-  spr1 = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
-  spr1.shapeColor = color(255, 0, 0);
-  spr1.velocity.y = 0;
-  let temp =  new Platform
+  let temp = new Platform
   let p = temp.sprite()
 
 
   platformSpr = createSprite(platformX, p.y, p.w, 20)
+
+  spr1 = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
+  spr1.shapeColor = color(255, 0, 0);
+  spr1.velocity.y = 0;
+
 
 
 
@@ -65,13 +67,13 @@ function draw() {
   text("use arrow keys, or SPACE to stop",
     width / 2, height * 0.67);
 
-    //limits jumping to 2 consecutive jumps
-  if (spr1.position.y >= 370){
+  //limits jumping to 2 consecutive jumps
+  if (spr1.position.y >= 370) {
     jumpCount = 0
     jumpSwitch = true
   }
 
-  if (spr1.position.y >= 390){
+  if (spr1.position.y >= 390) {
     spr1.position.y = 390;
   }
 
@@ -80,6 +82,8 @@ function draw() {
   image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
+
+  spr1.collide(platformSpr)
 
   drawSprites();
 
@@ -109,7 +113,7 @@ function draw() {
   }
 
 
-  spr1.collide(platformSpr)
+
 
 
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
@@ -125,17 +129,15 @@ function draw() {
 
 }
 
-function keyPressed(){
+function keyPressed() {
   if (keyIsDown(UP_ARROW) && jumpSwitch) {
-    if (jumpCount >= 1){
+    if (jumpCount >= 1) {
       jumpSwitch = false
-    }
-    else {
+    } else {
       spr1.velocity.y = JUMP;
       jumpCount++
     }
-  }
-  else if (keyIsDown(DOWN_ARROW) && spr1.position.x >= 602 && spr1.position.x <= 607 && spr1.position.y === 390) {
+  } else if (keyIsDown(DOWN_ARROW) && spr1.position.x >= 602 && spr1.position.x <= 607 && spr1.position.y === 390) {
     spr1.position.x = 200
     spr1.position.y = 200
   }
