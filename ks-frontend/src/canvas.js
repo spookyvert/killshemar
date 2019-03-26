@@ -12,7 +12,8 @@ let jumpSwitch = true;
 let jumpCount = 0;
 let portalSpr;
 let rocketImg;
-let timer = 60
+let timer = 60;
+let bulletSpr;
 
 const playerOne = {
   x: 400,
@@ -80,6 +81,7 @@ function setup() {
   platformSpr = createSprite(platformX, p.y, p.w, 20)
   platformSpr2 = createSprite(platformX, p.y - 50, p.w, 20)
   staticPlatformSpr = createSprite(200, 220, 40, 20)
+  rect = createSprite(600, 100, 200, 100);
 }
 
 function draw() {
@@ -97,6 +99,8 @@ function draw() {
 
   spr1.collide(platformSpr)
   spr1.collide(platformSpr2)
+  spr1.collide(spr2)
+
 
   // Regular Movement
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
@@ -118,14 +122,15 @@ function draw() {
     textSize(18);
     text(timer + "s", width - 30, 20);
   }
+
   if (frameCount % 60 == 0 && timer > 0) {
     timer--;
   }
-  // if (timer <= 0) {
-  //   textSize(18);
-  //   textAlign(CENTER, CENTER);
-  //   text("SHEMAR WINS");
-  // }
+  if (timer <= 0) {
+    textSize(18);
+    textAlign(CENTER, CENTER);
+    text("SHEMAR WINS");
+  }
 
   //limits jumping to 2 consecutive jumps
   if (spr1.position.y >= 370) {
@@ -144,10 +149,12 @@ function draw() {
   spr1.collide(staticPlatformSpr)
 
 
-  // if (spr1.collide(platformSpr)){
-  //   jumpCount = 0;
-  //   jumpSwitch = true;
-  // }
+
+
+  if (spr1.collide(platformSpr)) {
+    jumpCount = 0;
+    jumpSwitch = true;
+  }
 
   drawSprites();
 
@@ -195,6 +202,8 @@ function draw() {
     spr1.position.x -= 5;
   }
 
+
+
 }
 
 
@@ -214,13 +223,14 @@ function keyPressed() {
 
     // PLAYER TWO CONTROLS
   } else if (keyIsDown(32)) {
-    var spr = createSprite(width / 4, height / 4,
+    bulletSpr = createSprite(width / 4, height / 4,
       2, 10);
-    spr.shapeColor = color(255);
-    spr.velocity.y = 2;
-    spr.velocity.x = random(-1, 1);
-    spr.position.x = spr2.position.x;
-    spr.position.y = spr2.position.y;
+    bulletSpr.shapeColor = color(255);
+    bulletSpr.velocity.y = 2;
+    bulletSpr.velocity.x = random(-1, 1);
+    bulletSpr.position.x = spr2.position.x;
+    bulletSpr.position.y = spr2.position.y;
+
   }
-  return false;
+
 }
