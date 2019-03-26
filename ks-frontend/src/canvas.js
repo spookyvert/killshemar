@@ -9,12 +9,20 @@ let platformSwitch2;
 let jumpSwitch = true;
 let jumpCount = 0;
 let portalSpr;
+let rocketImg;
 
 
 
 const playerOne = {
   x: 400,
   y: 390,
+  w: 20,
+  h: 20
+}
+
+const playerTwo = {
+  x: 400,
+  y: 100,
   w: 20,
   h: 20
 }
@@ -37,6 +45,7 @@ randomDirection()
 
 function preload() {
   img = loadImage('assets/grass.png');
+  rocketImg = loadImage('assets/rocket.png');
 }
 
 function setup() {
@@ -45,10 +54,21 @@ function setup() {
   fill(0, 255, 0)
   portalSpr = createSprite(portal.x, portal.y, portal.w, portal.h)
 
-
+  // Player One
   spr1 = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
   spr1.shapeColor = color(255, 0, 0);
   spr1.velocity.y = 0;
+
+
+  // Player Two
+  spr2 = createSprite(playerTwo.x, playerTwo.y, playerTwo.w, playerTwo.h);
+  spr2.addImage(rocketImg)
+  spr2.shapeColor = color(255);
+  spr2.rotateToDirection = true;
+  spr2.maxSpeed = 2;
+  spr2.friction = 0.99;
+
+
   let temp = new Platform
   let temp2 = new Platform
   let p = temp.sprite()
@@ -63,8 +83,30 @@ function draw() {
   fill(255);
   noStroke();
   textAlign(CENTER, CENTER);
-  text("use arrow keys, or SPACE to stop",
-    width / 2, height * 0.67);
+  text("use arrow keys, or SPACE to stop", width / 2, height * 0.67);
+
+  // // Ground Image
+  image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8);
+  image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8);
+  image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
+  image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
+
+  spr1.collide(platformSpr)
+  spr1.collide(platformSpr2)
+
+  // Regular Movement
+  if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
+    spr1.position.x += 5;
+  } else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
+    spr1.position.x -= 5;
+  }
+
+
+  // PLAYER TWO CLICK MOVEMENT
+  if (mouseIsPressed) {
+    spr2.attractionPoint(70, mouseX, mouseY);
+  }
+
 
   //limits jumping to 2 consecutive jumps
   if (spr1.position.y >= 370) {
@@ -76,14 +118,7 @@ function draw() {
     spr1.position.y = 390;
   }
 
-  // // Ground Image
-  image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8);
-  image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8);
-  image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
-  image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
 
-  spr1.collide(platformSpr)
-  spr1.collide(platformSpr2)
 
   // if (spr1.collide(platformSpr)){
   //   jumpCount = 0;
@@ -92,15 +127,15 @@ function draw() {
 
   drawSprites();
 
+  // LOGIC TO NOT FALL THROUGH GROUND
   if (spr1.position.y <= 330) {
     spr1.velocity.y += GRAVITY;
   } else if (spr1.position.y >= 390) {
     spr1.velocity.y = 0
   }
-  fill(100);
 
 
-
+  // PLATFORM LOGIC
   if (platformSwitch === true) {
     if (platformSpr.position.x >= 850) {
       platformSwitch = false;
@@ -116,6 +151,7 @@ function draw() {
     }
   }
 
+  // PLATFORM 2 LOGIC
   if (platformSwitch2 === true) {
     if (platformSpr2.position.x >= 1850) {
       platformSwitch2 = false;
@@ -132,20 +168,15 @@ function draw() {
   }
 
 
-  if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
-
-    spr1.position.x += 5;
 
 
-  } else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
-    spr1.position.x -= 5;
-
-  }
-  return false;
 
 }
 
+
+// SPECIAL MOVEMENTS
 function keyPressed() {
+  // PLAYER ONE CONTROLS
   if (keyIsDown(UP_ARROW) && jumpSwitch) {
     if (jumpCount >= 1) {
       jumpSwitch = false
@@ -156,7 +187,16 @@ function keyPressed() {
   } else if (keyIsDown(DOWN_ARROW) && spr1.position.x >= 602 && spr1.position.x <= 607 && spr1.position.y === 390) {
     spr1.position.x = 200
     spr1.position.y = 200
+
+    // PLAYER TWO CONTROLS
+  } else if (keyIsDown(32)) {
+    var spr = createSprite(width / 4, height / 4,
+      2, 10);
+    spr.shapeColor = color(255);
+    spr.velocity.y = 2;
+    spr.velocity.x = random(-1, 1);
+    spr.position.x = spr2.position.x;
+    spr.position.y = spr2.position.y;
   }
   return false;
-
 }
