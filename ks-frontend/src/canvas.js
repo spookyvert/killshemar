@@ -11,7 +11,7 @@ let platformSwitch2;
 let jumpSwitch = true;
 let jumpCount = 0;
 let portalSpr;
-let timer = 60
+let timer = 120
 
 const playerOne = {
   x: 400,
@@ -79,23 +79,21 @@ function draw() {
   textSize(18);
   text(timer + "s", width - 30, 20);
   }
-  if (frameCount % 60 == 0 && timer > 0) {
-    timer--;
-  }
+
   // if (timer <= 0) {
   //   textSize(18);
   //   textAlign(CENTER, CENTER);
   //   text("SHEMAR WINS");
   // }
 
-  //limits jumping to 2 consecutive jumps
-  if (spr1.position.y >= 370) {
-    jumpCount = 0
-    jumpSwitch = true
-  }
-
   if (spr1.position.y >= 390) {
     spr1.position.y = 390;
+  }
+  if (spr1.position.x >= 790){
+    spr1.position.x = 790;
+  }
+  if (spr1.position.x <= 10){
+    spr1.position.x = 10;
   }
 
   // // Ground Image
@@ -104,14 +102,34 @@ function draw() {
   image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
 
-  spr1.collide(platformSpr)
-  spr1.collide(platformSpr2)
-  spr1.collide(staticPlatformSpr)
 
-  // if (spr1.collide(platformSpr)){
-  //   jumpCount = 0;
-  //   jumpSwitch = true;
-  // }
+
+  if (spr1.collide(staticPlatformSpr)){
+    jumpCount = -1;
+    jumpSwitch = true;
+    spr1.velocity.y = GRAVITY * 2
+  }
+
+  if (spr1.collide(platformSpr) || spr1.collide(platformSpr2)){
+    jumpCount = -1;
+    jumpSwitch = true;
+    if ((platformSwitch === false) || (platformSpr2 === false)){
+      spr1.velocity.x = -1.5
+    }
+    else {
+      spr1.velocity.x = 1.5
+    }
+  }
+
+  if (spr1.position.y >= 390){
+    spr1.velocity.x = 0
+  }
+
+  //limits jumping to 2 consecutive jumps
+  if (spr1.position.y >= 370) {
+    jumpCount = 0
+    jumpSwitch = true
+  }
 
   drawSprites();
 
