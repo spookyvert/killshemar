@@ -11,9 +11,8 @@ let platformSwitch2;
 let jumpSwitch = true;
 let jumpCount = 0;
 let portalSpr;
-let timer = 120
+let timer = 60
 let rocketImg;
-let timer = 60;
 let bulletSpr;
 let bg;
 
@@ -99,10 +98,6 @@ function draw() {
   image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
   image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
 
-  spr1.collide(platformSpr)
-  spr1.collide(platformSpr2)
-  spr1.collide(spr2)
-
 
   // Regular Movement
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
@@ -125,11 +120,11 @@ function draw() {
     text(timer + "s", width - 30, 20);
   }
 
-  // if (timer <= 0) {
-  //   textSize(18);
-  //   textAlign(CENTER, CENTER);
-  //   text("SHEMAR WINS");
-  // }
+  if (timer <= 0) {
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    text("SHEMAR WINS", width/2, 20);
+  }
 
   if (spr1.position.y >= 390) {
     spr1.position.y = 390;
@@ -141,10 +136,7 @@ function draw() {
     spr1.position.x = 10;
   }
 
-
-
-
-
+//player 1 platform collisions
   if (spr1.collide(staticPlatformSpr)){
     jumpCount = -1;
     jumpSwitch = true;
@@ -164,6 +156,11 @@ function draw() {
 
   if (spr1.position.y >= 390){
     spr1.velocity.x = 0
+  }
+
+  //player 2 ship collisions
+  if (spr2.collide(staticPlatformSpr) || spr2.collide(platformSpr) || spr2.collide(platformSpr2)){
+    timer = 0;
   }
 
   //limits jumping to 2 consecutive jumps
