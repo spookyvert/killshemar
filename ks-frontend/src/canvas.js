@@ -15,17 +15,8 @@ let timer = 60
 let rocketImg;
 let bulletSpr;
 let bg;
+let bullets = []
 
-class Bullet {
-  constructor(createSprite, shapeColor){
-    this.createSprite = createSprite;
-    this.shapeColor = shapeColor;
-    // this.velocityY = velocityY;
-    // this.velocityX = velocityX;
-    // this.positionY = positionY;
-    // this.positionX = positionX;
-  }
-}
 
 const playerOne = {
   x: 400,
@@ -82,7 +73,6 @@ function setup() {
   spr2.rotateToDirection = true;
   spr2.maxSpeed = 2;
   spr2.friction = 0.99;
-
 
   let temp = new Platform
   let temp2 = new Platform
@@ -177,31 +167,19 @@ function draw() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHIP WINS", width/2, 20);
+    noLoop();
   }
 
-  //bullet collisions
-
-
-
-  if (bulletSpr != undefined){
-    if (bulletSpr.collide(spr1)){
-      console.log("hit")
+if (bullets.length != 0){
+  for(let b of bullets){
+    if (b.collide(spr1)){
       textSize(20);
       textAlign(CENTER, CENTER);
       text("SHIP WINS", width/2, 20);
-      noLoop()
+      noLoop();
     }
   }
-
-  // if (bulletSpr != undefined && bulletSpr.collide.spr1){
-  //   console.log("hit")
-  //   textSize(20);
-  //   textAlign(CENTER, CENTER);
-  //   text("SHIP WINS", width/2, 20);
-  // }
-  if (bulletSpr != undefined && bulletSpr.position.y >= 400){
-    bulletSpr.remove()
-  }
+}
 
   //limits jumping to 2 consecutive jumps
   if (spr1.position.y >= 370) {
@@ -254,11 +232,7 @@ function draw() {
   } else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
     spr1.position.x -= 5;
   }
-
-
-
 }
-
 
 // SPECIAL MOVEMENTS
 function keyPressed() {
@@ -276,15 +250,15 @@ function keyPressed() {
 
     // PLAYER TWO CONTROLS
   } else if (keyIsDown(32)) {
-    let bullet = new Bullet(createSprite(width / 4, height / 4,
-      2, 10), color(255))
-    // bulletSpr = createSprite(width / 4, height / 4,
-    //   2, 10);
-    // bulletSpr.shapeColor = color(255);
-    bullet.velocity.y = 2;
-    bullet.velocity.x = random(-1, 1);
-    bullet.position.x = spr2.position.x;
-    bullet.position.y = spr2.position.y;
+
+    bulletSpr = createSprite(width / 4, height / 4,
+      2, 10);
+    bulletSpr.shapeColor = color(255);
+    bulletSpr.velocity.y = 2;
+    bulletSpr.velocity.x = random(-1, 1);
+    bulletSpr.position.x = spr2.position.x;
+    bulletSpr.position.y = spr2.position.y;
+    bullets.push(bulletSpr)
   }
 
 }
