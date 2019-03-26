@@ -16,10 +16,10 @@ function preloader() {
 
 function showPage() {
   document.getElementById("loader").style.display = "none";
+
   document.querySelector("canvas").style.display = "block";
+
 }
-
-
 
 
 // index, list all
