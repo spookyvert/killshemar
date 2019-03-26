@@ -56,13 +56,6 @@ function setup() {
 
   platformSpr = createSprite(platformX, p.y, p.w, 20)
   platformSpr2 = createSprite(platformX, p.y - 50, p.w, 20)
-  spr1 = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
-  spr1.shapeColor = color(255, 0, 0);
-  spr1.velocity.y = 0;
-
-
-
-
 }
 
 function draw() {
