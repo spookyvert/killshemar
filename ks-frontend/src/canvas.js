@@ -55,11 +55,8 @@ function preload() {
   bg = loadImage('assets/background.jpg')
 }
 
-
-
 function setup() {
   createCanvas(800, 400);
-
 
   //
   socket = io.connect('http://localhost:8000/')
@@ -72,7 +69,6 @@ function setup() {
   spr1 = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
   spr1.shapeColor = color(255, 0, 0);
   spr1.velocity.y = 0;
-
 
   // Player Two
   spr2 = createSprite(playerTwo.x, playerTwo.y, playerTwo.w, playerTwo.h);
@@ -89,18 +85,13 @@ function setup() {
   let q = temp2.sprite()
   let s = stat.sprite()
 
-
   socket.on('mouse', (data) => {
     spr2.attractionPoint(70, data.x, data.y);
 
   });
 
-
-
-
   socket.on('shoot', (data) => {
     bulletSpr = createSprite(width / 4, height / 4, 2, 10);
-
 
     bulletSpr.velocity.y = data.velocityY;
     bulletSpr.velocity.x = data.velocityX;
@@ -110,10 +101,7 @@ function setup() {
 
     console.log(0)
 
-
   });
-
-
 
   socket.on('linearS1', (data) => {
     spr1.position.x = data.x
@@ -123,7 +111,6 @@ function setup() {
 
   socket.on('jumpS1', (data) => {
 
-
     spr1.position.y = data.y,
       spr1.position.x = data.x,
       spr1.velocity.x = data.vX,
@@ -131,22 +118,18 @@ function setup() {
 
   });
 
-
-
   platformSpr = createSprite(platformX, p.y, p.w, 20)
 
   let plaformData1 = {
     x: platformX,
     y: p.y,
     w: p.w
-
   }
   socket.emit('platform1', plaformData1)
 
 
   socket.on('platform1', (data) => {
     platformSpr = createSprite(data.x, data.y, data.w, 20)
-
   });
 
   platformSpr2 = createSprite(platformX, p.y - 50, p.w, 20)
@@ -155,15 +138,12 @@ function setup() {
     x: platformX,
     y: p.y - 50,
     w: p.w
-
   }
   socket.emit('platform2', plaformData2)
 
   socket.on('platform2', (data) => {
     platformSpr2 = createSprite(data.x, data.y, data.w, 20)
-
   });
-
 
   staticPlatformSpr = createSprite(200, 220, 40, 20)
 
@@ -199,10 +179,7 @@ function draw() {
     }
     socket.emit('mouse', data)
 
-
-
     spr2.attractionPoint(70, mouseX, mouseY);
-
   }
 
 
@@ -214,13 +191,14 @@ function draw() {
     textSize(18);
     text(timer + "s", width - 30, 20);
   }
-
   if (timer <= 0) {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHEMAR WINS", width / 2, 20);
+    noLoop();
   }
 
+  //boundaries for player 1
   if (spr1.position.y >= 390) {
     spr1.position.y = 390;
   }
@@ -229,6 +207,15 @@ function draw() {
   }
   if (spr1.position.x <= 10) {
     spr1.position.x = 10;
+  }
+  if (spr1.position.y >= 390) {
+    spr1.velocity.x = 0
+  }
+
+  //limits player 1 jumping to 2 consecutive jumps
+  if (spr1.position.y >= 370) {
+    jumpCount = 0
+    jumpSwitch = true
   }
 
   //player 1 platform collisions
@@ -243,18 +230,16 @@ function draw() {
     jumpSwitch = true;
     if ((platformSwitch === false) || (platformSpr2 === false)) {
       spr1.velocity.x = -1.5
-    } else {
+    }
+    else {
       spr1.velocity.x = 1.5
     }
   }
 
-  if (spr1.position.y >= 390) {
-    spr1.velocity.x = 0
-  }
-
   //player 2 ship collisions
   if (spr2.collide(staticPlatformSpr) || spr2.collide(platformSpr) || spr2.collide(platformSpr2)) {
-    timer = 0;
+    text("SHEMAR WINS", width / 2, 20);
+    noLoop();
   }
   if (spr2.collide(spr1)) {
     textSize(20);
@@ -263,6 +248,7 @@ function draw() {
     noLoop();
   }
 
+//bullet collisions with player and platforms
   if (bullets.length != 0) {
     for (let b of bullets) {
       if (b.collide(spr1)) {
@@ -270,18 +256,11 @@ function draw() {
         textAlign(CENTER, CENTER);
         text("SHIP WINS", width / 2, 20);
         noLoop();
-      } else if (b.collide(staticPlatformSpr) || b.collide(platformSpr) || b.collide(platformSpr2)) {
+      }
+      else if (b.collide(staticPlatformSpr) || b.collide(platformSpr) || b.collide(platformSpr2)) {
         b.remove()
       }
     }
-  }
-
-
-
-  //limits jumping to 2 consecutive jumps
-  if (spr1.position.y >= 370) {
-    jumpCount = 0
-    jumpSwitch = true
   }
 
   drawSprites();
@@ -289,7 +268,8 @@ function draw() {
   // LOGIC TO NOT FALL THROUGH GROUND
   if (spr1.position.y <= 330) {
     spr1.velocity.y += GRAVITY;
-  } else if (spr1.position.y >= 390) {
+  }
+  else if (spr1.position.y >= 390) {
     spr1.velocity.y = 0
   }
 
@@ -312,34 +292,32 @@ function draw() {
   if (platformSwitch2 === true) {
     if (platformSpr2.position.x >= 1850) {
       platformSwitch2 = false;
-    } else {
+    }
+    else {
       platformSpr2.position.x += 1.5;
     }
-  } else {
+  }
+  else {
     if (platformSpr2.position.x <= -480) {
       platformSwitch2 = true
-    } else {
+    }
+    else {
       platformSpr2.position.x -= 1.5
     }
   }
 
-
   // Movement
-
 
   if (keyIsDown(RIGHT_ARROW) && spr1.position.x < 790) {
     spr1.position.x += 5;
-  } else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
+  }
+  else if (keyIsDown(LEFT_ARROW) && spr1.position.x > 10) {
     spr1.position.x -= 5;
   }
-
-
   let dataS1 = {
     x: spr1.position.x,
   }
   socket.emit('linearS1', dataS1)
-
-
 }
 
 // SPECIAL MOVEMENTS
@@ -348,7 +326,8 @@ function keyPressed() {
   if (keyIsDown(UP_ARROW) && jumpSwitch) {
     if (jumpCount >= 1) {
       jumpSwitch = false
-    } else {
+    }
+    else {
       spr1.velocity.y = JUMP;
 
       jumpCount++
@@ -358,23 +337,17 @@ function keyPressed() {
         y: spr1.position.y,
         vY: spr1.velocity.y,
         vX: spr1.velocity.x
-
       }
-
       socket.emit('jumpS1', dataS1)
-
     }
-
-
-  } else if (keyIsDown(DOWN_ARROW) && spr1.position.x >= 602 && spr1.position.x <= 607 && spr1.position.y === 390) {
+  }
+  else if (keyIsDown(DOWN_ARROW) && spr1.position.x >= 602 && spr1.position.x <= 607 && spr1.position.y === 390) {
     spr1.position.x = 200
     spr1.position.y = 200
 
     // PLAYER TWO CONTROLS
-  } else if (keyIsDown(32)) {
-
-
-
+  }
+  else if (keyIsDown(32)) {
     bulletSpr = createSprite(width / 4, height / 4, 2, 10);
 
     bulletSpr.velocity.y = 2;
@@ -388,15 +361,7 @@ function keyPressed() {
       y: bulletSpr.position.y,
       velocityY: bulletSpr.velocity.y,
       velocityX: bulletSpr.velocity.x
-
     }
-
-
     socket.emit('shoot', data)
-
-
-
-
   }
-
 }
