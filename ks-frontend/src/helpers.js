@@ -3,7 +3,7 @@
 platformSwitch = false;
 platformSwitch2 = true;
 
-function endGame(){
+function endGame() {
   //Shemar score
   playerOneScore = 60 - timer;
   //Ship score
@@ -160,7 +160,6 @@ function mainMovements() {
       let data = {
         Vy: SHEMAR.velocity.y
       }
-
 
       socket.emit('jumpS1', data)
     }
