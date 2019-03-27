@@ -3,6 +3,12 @@
 platformSwitch = false;
 platformSwitch2 = true;
 
+function endGame(){
+  //Shemar score
+  playerOneScore = 60 - timer;
+  //Ship score
+  playerTwoScore = 0 + timer;
+}
 
 function randomDirection() {
   return (Math.floor(Math.random() * 2) == 0) ? platformX = 20 : platformX = 800
@@ -29,6 +35,7 @@ function timerSetter() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHEMAR WINS", width / 2, 20);
+    endGame();
     noLoop();
   }
 }
@@ -76,12 +83,14 @@ function gameLogic() {
   //player 2 ship collisions
   if (SHIP.collide(platformSTATIC) || SHIP.collide(platform1) || SHIP.collide(platform2)) {
     text("SHEMAR WINS", width / 2, 20);
+    endGame();
     noLoop();
   }
   if (SHIP.collide(SHEMAR)) {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHIP WINS", width / 2, 20);
+    endGame();
     noLoop();
   }
 
@@ -92,6 +101,7 @@ function gameLogic() {
         textSize(20);
         textAlign(CENTER, CENTER);
         text("SHIP WINS", width / 2, 20);
+        endGame();
         noLoop();
       } else if (b.collide(platformSTATIC) || b.collide(platform1) || b.collide(platform2)) {
         b.remove()

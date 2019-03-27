@@ -29,3 +29,6 @@ let bullets = []
 let rainA = [];
 
 let yoff = 0.0
+
+let playerOneScore;
+let playerTwoScore:
