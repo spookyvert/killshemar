@@ -26,7 +26,8 @@ function preload() {
   // load images here
   img = loadImage('assets/grass.png');
   rocketImg = loadImage('assets/rocket.png');
-  bg = loadImage('assets/background.jpg')
+  bg = loadImage('assets/background.png');
+  bgTop = loadImage('assets/topbg.png');
 }
 
 function setup() {
@@ -34,7 +35,8 @@ function setup() {
   fill(0, 255, 0)
 
   socket = io.connect('http://localhost:8000/')
-
+  mic = new p5.AudioIn();
+  mic.start();
 
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
 
@@ -137,8 +139,12 @@ function draw() {
   background(bg);
   fill(255);
   noStroke();
+  let bgWave
 
-  // Ground
+  // scene
+  wave()
+  rainRun()
+  image(bgTop, 0, 0, window.width, window.height);
   groundLayout()
 
   // Regular Movement

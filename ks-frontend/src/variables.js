@@ -20,8 +20,12 @@ let rocketImg;
 let platformSwitch;
 let platformSwitch2;
 let socket
+let mic
 
 let jumpSwitch = true;
 let jumpCount = 0;
 let timer = 60
 let bullets = []
+let rainA = [];
+
+let yoff = 0.0

@@ -9,12 +9,12 @@ function randomDirection() {
 }
 
 function groundLayout() {
-  return
-  image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8);
-  image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8);
-  image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8);
-  image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8);
-
+  return (
+    image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8),
+    image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8),
+    image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8),
+    image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8)
+  )
 }
 
 function timerSetter() {
@@ -186,4 +186,77 @@ function mainMovements() {
     socket.emit('shoot', data)
   }
 
+}
+// wave
+function wave() {
+  bgWave = fill(19, 19, 19);
+  bgWave
+  noStroke();
+  // We are going to draw a polygon out of the wave points
+  beginShape();
+
+  let xoff = 0; // Option #1: 2D Noise
+  // let xoff = yoff; // Option #2: 1D Noise
+
+  // Iterate over horizontal pixels
+  for (let x = 0; x <= width; x += 10) {
+    // Calculate a y value according to noise, map to
+
+    // Option #1: 2D Noise
+    let y = map(noise(xoff, yoff), 0, 1, 200, 300);
+
+    // Option #2: 1D Noise
+    // let y = map(noise(xoff), 0, 1, 200,300);
+
+    // Set the vertex
+    vertex(x, y);
+    // Increment x dimension for noise
+    xoff += 0.05;
+  }
+  // increment y dimension for noise
+  yoff += 0.01;
+  vertex(width, height);
+  vertex(0, height);
+  endShape(CLOSE);
+}
+
+//rain
+
+function droplets(xpos, ypos, size, rainColor) {
+  noStroke();
+  fill(255, 255, 255, rainColor);
+  ellipse(xpos, ypos, size / 6, size);
+}
+
+
+function rain(x, y) {
+  fill(255, 255, 255);
+
+  noStroke();
+
+}
+
+function rainRun() {
+  let ran = random(10);
+  vol = mic.getLevel() * 100;
+
+  bgWave = fill((vol * 0.5) + 19, (vol * 0.5) + 19, 19);
+  let newDroplets = {
+    xpos: random(0, window.width),
+    ypos: 0,
+    size: vol,
+    rainColor: random(100, 255)
+  };
+  rainA.push(newDroplets);
+
+  for (i = 0; i < rainA.length; i++) {
+    var currentObj = rainA[i];
+    droplets(currentObj.xpos, currentObj.ypos, currentObj.size, currentObj.rainColor);
+    currentObj.ypos += vol + random(2, 10);
+    if (rainA[i].ypos > height + 20) {
+      rainA.splice(i, 1);
+    }
+  }
+
+  rain(0, 100, 100);
 }
