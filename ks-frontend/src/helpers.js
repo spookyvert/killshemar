@@ -158,9 +158,10 @@ function mainMovements() {
       jumpCount++
 
       let data = {
-        x: SHEMAR.position.x,
-        y: SHEMAR.position.y
+        Vy: SHEMAR.velocity.y
       }
+
+
       socket.emit('jumpS1', data)
     }
 
@@ -248,7 +249,10 @@ function rain(x, y) {
 
 function rainRun() {
   let ran = random(10);
+
   vol = mic.getLevel() * 100;
+
+  console.log(vol);
 
   bgWave = fill((vol * 0.5) + 19, (vol * 0.5) + 19, 19);
   let newDroplets = {

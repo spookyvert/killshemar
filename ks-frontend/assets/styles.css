@@ -18,6 +18,7 @@ canvas {
   -webkit-animation-duration: 1s;
   animation-name: canvasUp;
   animation-duration: 1s
+  animation-duration: 1s;
 }
 
 @-webkit-keyframes canvasUp {

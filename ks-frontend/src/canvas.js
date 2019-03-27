@@ -35,8 +35,16 @@ function setup() {
   fill(0, 255, 0)
 
   socket = io.connect('http://localhost:8000/')
+
+  // Create an Audio input
   mic = new p5.AudioIn();
+
+  // start the Audio Input.
+  // By default, it does not .connect() (to the computer speakers)
   mic.start();
+
+  socket = io.connect('http://localhost:8000/')
+
 
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
 
@@ -84,6 +92,7 @@ function setup() {
   socket.on('linearS1', (data) => {
     SHEMAR.position.x = data.x,
       SHEMAR.position.y = data.x
+    SHEMAR.position.x = data.x
   });
 
   socket.on('jumpS1', (data) => {
@@ -91,6 +100,7 @@ function setup() {
       SHEMAR.position.y = data.y
 
 
+    SHEMAR.velocity.y = data.Vy
   });
 
   socket.on('portal', (data) => {
@@ -158,6 +168,7 @@ function draw() {
 
   // PLAYER TWO CLICK MOVEMENT
   if (mouseIsPressed) {
+    getAudioContext().resume()
     // THIS SENDS IT TO THE SERVER, OTHER SERVER
     let data = {
       x: mouseX,
@@ -183,6 +194,7 @@ function draw() {
   let data2 = {
     x: SHEMAR.position.x,
     y: SHEMAR.position.y
+    x: SHEMAR.position.x
   }
   socket.emit('linearS1', data2)
 
