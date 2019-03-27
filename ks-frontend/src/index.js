@@ -9,28 +9,22 @@ function randombg() {
   document.getElementById("loader").style.backgroundImage = bigSize[random];
 }
 
-
 function preloader() {
   setTimeout(showPage, 2500);
 }
 
 function showPage() {
   document.getElementById("loader").style.display = "none";
-
   document.querySelector("canvas").style.display = "block";
-
 }
 
 
-// index, list all
+// high score
+//
 // ScoreAdaptor.getScores().then(scores => {
 //   const scoreObject = scores.map(score => {
 //
 //
 //     return score
 //   });
-//
-//
-//
-//
 // })

@@ -6,19 +6,13 @@ let handleRequest = function(request, response) {
   });
   response.end('Hello World\n');
 };
-
 let server = http.createServer(handleRequest);
 const io = require('socket.io').listen(server)
 
-
-
-
 server.listen(8000);
-console.log("Server is running on http://localhost:8000 ")
+console.log("Server is running on http://localhost:8000 😌 ")
 
 io.sockets.on('connection', (socket) => {
-
-
   socket.on('mouse',
     function(data) {
       // Data comes in as whatever was sent, including objects
@@ -84,8 +78,17 @@ io.sockets.on('connection', (socket) => {
     }
   );
 
+  socket.on('portal',
+    function(data) {
+      // Data comes in as whatever was sent, including objects
+      console.log("Received: 'portal' " + data.y);
+      // Send it to all other clients
+      socket.broadcast.emit('portal', data);
 
 
-  console.log("running")
+    }
+  );
+
+  console.log("new user connected! 😛")
 
 })
