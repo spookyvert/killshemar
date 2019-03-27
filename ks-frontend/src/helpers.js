@@ -102,7 +102,7 @@ function gameLogic() {
   }
 
   //bullet collisions with player and platforms
-  if (bullets.length != 0) {
+  if (bullets.length != 0 && alpha > 127) {
     for (let b of bullets) {
       if (b.collide(SHEMAR)) {
         textSize(20);
@@ -127,7 +127,7 @@ function gameLogic() {
   if (LIZARD != undefined && LIZARD.position.y >= 390){
     LIZARD.position.y = 390;
   }
-  if (LIZARD != undefined){
+  if (LIZARD != undefined && alpha > 127){
     if (SHEMAR.collide(LIZARD)){
       textSize(20);
       textAlign(CENTER, CENTER);
