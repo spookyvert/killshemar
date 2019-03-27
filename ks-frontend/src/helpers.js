@@ -238,7 +238,10 @@ function rain(x, y) {
 
 function rainRun() {
   let ran = random(10);
+
   vol = mic.getLevel() * 100;
+
+  console.log(vol);
 
   bgWave = fill((vol * 0.5) + 19, (vol * 0.5) + 19, 19);
   let newDroplets = {
@@ -259,4 +262,5 @@ function rainRun() {
   }
 
   rain(0, 100, 100);
+
 }

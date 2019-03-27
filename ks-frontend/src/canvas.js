@@ -34,9 +34,16 @@ function setup() {
   createCanvas(800, 400);
   fill(0, 255, 0)
 
-  socket = io.connect('http://localhost:8000/')
+
+  // Create an Audio input
   mic = new p5.AudioIn();
+
+  // start the Audio Input.
+  // By default, it does not .connect() (to the computer speakers)
   mic.start();
+
+  socket = io.connect('http://localhost:8000/')
+
 
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
 
@@ -158,6 +165,7 @@ function draw() {
 
   // PLAYER TWO CLICK MOVEMENT
   if (mouseIsPressed) {
+    getAudioContext().resume()
     // THIS SENDS IT TO THE SERVER, OTHER SERVER
     let data = {
       x: mouseX,

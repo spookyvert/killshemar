@@ -5,8 +5,11 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js" charset="utf-8"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/addons/p5.dom.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/addons/p5.sound.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/addons/p5.dom.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"> </script>
   <script src="lib/p5.play.js" charset="utf-8"></script>
   <script src="lib/p5.collide2d.js" charset="utf-8"></script>
@@ -19,13 +22,53 @@
 
 <body onload="preloader()">
   <div id="loader" onload="randombg()" />
+  <!-- <div id="bg">
+  </div>
+  <div id="c"> -->
+  <!-- Our sketch will go here! -->
+  </div>
 </body>
-
 <script src="src/variables.js"></script>
 <script src="src/helpers.js"></script>
 <script src="src/scoreAdaptor.js"></script>
 <script src="src/platform.js"></script>
 <script src="src/index.js"></script>
 <script src="src/canvas.js"></script>
+<!--
+<script>
+  let body = $('body').getBoundingClientRect();
+
+  var mouse = {
+    x: 0,
+    y: 0,
+    moved: false
+  };
+
+  $("body").mousemove(function(e) {
+    mouse.moved = true;
+    mouse.x = e.clientX - body.left;
+    mouse.y = e.clientY - body.top;
+  });
+
+  // Ticker event will be called on every frame
+  TweenLite.ticker.addEventListener('tick', function() {
+    if (mouse.moved) {
+      parallaxIt("canvas", -100);
+      parallaxIt("body", -30);
+    }
+    mouse.moved = false;
+  });
+
+  function parallaxIt(target, movement) {
+    TweenMax.to(target, 0.3, {
+      x: (mouse.x - body.width / 2) / body.width * movement,
+      y: (mouse.y - body.height / 2) / body.height * movement
+    });
+  }
+
+  $(window).on('resize scroll', function() {
+    body = $('body').getBoundingClientRect();
+  })
+</script> -->
 
 </html>
