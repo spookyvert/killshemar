@@ -22,6 +22,8 @@ const portal = {
   h: 25
 }
 
+let gameStarted;
+
 function preload() {
   // load images here
   img = loadImage('assets/grass.png');
@@ -34,6 +36,7 @@ function setup() {
   createCanvas(800, 400);
   fill(0, 255, 0)
 
+  socket = io.connect('http://localhost:8000/')
 
   // Create an Audio input
   mic = new p5.AudioIn();
@@ -135,6 +138,31 @@ function setup() {
 
   platformSTATIC = createSprite(200, 220, 40, 20)
 
+
+
+  // create clear button
+  startButton = createButton('Start Game').addClass('start-button');
+  shemarButton = createButton('choose SHEMAR').addClass('shemar-button');
+  shipButton = createButton('choose SHIP').addClass('ship-button');
+
+  sB = document.querySelector('.start-button')
+  shemarB = document.querySelector('.shemar-button')
+  shipB = document.querySelector('.ship-button')
+
+  startButton.position(500, height);
+  shemarButton.position(500, height + 40);
+  shipButton.position(500, height + 60);
+
+
+  sB.addEventListener('click', (event) => {
+    gameStarted = true;
+  })
+
+  // set gameStarted equal to false
+  gameStarted = false;
+
+
+
 }
 // setup() ends here
 
@@ -150,12 +178,7 @@ function draw() {
   image(bgTop, 0, 0, window.width, window.height);
   groundLayout()
 
-  // Regular Movement
-  if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790) {
-    SHEMAR.position.x += 1;
-  } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
-    SHEMAR.position.x -= 1;
-  }
+  if (gameStarted == true) {
 
   //invisibility
   if (invisible === true){
@@ -168,6 +191,8 @@ function draw() {
     }
   }
 
+ startButton.hide();
+
   //space lizards
   if (LIZARD != undefined){
     if (SHEMAR.position.x >= LIZARD.position.x){
@@ -178,35 +203,45 @@ function draw() {
     }
   }
 
-  // PLAYER TWO CLICK MOVEMENT
-  if (mouseIsPressed) {
-    getAudioContext().resume()
-    // THIS SENDS IT TO THE SERVER, OTHER SERVER
-    let data = {
-      x: mouseX,
-      y: mouseY
+    // Regular Movement
+    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790) {
+      SHEMAR.position.x += 1;
+    } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
+      SHEMAR.position.x -= 1;
     }
-    socket.emit('mouse', data)
 
-    SHIP.attractionPoint(70, mouseX, mouseY);
+
+
+    // PLAYER TWO CLICK MOVEMENT
+    if (mouseIsPressed) {
+      getAudioContext().resume()
+      // THIS SENDS IT TO THE SERVER, OTHER SERVER
+      let data = {
+        x: mouseX,
+        y: mouseY
+      }
+      socket.emit('mouse', data)
+
+      SHIP.attractionPoint(70, mouseX, mouseY);
+    }
+
+
+    timerSetter()
+    gameLogic()
+    drawSprites();
+
+    // Movement / Socket.io
+    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790) {
+      SHEMAR.position.x += 5;
+    } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
+      SHEMAR.position.x -= 5;
+    }
+
+    let data2 = {
+      x: SHEMAR.position.x
+    }
+    socket.emit('linearS1', data2)
   }
-
-
-  timerSetter()
-  gameLogic()
-  drawSprites();
-
-  // Movement / Socket.io
-  if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790) {
-    SHEMAR.position.x += 5;
-  } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
-    SHEMAR.position.x -= 5;
-  }
-
-  let data2 = {
-    x: SHEMAR.position.x
-  }
-  socket.emit('linearS1', data2)
 
 }
 

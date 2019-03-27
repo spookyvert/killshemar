@@ -191,7 +191,6 @@ function mainMovements() {
         Vy: SHEMAR.velocity.y
       }
 
-
       socket.emit('jumpS1', data)
     }
 

@@ -26,7 +26,6 @@ let platformSTATIC;
 let rocketImg;
 let platformSwitch;
 let platformSwitch2;
-let socket;
 
 
 let jumpSwitch = true;
