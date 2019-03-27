@@ -23,13 +23,14 @@ const portal = {
 }
 
 let gameStarted;
+let team;
 
 function preload() {
   // load images here
-  img = loadImage('assets/grass.png');
-  rocketImg = loadImage('assets/rocket.png');
-  bg = loadImage('assets/background.png');
-  bgTop = loadImage('assets/topbg.png');
+  img = loadImage('images/assets/grass.png');
+  rocketImg = loadImage('images/assets/rocket.png');
+  bg = loadImage('images/assets/background.png');
+  bgTop = loadImage('images/assets/topbg.png');
 }
 
 function setup() {
@@ -38,6 +39,7 @@ function setup() {
 
   socket = io.connect('http://localhost:8000/')
 
+
   // Create an Audio input
   mic = new p5.AudioIn();
 
@@ -45,13 +47,15 @@ function setup() {
   // By default, it does not .connect() (to the computer speakers)
   mic.start();
 
-  socket = io.connect('http://localhost:8000/')
+  // set gameStarted equal to false
+  gameStarted = false;
+
 
 
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
 
   SHEMAR = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
-  SHEMAR.shapeColor = color(255, 0, 0);
+  SHEMAR.shapeColor = color(0, 255, 0);
   SHEMAR.velocity.y = 0;
 
   SHIP = createSprite(playerTwo.x, playerTwo.y, playerTwo.w, playerTwo.h);
@@ -72,8 +76,27 @@ function setup() {
   // static platform
   let s = tmp.sprite()
 
+  // Player Count
+  socket.on('player-number', (data) => {
+    if (data.index == 1) {
+      console.log("Player 1 Has Joined")
+      console.log("Waiting for Player 2")
+    } else if (data.index == 2) {
+      console.log("Player 2 Has Joined")
+    } else if (data.index >= 3) {
+      alert("game is full")
+    }
 
-  // Socket.io
+  });
+
+  // Team Setter
+  socket.on('team', (data) => {
+    team = data
+  })
+
+  socket.on('startGame', (data) => {
+    gameStarted = data.start
+  });
 
   socket.on('mouse', (data) => {
     SHIP.attractionPoint(70, data.x, data.y);
@@ -110,8 +133,8 @@ function setup() {
 
   // Socket.io end
 
-
   randomDirection()
+
   platform1 = createSprite(platformX, p.y, p.w, 20)
 
   let p1Data = {
@@ -139,30 +162,25 @@ function setup() {
   platformSTATIC = createSprite(200, 220, 40, 20)
 
 
-
   // create clear button
   startButton = createButton('Start Game').addClass('start-button');
-  shemarButton = createButton('choose SHEMAR').addClass('shemar-button');
-  shipButton = createButton('choose SHIP').addClass('ship-button');
 
   sB = document.querySelector('.start-button')
-  shemarB = document.querySelector('.shemar-button')
-  shipB = document.querySelector('.ship-button')
 
   startButton.position(500, height);
   shemarButton.position(500, height + 40);
   shipButton.position(500, height + 60);
 
-
   sB.addEventListener('click', (event) => {
     gameStarted = true;
+
+    let data = {
+      start: gameStarted
+    }
+
+    socket.emit('startGame', data)
+
   })
-
-  // set gameStarted equal to false
-  gameStarted = false;
-
-
-
 }
 // setup() ends here
 
@@ -179,49 +197,17 @@ function draw() {
   groundLayout()
 
   if (gameStarted == true) {
-
     // hide start button
     startButton.hide();
-
-
-    // Regular Movement
-    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790) {
-      SHEMAR.position.x += 1;
-    } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
-      SHEMAR.position.x -= 1;
-    }
-
-
-
-    // PLAYER TWO CLICK MOVEMENT
-    if (mouseIsPressed) {
-      getAudioContext().resume()
-      // THIS SENDS IT TO THE SERVER, OTHER SERVER
-      let data = {
-        x: mouseX,
-        y: mouseY
-      }
-      socket.emit('mouse', data)
-
-      SHIP.attractionPoint(70, mouseX, mouseY);
-    }
-
+    shemarButton.hide();
+    shipButton.hide();
 
     timerSetter()
     gameLogic()
     drawSprites();
 
-    // Movement / Socket.io
-    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790) {
-      SHEMAR.position.x += 5;
-    } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
-      SHEMAR.position.x -= 5;
-    }
+    mainMovementsDraw()
 
-    let data2 = {
-      x: SHEMAR.position.x
-    }
-    socket.emit('linearS1', data2)
   }
 
 }

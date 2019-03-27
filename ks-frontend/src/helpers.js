@@ -40,8 +40,6 @@ function timerSetter() {
   }
 }
 
-
-
 // Sprite LOGIC
 function gameLogic() {
   //boundaries for player 1
@@ -147,9 +145,38 @@ function gameLogic() {
   }
 }
 
+
+function mainMovementsDraw() {
+  // PLAYER 1
+  if (mouseIsPressed && team == 'ship') {
+    getAudioContext().resume()
+    // THIS SENDS IT TO THE SERVER, OTHER SERVER
+    let data = {
+      x: mouseX,
+      y: mouseY
+    }
+    socket.emit('mouse', data)
+
+    SHIP.attractionPoint(70, mouseX, mouseY);
+  }
+
+  // PLAYER 2
+  if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790 && team == 'shemar') {
+    SHEMAR.position.x += 5;
+  } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
+    SHEMAR.position.x -= 5;
+  }
+
+  let data2 = {
+    x: SHEMAR.position.x
+  }
+  socket.emit('linearS1', data2)
+}
+
 function mainMovements() {
+
   // PLAYER ONE CONTROLS
-  if (keyIsDown(UP_ARROW) && jumpSwitch) {
+  if (keyIsDown(UP_ARROW) && jumpSwitch && team == 'shemar') {
     if (jumpCount >= 1) {
       jumpSwitch = false
     } else {
@@ -164,7 +191,7 @@ function mainMovements() {
       socket.emit('jumpS1', data)
     }
 
-  } else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 570 && SHEMAR.position.x <= 650 && SHEMAR.position.y === 390) {
+  } else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 570 && SHEMAR.position.x <= 650 && SHEMAR.position.y === 390 && team == 'shemar') {
 
     SHEMAR.position.x = 200
     SHEMAR.position.y = 200
@@ -178,7 +205,7 @@ function mainMovements() {
     socket.emit('portal', data)
 
     // PLAYER TWO CONTROLS
-  } else if (keyIsDown(32)) {
+  } else if (keyIsDown(32) && team == 'ship') {
     BULLET = createSprite(width / 4, height / 4, 2, 10);
 
     BULLET.velocity.y = 2;
@@ -197,6 +224,7 @@ function mainMovements() {
   }
 
 }
+
 // wave
 function wave() {
   bgWave = fill(19, 19, 19);
@@ -241,7 +269,6 @@ function droplets(xpos, ypos, size, rainColor) {
 
 function rain(x, y) {
   fill(255, 255, 255);
-
   noStroke();
 
 }
