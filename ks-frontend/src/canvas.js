@@ -89,15 +89,11 @@ function setup() {
 
 
   socket.on('linearS1', (data) => {
-    SHEMAR.position.x = data.x,
-      SHEMAR.position.y = data.x
+    SHEMAR.position.x = data.x
   });
 
   socket.on('jumpS1', (data) => {
-    SHEMAR.position.x = data.x,
-      SHEMAR.position.y = data.y
-
-
+    SHEMAR.velocity.y = data.Vy
   });
 
   socket.on('portal', (data) => {
@@ -189,8 +185,7 @@ function draw() {
   }
 
   let data2 = {
-    x: SHEMAR.position.x,
-    y: SHEMAR.position.y
+    x: SHEMAR.position.x
   }
   socket.emit('linearS1', data2)
 

@@ -148,9 +148,10 @@ function mainMovements() {
       jumpCount++
 
       let data = {
-        x: SHEMAR.position.x,
-        y: SHEMAR.position.y
+        Vy: SHEMAR.velocity.y
       }
+
+
       socket.emit('jumpS1', data)
     }
 
