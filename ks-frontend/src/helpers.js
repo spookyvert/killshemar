@@ -232,8 +232,8 @@ function mainMovements() {
       velocityX: BULLET.velocity.x
     }
     socket.emit('shoot', data)
+    //space lizards
   } else if (keyIsDown(90) && lizardCount === 0) {
-    //future special ship function
     LIZARD = createSprite(400, 0, 20, 20)
     LIZARD.velocity.y = 2;
     lizardCount++;
