@@ -3,7 +3,14 @@ let SHEMAR;
 let SHIP;
 // PLAYER TWO
 
+let playerOneScore = 0;
+let playerTwoScore = 0;
+
 let BULLET;
+let LIZARD;
+let lizardCount = 0;
+let lizardPenalty = 0;
+let timerAdjustLizard = 0
 
 let GRAVITY = 0.8;
 let GROUND_Y = 350;
@@ -29,3 +36,9 @@ let bullets = []
 let rainA = [];
 
 let yoff = 0.0
+
+//invisibility variables
+let invisible = false
+let alpha = 255;
+let invisibilityCount = 0
+let timerAdjustInvisible = false

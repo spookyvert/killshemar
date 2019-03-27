@@ -3,6 +3,12 @@
 platformSwitch = false;
 platformSwitch2 = true;
 
+function endGame(){
+  //Shemar score affected by invisibilityCount!
+  playerOneScore = 60 - timer - (invisibilityCount * 5);
+  //Ship score
+  playerTwoScore = 0 + timer - lizardPenalty;
+}
 
 function randomDirection() {
   return (Math.floor(Math.random() * 2) == 0) ? platformX = 20 : platformX = 800
@@ -17,6 +23,7 @@ function groundLayout() {
   )
 }
 
+//timer setting along with invisibilityCount adjustments
 function timerSetter() {
   if (frameCount % 60 == 0 && timer > 0) {
     timer--;
@@ -29,8 +36,14 @@ function timerSetter() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHEMAR WINS", width / 2, 20);
+    endGame();
     noLoop();
   }
+  if ((timerAdjustInvisible === true && invisibilityCount === 1) || (timerAdjustInvisible === true && invisibilityCount === 2) || (timerAdjustInvisible === true && invisibilityCount === 3)){
+    timer++
+    timerAdjustInvisible = false
+  }
+
 }
 
 
@@ -69,19 +82,22 @@ function gameLogic() {
     jumpSwitch = true;
     if ((platformSwitch === false) || (platform2 === false)) {
       SHEMAR.velocity.x = -1.5
-    } else
+    } else {
       SHEMAR.velocity.x = 1.5
+    }
   }
 
   //player 2 ship collisions
   if (SHIP.collide(platformSTATIC) || SHIP.collide(platform1) || SHIP.collide(platform2)) {
     text("SHEMAR WINS", width / 2, 20);
+    endGame();
     noLoop();
   }
   if (SHIP.collide(SHEMAR)) {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHIP WINS", width / 2, 20);
+    endGame();
     noLoop();
   }
 
@@ -92,6 +108,7 @@ function gameLogic() {
         textSize(20);
         textAlign(CENTER, CENTER);
         text("SHIP WINS", width / 2, 20);
+        endGame();
         noLoop();
       } else if (b.collide(platformSTATIC) || b.collide(platform1) || b.collide(platform2)) {
         b.remove()
@@ -104,6 +121,29 @@ function gameLogic() {
     SHEMAR.velocity.y += GRAVITY;
   } else if (SHEMAR.position.y >= 390) {
     SHEMAR.velocity.y = 0
+  }
+
+  //Lizard logic
+  if (LIZARD != undefined && LIZARD.position.y >= 390){
+    LIZARD.position.y = 390;
+  }
+  if (LIZARD != undefined){
+    if (SHEMAR.collide(LIZARD)){
+      textSize(20);
+      textAlign(CENTER, CENTER);
+      text("SHIP WINS", width / 2, 20);
+      endGame();
+      noLoop();
+    }
+    if (bullets.length != 0) {
+      for (let b of bullets) {
+        if (b.collide(LIZARD)) {
+          b.remove()
+          LIZARD.remove()
+          lizardCount = 0;
+        }
+      }
+    }
   }
 
   // PLATFORM 1 LOGIC
@@ -168,6 +208,13 @@ function mainMovements() {
     }
     socket.emit('portal', data)
 
+    // invisibility trigger
+  } else if (keyIsDown(16) && invisibilityCount < 3) {
+    invisible = true
+    alpha = 0
+    invisibilityCount += 1
+    timerAdjustInvisible = true
+
     // PLAYER TWO CONTROLS
   } else if (keyIsDown(32)) {
     BULLET = createSprite(width / 4, height / 4, 2, 10);
@@ -185,8 +232,14 @@ function mainMovements() {
       velocityX: BULLET.velocity.x
     }
     socket.emit('shoot', data)
+  } else if (keyIsDown(90) && lizardCount === 0) {
+    //future special ship function
+    LIZARD = createSprite(400, 0, 20, 20)
+    LIZARD.velocity.y = 2;
+    lizardCount++;
+    lizardPenalty += 5;
+    timer--;
   }
-
 }
 // wave
 function wave() {
@@ -242,7 +295,7 @@ function rainRun() {
 
   vol = mic.getLevel() * 100;
 
-  console.log(vol);
+  // console.log(vol);
 
   bgWave = fill((vol * 0.5) + 19, (vol * 0.5) + 19, 19);
   let newDroplets = {

@@ -48,7 +48,7 @@ function setup() {
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
 
   SHEMAR = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
-  SHEMAR.shapeColor = color(255, 0, 0);
+  SHEMAR.shapeColor = color(255, 0, 0, alpha);
   SHEMAR.velocity.y = 0;
 
   SHIP = createSprite(playerTwo.x, playerTwo.y, playerTwo.w, playerTwo.h);
@@ -157,7 +157,26 @@ function draw() {
     SHEMAR.position.x -= 1;
   }
 
+  //invisibility
+  if (invisible === true){
+    SHEMAR.shapeColor = color(255, 0, 0, alpha)
+    if (alpha < 255){
+      alpha += 0.5
+    }
+    else if (alpha === 255){
+      invisible = false
+    }
+  }
 
+  //space lizards
+  if (LIZARD != undefined){
+    if (SHEMAR.position.x >= LIZARD.position.x){
+      LIZARD.velocity.x = 0.75
+    }
+    else if (SHEMAR.position.x < LIZARD.position.x){
+      LIZARD.velocity.x = -0.75
+    }
+  }
 
   // PLAYER TWO CLICK MOVEMENT
   if (mouseIsPressed) {
