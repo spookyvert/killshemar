@@ -251,7 +251,7 @@ function rainRun() {
 
   vol = mic.getLevel() * 100;
 
-  console.log(vol);
+  // console.log(vol);
 
   bgWave = fill((vol * 0.5) + 19, (vol * 0.5) + 19, 19);
   let newDroplets = {
