@@ -6,6 +6,10 @@ let SHIP;
 let playerOneScore = 0;
 let playerTwoScore = 0;
 
+let playerOneName;
+let playerTwoName;
+let winningPlayerName;
+
 let BULLET;
 let LIZARD;
 let lizardCount = 0;

@@ -3,11 +3,19 @@
 platformSwitch = false;
 platformSwitch2 = true;
 
-function endGame() {
+function endGame(winningPlayer) {
   //Shemar score affected by invisibilityCount!
   playerOneScore = 60 - timer - (invisibilityCount * 5);
   //Ship score
   playerTwoScore = 0 + timer - lizardPenalty;
+
+  if (winningPlayer === "Shemar"){
+    winningPlayerName = input.value();
+  }
+  else if (winningPlayer === "Ship"){
+    winningPlayerName = input.value();
+  }
+
 }
 
 function randomDirection() {
@@ -36,7 +44,7 @@ function timerSetter() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHEMAR WINS", width / 2, 20);
-    endGame();
+    endGame("Shemar");
     noLoop();
   }
   if ((timerAdjustInvisible === true && invisibilityCount === 1) || (timerAdjustInvisible === true && invisibilityCount === 2) || (timerAdjustInvisible === true && invisibilityCount === 3)) {
@@ -88,7 +96,7 @@ function gameLogic() {
   //player 2 ship collisions
   if (SHIP.collide(platformSTATIC) || SHIP.collide(platform1) || SHIP.collide(platform2)) {
     text("SHEMAR WINS", width / 2, 20);
-    endGame();
+    endGame("Shemar");
     noLoop();
     location.reload();
   }
@@ -96,7 +104,7 @@ function gameLogic() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHIP WINS", width / 2, 20);
-    endGame();
+    endGame("Ship");
     noLoop();
     location.reload();
   }
@@ -108,7 +116,7 @@ function gameLogic() {
         textSize(20);
         textAlign(CENTER, CENTER);
         text("SHIP WINS", width / 2, 20);
-        endGame();
+        endGame("Ship");
         noLoop();
         location.reload();
       } else if (b.collide(platformSTATIC) || b.collide(platform1) || b.collide(platform2)) {
@@ -133,7 +141,7 @@ function gameLogic() {
       textSize(20);
       textAlign(CENTER, CENTER);
       text("SHIP WINS", width / 2, 20);
-      endGame();
+      endGame("Ship");
       noLoop();
     }
     if (bullets.length != 0) {

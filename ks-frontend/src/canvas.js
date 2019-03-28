@@ -215,7 +215,6 @@ function setup() {
     console.log("Player Name: " + input.value() + " " + i.id);
 
 
-
     let data = {
       start: gameStarted
     }
