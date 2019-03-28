@@ -17,9 +17,13 @@ function showPage() {
   document.getElementById("loader").style.display = "none";
   document.querySelector("canvas").style.display = "block";
 }
-
+let ulTag = document.querySelector('ul')
 
 ScoreAdaptor.getUsers().then(players => {
   //array
-  players
-})
+  // players
+
+  for(let user of players){
+    ulTag.innerHTML += `<li data-id="${user.id}">Name: ${user.name} Wins: ${user.win} High Score: ${user.score}</li>`
+    }
+  })
