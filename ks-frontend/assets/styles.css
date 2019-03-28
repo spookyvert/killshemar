@@ -6,6 +6,10 @@ body {
   display: block;
 }
 
+h4 {
+  color: white;
+}
+
 canvas {
   position: relative;
   padding-left: 0 !important;
@@ -17,8 +21,7 @@ canvas {
   -webkit-animation-name: canvasUp;
   -webkit-animation-duration: 1s;
   animation-name: canvasUp;
-  animation-duration: 1s
-  animation-duration: 1s;
+  animation-duration: 1s animation-duration: 1s;
 }
 
 @-webkit-keyframes canvasUp {

@@ -90,6 +90,7 @@ function gameLogic() {
     text("SHEMAR WINS", width / 2, 20);
     endGame();
     noLoop();
+    location.reload();
   }
   if (SHIP.collide(SHEMAR)) {
     textSize(20);
@@ -97,6 +98,7 @@ function gameLogic() {
     text("SHIP WINS", width / 2, 20);
     endGame();
     noLoop();
+    location.reload();
   }
 
   //bullet collisions with player and platforms
@@ -108,6 +110,7 @@ function gameLogic() {
         text("SHIP WINS", width / 2, 20);
         endGame();
         noLoop();
+        location.reload();
       } else if (b.collide(platformSTATIC) || b.collide(platform1) || b.collide(platform2)) {
         b.remove()
       }

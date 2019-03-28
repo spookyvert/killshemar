@@ -31,10 +31,13 @@ function preload() {
   rocketImg = loadImage('assets/images/rocket.png');
   bg = loadImage('assets/images/background.png');
   bgTop = loadImage('assets/images/topbg.png');
+
 }
 
 function setup() {
   createCanvas(800, 400);
+
+
   fill(0, 255, 0)
 
   socket = io.connect('http://localhost:8000/')
@@ -92,9 +95,9 @@ function setup() {
 
   // Team Setter
   socket.on('team', (data) => {
-
     team = data
-
+    // Puts Team Name in Input!
+    document.querySelector('input').id += team;
   })
 
   socket.on('startGame', (data) => {
@@ -179,16 +182,24 @@ function setup() {
 
   platformSTATIC = createSprite(200, 220, 40, 20)
 
-
   // create clear button
   startButton = createButton('Start Game').addClass('start-button');
+  textH = createElement('h4', 'what is your name?');
+  textH.position(580, 450);
+  input = createInput()
 
+  input.position(580, 500);
   sB = document.querySelector('.start-button')
 
-  startButton.position(500, height);
+  startButton.position(615, 550);
 
   sB.addEventListener('click', (event) => {
     gameStarted = true;
+
+    i = document.querySelector('input')
+    console.log("Player Name: " + input.value() + " " + i.id);
+
+
 
     let data = {
       start: gameStarted
@@ -197,6 +208,7 @@ function setup() {
     socket.emit('startGame', data)
 
   })
+
 }
 // setup() ends here
 
@@ -213,6 +225,10 @@ function draw() {
   groundLayout()
 
   if (gameStarted == true) {
+
+
+    textH.hide();
+    input.hide();
     startButton.hide();
 
     if (invisible === true) {

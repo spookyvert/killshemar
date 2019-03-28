@@ -17,19 +17,20 @@ server.listen(8000);
 console.log("Server is running on http://localhost:8000 😌 ")
 
 // resets back to false
-let hasShip = false;
 let hasShemar = false;
+let hasShip = false;
+
 
 io.sockets.on('connection', (socket) => {
 
   // sets player controls
-  if (!hasShip) {
-    socket.emit('team', 'ship')
-    hasShip = true
-  } else if (!hasShemar) {
-    // the first player that joins will be the Ship! so the 2nd will always be Shemar
+  if (!hasShemar) {
     socket.emit('team', 'shemar')
     hasShemar = true
+  } else if (!hasShip) {
+    // the first player that joins will be the Ship! so the 2nd will always be Shemar
+    socket.emit('team', 'ship')
+    hasShip = true
   }
 
   playerIndex++
@@ -46,6 +47,9 @@ io.sockets.on('connection', (socket) => {
     playerIndex--
 
     console.log("user left! " + playerIndex + " left")
+
+
+
 
   });
 
