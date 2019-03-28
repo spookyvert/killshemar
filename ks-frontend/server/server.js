@@ -84,6 +84,18 @@ io.sockets.on('connection', (socket) => {
 
   });
 
+  socket.on('invisible', function(data) {
+    console.log("Received: 'invisible' ");
+    socket.broadcast.emit('invisible', data);
+
+  });
+
+  socket.on('lizard', function(data) {
+    console.log("Received: 'lizard' ");
+    socket.broadcast.emit('lizard', data);
+
+  });
+
   socket.on('jumpS1', function(data) {
     console.log("Received: 'jumpS1' " + data.y);
     socket.broadcast.emit('jumpS1', data);

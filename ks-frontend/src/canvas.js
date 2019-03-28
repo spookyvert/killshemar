@@ -27,10 +27,10 @@ let team;
 
 function preload() {
   // load images here
-  img = loadImage('images/assets/grass.png');
-  rocketImg = loadImage('images/assets/rocket.png');
-  bg = loadImage('images/assets/background.png');
-  bgTop = loadImage('images/assets/topbg.png');
+  img = loadImage('assets/images/grass.png');
+  rocketImg = loadImage('assets/images/rocket.png');
+  bg = loadImage('assets/images/background.png');
+  bgTop = loadImage('assets/images/topbg.png');
 }
 
 function setup() {
@@ -54,18 +54,8 @@ function setup() {
 
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
 
-  SHEMAR = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h); <<
-  <<
-  <<
-  <
-  HEAD
-  SHEMAR.shapeColor = color(255, 0, 0, alpha); ===
-  ===
-  =
-  SHEMAR.shapeColor = color(0, 255, 0); >>>
-  >>>
-  >
-  b84dce97c81e2a02e3f83b2e124b769a25dba9a8
+  SHEMAR = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
+  SHEMAR.shapeColor = color(255, 0, 0, alpha);
   SHEMAR.velocity.y = 0;
 
   SHIP = createSprite(playerTwo.x, playerTwo.y, playerTwo.w, playerTwo.h);
@@ -88,20 +78,23 @@ function setup() {
 
   // Player Count
   socket.on('player-number', (data) => {
-    if (data.index == 1) {
+    if (data == 1) {
       console.log("Player 1 Has Joined")
       console.log("Waiting for Player 2")
-    } else if (data.index == 2) {
+    } else if (data == 2) {
       console.log("Player 2 Has Joined")
-    } else if (data.index >= 3) {
+    } else if (data >= 3) {
       alert("game is full")
     }
+
 
   });
 
   // Team Setter
   socket.on('team', (data) => {
+
     team = data
+
   })
 
   socket.on('startGame', (data) => {
@@ -125,7 +118,22 @@ function setup() {
 
 
   socket.on('linearS1', (data) => {
+
     SHEMAR.position.x = data.x
+  });
+
+  socket.on('invisible', (data) => {
+    invisible = data.invis,
+      alpha = 0,
+      invisibilityCount = data.iC,
+      timerAdjustInvisible = data.tAI
+
+  });
+
+  socket.on('lizard', (data) => {
+    LIZARD = createSprite(400, 0, 20, 20)
+    LIZARD.velocity.y = data.yV
+
   });
 
   socket.on('jumpS1', (data) => {
@@ -178,8 +186,6 @@ function setup() {
   sB = document.querySelector('.start-button')
 
   startButton.position(500, height);
-  shemarButton.position(500, height + 40);
-  shipButton.position(500, height + 60);
 
   sB.addEventListener('click', (event) => {
     gameStarted = true;
@@ -208,8 +214,7 @@ function draw() {
 
   if (gameStarted == true) {
     startButton.hide();
-    //// start
-    //invisibility
+
     if (invisible === true) {
       SHEMAR.shapeColor = color(255, 0, 0, alpha)
       if (alpha < 255) {
@@ -219,39 +224,18 @@ function draw() {
       }
     }
 
-
-
-    //space lizards
-    if (LIZARD != undefined) {
-      if (SHEMAR.position.x >= LIZARD.position.x) {
-        LIZARD.velocity.x = 0.75
-      } else if (SHEMAR.position.x < LIZARD.position.x) {
-        LIZARD.velocity.x = -0.75
-      }
+    // shemar controls, weird glitch in mainMovementsDraw(), work here!
+    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790 && team == 'shemar') {
+      SHEMAR.position.x += 10;
+    } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
+      SHEMAR.position.x -= 10;
     }
 
-    // Regular Movement
-    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790) {
-      SHEMAR.position.x += 1;
-    } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
-      SHEMAR.position.x -= 1;
+    let data2 = {
+      x: SHEMAR.position.x
     }
 
-    ////// stop here
-
-    // PLAYER TWO CLICK MOVEMENT
-    if (mouseIsPressed) {
-      getAudioContext().resume()
-      // THIS SENDS IT TO THE SERVER, OTHER SERVER
-      let data = {
-        x: mouseX,
-        y: mouseY
-      }
-      socket.emit('mouse', data)
-
-      SHIP.attractionPoint(70, mouseX, mouseY);
-    }
-
+    socket.emit('linearS1', data2)
 
     timerSetter()
     gameLogic()

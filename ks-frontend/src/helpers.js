@@ -3,7 +3,7 @@
 platformSwitch = false;
 platformSwitch2 = true;
 
-function endGame(){
+function endGame() {
   //Shemar score affected by invisibilityCount!
   playerOneScore = 60 - timer - (invisibilityCount * 5);
   //Ship score
@@ -39,7 +39,7 @@ function timerSetter() {
     endGame();
     noLoop();
   }
-  if ((timerAdjustInvisible === true && invisibilityCount === 1) || (timerAdjustInvisible === true && invisibilityCount === 2) || (timerAdjustInvisible === true && invisibilityCount === 3)){
+  if ((timerAdjustInvisible === true && invisibilityCount === 1) || (timerAdjustInvisible === true && invisibilityCount === 2) || (timerAdjustInvisible === true && invisibilityCount === 3)) {
     timer++
     timerAdjustInvisible = false
   }
@@ -122,11 +122,11 @@ function gameLogic() {
   }
 
   //Lizard logic
-  if (LIZARD != undefined && LIZARD.position.y >= 390){
+  if (LIZARD != undefined && LIZARD.position.y >= 390) {
     LIZARD.position.y = 390;
   }
-  if (LIZARD != undefined && alpha > 127){
-    if (SHEMAR.collide(LIZARD)){
+  if (LIZARD != undefined && alpha > 127) {
+    if (SHEMAR.collide(LIZARD)) {
       textSize(20);
       textAlign(CENTER, CENTER);
       text("SHIP WINS", width / 2, 20);
@@ -141,6 +141,15 @@ function gameLogic() {
           lizardCount = 0;
         }
       }
+    }
+  }
+
+  //space lizards
+  if (LIZARD != undefined) {
+    if (SHEMAR.position.x >= LIZARD.position.x) {
+      LIZARD.velocity.x = 0.75
+    } else if (SHEMAR.position.x < LIZARD.position.x) {
+      LIZARD.velocity.x = -0.75
     }
   }
 
@@ -192,9 +201,9 @@ function mainMovementsDraw() {
 
   // PLAYER 2
   if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790 && team == 'shemar') {
-    SHEMAR.position.x += 5;
+    SHEMAR.position.x += 10;
   } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
-    SHEMAR.position.x -= 5;
+    SHEMAR.position.x -= 10;
   }
 
   let data2 = {
@@ -235,11 +244,19 @@ function mainMovements() {
     socket.emit('portal', data)
 
     // invisibility trigger
-  } else if (keyIsDown(16) && invisibilityCount < 3) {
+  } else if (keyIsDown(16) && invisibilityCount < 3 && team == 'shemar') {
     invisible = true
     alpha = 0
     invisibilityCount += 1
     timerAdjustInvisible = true
+
+    let data = {
+      invis: invisible,
+      alpha: alpha,
+      iC: invisibilityCount,
+      tAI: timerAdjustInvisible
+    }
+    socket.emit('invisible', data)
 
     // PLAYER TWO CONTROLS
   } else if (keyIsDown(32) && team == 'ship') {
@@ -259,12 +276,18 @@ function mainMovements() {
     }
     socket.emit('shoot', data)
     //space lizards
-  } else if (keyIsDown(90) && lizardCount === 0) {
+  } else if (keyIsDown(90) && lizardCount === 0 && team == 'ship') {
+
     LIZARD = createSprite(400, 0, 20, 20)
     LIZARD.velocity.y = 2;
     lizardCount++;
     lizardPenalty += 5;
     timer--;
+
+    let data = {
+      yV: LIZARD.velocity.y
+    }
+    socket.emit('lizard', data)
   }
 }
 
