@@ -9,35 +9,49 @@ function endGame(winningPlayer) {
   //Ship score
   playerTwoScore = 0 + timer - lizardPenalty;
 
-  // let winData = {
-  //
-  //   player1 = document.querySelector('input').value
-  //   player2 =
-  // }
-  // socket.emit('platform2', winData)
-
-  tmp = winningPlayer.toLowerCase()
-
-  if (tmp === "ship") {
+  if (winningPlayer === "ship") {
 
     if (document.querySelector('#ship') != null) {
-      winningPlayerName = document.querySelector('#ship').value
-      console.log(winningPlayerName)
 
-    }
-  }
+      winningPlayerName = document.querySelector('#ship').value
+
+      for (let li of ulTag.querySelectorAll('li')){
+
+        console.log(li.dataset.name)
+        if (li.dataset.name === winningPlayerName){
+          if (li.dataset.score < playerTwoScore){
+            console.log(li.dataset.score + "is less than" + playerTwoScore)
+            let win = Number(li.dataset.win) + 1
+            let configObj = {
+            	method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+            	body: JSON.stringify({
+            		name: winningPlayerName,
+            		win: win,
+            		score: playerTwoScore
+            	})//body
+            }//configObj
+            console.log(configObj)
+            fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+
+          }//if score is less than new score
+        }//if dataname is winningPlayerName
+      }//for loop
+    }//if querySelector
+  } //if ship end
 
   if (winningPlayer === "shemar") {
 
     if (document.querySelector('#shemar') != null) {
       winningPlayerName = document.querySelector('#shemar').value
       console.log(winningPlayerName)
-
     }
-
   }
 
-}
+} //function end
 
 function randomDirection() {
   return (Math.floor(Math.random() * 2) == 0) ? platformX = 20 : platformX = 800
@@ -65,7 +79,7 @@ function timerSetter() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHEMAR WINS", width / 2, 20);
-    endGame("Shemar");
+    endGame("shemar");
     console.log(winningPlayerName)
     noLoop();
     location.reload
@@ -119,7 +133,7 @@ function gameLogic() {
   //player 2 ship collisions
   if (SHIP.collide(platformSTATIC) || SHIP.collide(platform1) || SHIP.collide(platform2)) {
     text("SHEMAR WINS", width / 2, 20);
-    endGame("Shemar");
+    endGame("shemar");
 
     noLoop();
     location.reload
@@ -129,7 +143,7 @@ function gameLogic() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHIP WINS", width / 2, 20);
-    endGame("Ship");
+    endGame("ship");
     console.log(winningPlayerName)
     noLoop();
     location.reload
@@ -143,7 +157,7 @@ function gameLogic() {
         textSize(20);
         textAlign(CENTER, CENTER);
         text("SHIP WINS", width / 2, 20);
-        endGame("Ship");
+        endGame("ship");
 
 
         noLoop();
@@ -171,7 +185,7 @@ function gameLogic() {
       textSize(20);
       textAlign(CENTER, CENTER);
       text("SHIP WINS", width / 2, 20);
-      endGame("Ship");
+      endGame("ship");
       console.log(winningPlayerName)
       noLoop();
     }
