@@ -25,7 +25,7 @@ ScoreAdaptor.getUsers().then(players => {
   // players
 
   for(let user of players){
-    ulTag.innerHTML += `<li data-id="${user.id}" data-name="${user.name}" data-win="${user.win}" data-score="${user.score}">Name: ${user.name} Wins: ${user.win} High Score: ${user.score}</li>`
+    ulTag.innerHTML += `<li data-id="${user.id}" data-name="${user.name}" data-win="${user.win}" data-score="${user.score}" id="${user.id}">Name: ${user.name} Wins: ${user.win} High Score: ${user.score}</li>`
   }
   arrayOfLis = ulTag.querySelectorAll('li')
   })

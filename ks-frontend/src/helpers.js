@@ -19,25 +19,36 @@ function endGame(winningPlayer) {
 
         console.log(li.dataset.name)
         if (li.dataset.name === winningPlayerName){
+          let newHighScore;
+          let win = Number(li.dataset.win) + 1
           if (li.dataset.score < playerTwoScore){
-            console.log(li.dataset.score + "is less than" + playerTwoScore)
-            let win = Number(li.dataset.win) + 1
-            let configObj = {
-            	method: 'PATCH',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-            	body: JSON.stringify({
-            		name: winningPlayerName,
-            		win: win,
-            		score: playerTwoScore
-            	})//body
-            }//configObj
-            console.log(configObj)
-            fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+            newHighScore = playerTwoScore
+          }
+          else {
+            newHighScore = li.dataset.score
+          }
+          let configObj = {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+            	name: winningPlayerName,
+            	win: win,
+            	score: newHighScore
+            })//body
+          }//configObj
+          console.log(configObj)
+          fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+            .then(response => response.json())
+            // .then(json => {
+            //   let liTag = document.getElementById(li.dataset.id)
+            //   liTag = `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}">Name: ${json.name} Wins: ${json.win} High Score: ${json.score}</li>`
+            // })
 
-          }//if score is less than new score
+          //if score is less than new score
+
         }//if dataname is winningPlayerName
       }//for loop
     }//if querySelector
