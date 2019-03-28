@@ -19,12 +19,7 @@ function showPage() {
 }
 
 
-// high score
-//
-// ScoreAdaptor.getScores().then(scores => {
-//   const scoreObject = scores.map(score => {
-//
-//
-//     return score
-//   });
-// })
+ScoreAdaptor.getUsers().then(players => {
+  //array
+  players
+})

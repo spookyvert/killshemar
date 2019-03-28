@@ -9,6 +9,7 @@ let playerTwoScore = 0;
 let playerOneName;
 let playerTwoName;
 let winningPlayerName;
+let winningPlayer;
 
 let BULLET;
 let LIZARD;

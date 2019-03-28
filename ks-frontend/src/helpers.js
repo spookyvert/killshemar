@@ -9,11 +9,32 @@ function endGame(winningPlayer) {
   //Ship score
   playerTwoScore = 0 + timer - lizardPenalty;
 
-  if (winningPlayer === "Shemar"){
-    winningPlayerName = input.value();
+  // let winData = {
+  //
+  //   player1 = document.querySelector('input').value
+  //   player2 =
+  // }
+  // socket.emit('platform2', winData)
+
+  tmp = winningPlayer.toLowerCase()
+
+  if (tmp === "ship") {
+
+    if (document.querySelector('#ship') != null) {
+      winningPlayerName = document.querySelector('#ship').value
+      console.log(winningPlayerName)
+
+    }
   }
-  else if (winningPlayer === "Ship"){
-    winningPlayerName = input.value();
+
+  if (winningPlayer === "shemar") {
+
+    if (document.querySelector('#shemar') != null) {
+      winningPlayerName = document.querySelector('#shemar').value
+      console.log(winningPlayerName)
+
+    }
+
   }
 
 }
@@ -45,7 +66,9 @@ function timerSetter() {
     textAlign(CENTER, CENTER);
     text("SHEMAR WINS", width / 2, 20);
     endGame("Shemar");
+    console.log(winningPlayerName)
     noLoop();
+    location.reload
   }
   if ((timerAdjustInvisible === true && invisibilityCount === 1) || (timerAdjustInvisible === true && invisibilityCount === 2) || (timerAdjustInvisible === true && invisibilityCount === 3)) {
     timer++
@@ -97,16 +120,20 @@ function gameLogic() {
   if (SHIP.collide(platformSTATIC) || SHIP.collide(platform1) || SHIP.collide(platform2)) {
     text("SHEMAR WINS", width / 2, 20);
     endGame("Shemar");
+
     noLoop();
-    location.reload();
+    location.reload
+
   }
   if (SHIP.collide(SHEMAR)) {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHIP WINS", width / 2, 20);
     endGame("Ship");
+    console.log(winningPlayerName)
     noLoop();
-    location.reload();
+    location.reload
+
   }
 
   //bullet collisions with player and platforms
@@ -117,8 +144,11 @@ function gameLogic() {
         textAlign(CENTER, CENTER);
         text("SHIP WINS", width / 2, 20);
         endGame("Ship");
+
+
         noLoop();
-        location.reload();
+        location.reload
+
       } else if (b.collide(platformSTATIC) || b.collide(platform1) || b.collide(platform2)) {
         b.remove()
       }
@@ -142,6 +172,7 @@ function gameLogic() {
       textAlign(CENTER, CENTER);
       text("SHIP WINS", width / 2, 20);
       endGame("Ship");
+      console.log(winningPlayerName)
       noLoop();
     }
     if (bullets.length != 0) {
