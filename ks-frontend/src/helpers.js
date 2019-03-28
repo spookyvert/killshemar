@@ -199,17 +199,17 @@ function mainMovementsDraw() {
     SHIP.attractionPoint(70, mouseX, mouseY);
   }
 
-  // PLAYER 2
-  if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790 && team == 'shemar') {
-    SHEMAR.position.x += 10;
-  } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
-    SHEMAR.position.x -= 10;
-  }
-
-  let data2 = {
-    x: SHEMAR.position.x
-  }
-  socket.emit('linearS1', data2)
+  // // PLAYER 2
+  // if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790 && team == 'shemar') {
+  //   SHEMAR.position.x += 10;
+  // } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
+  //   SHEMAR.position.x -= 10;
+  // }
+  //
+  // let data2 = {
+  //   x: SHEMAR.position.x
+  // }
+  // socket.emit('linearS1', data2)
 }
 
 function mainMovements() {
