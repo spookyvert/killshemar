@@ -9,23 +9,50 @@ function endGame(winningPlayer) {
   //Ship score
   playerTwoScore = 0 + timer - lizardPenalty;
 
-  // let winData = {
-  //
-  //   player1 = document.querySelector('input').value
-  //   player2 =
-  // }
-  // socket.emit('platform2', winData)
-
-  tmp = winningPlayer.toLowerCase()
-
-  if (tmp === "ship") {
+  if (winningPlayer === "ship") {
 
     if (document.querySelector('#ship') != null) {
-      winningPlayerName = document.querySelector('#ship').value
-      console.log(winningPlayerName)
 
-    }
-  }
+      winningPlayerName = document.querySelector('#ship').value
+
+      for (let li of ulTag.querySelectorAll('li')) {
+
+        console.log(li.dataset.name)
+        if (li.dataset.name === winningPlayerName) {
+          let newHighScore;
+          let win = Number(li.dataset.win) + 1
+          if (li.dataset.score < playerTwoScore) {
+            newHighScore = playerTwoScore
+          } else {
+            newHighScore = li.dataset.score
+          }
+          let configObj = {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              name: winningPlayerName,
+              win: win,
+              score: newHighScore
+            }) //body
+          } //configObj
+          console.log(configObj)
+          fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+            .then(response => response.json())
+          // .then(json => {
+          //   let liTag = document.getElementById(li.dataset.id)
+          //   liTag = `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}">Name: ${json.name} Wins: ${json.win} High Score: ${json.score}</li>`
+          // })
+
+          //if score is less than new score
+
+        } //if dataname is winningPlayerName
+      } //for loop
+    } //if querySelector
+  } //if ship end
+
 
   if (winningPlayer === "shemar") {
 
@@ -45,10 +72,9 @@ function randomDirection() {
 
 function groundLayout() {
   return (
-    image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8),
-    image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8),
-    image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8),
-    image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8)
+    image(img, 0, GROUND_Y + 15, img.width / 4, img.height / 4),
+    image(img, 400, GROUND_Y + 15, img.width / 4, img.height / 4),
+    image(img, 800, GROUND_Y + 15, img.width / 4, img.height / 4)
   )
 }
 
@@ -58,14 +84,15 @@ function timerSetter() {
     timer--;
   }
   if (timer != 0) {
+
     textSize(18);
-    text(timer + "s", width - 30, 20);
+    text(timer + "s", width - 30, 20)
   }
   if (timer <= 0) {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHEMAR WINS", width / 2, 20);
-    endGame("Shemar");
+    endGame("shemar");
     console.log(winningPlayerName)
     noLoop();
     location.reload
@@ -80,21 +107,21 @@ function timerSetter() {
 // Sprite LOGIC
 function gameLogic() {
   //boundaries for player 1
-  if (SHEMAR.position.y >= 390) {
-    SHEMAR.position.y = 390;
+  if (SHEMAR.position.y >= 730) {
+    SHEMAR.position.y = 730;
   }
-  if (SHEMAR.position.x >= 790) {
-    SHEMAR.position.x = 790;
+  if (SHEMAR.position.x >= windowWidth - 260) {
+    SHEMAR.position.x = windowWidth - 260;
   }
   if (SHEMAR.position.x <= 10) {
     SHEMAR.position.x = 10;
   }
-  if (SHEMAR.position.y >= 390) {
+  if (SHEMAR.position.y >= 730) {
     SHEMAR.velocity.x = 0
   }
 
   //limits player 1 jumping to 2 consecutive jumps
-  if (SHEMAR.position.y >= 370) {
+  if (SHEMAR.position.y >= 730) {
     jumpCount = 0
     jumpSwitch = true
   }
@@ -119,7 +146,7 @@ function gameLogic() {
   //player 2 ship collisions
   if (SHIP.collide(platformSTATIC) || SHIP.collide(platform1) || SHIP.collide(platform2)) {
     text("SHEMAR WINS", width / 2, 20);
-    endGame("Shemar");
+    endGame("shemar");
 
     noLoop();
     location.reload
@@ -129,7 +156,7 @@ function gameLogic() {
     textSize(20);
     textAlign(CENTER, CENTER);
     text("SHIP WINS", width / 2, 20);
-    endGame("Ship");
+    endGame("ship");
     console.log(winningPlayerName)
     noLoop();
     location.reload
@@ -143,7 +170,7 @@ function gameLogic() {
         textSize(20);
         textAlign(CENTER, CENTER);
         text("SHIP WINS", width / 2, 20);
-        endGame("Ship");
+        endGame("ship");
 
 
         noLoop();
@@ -156,22 +183,22 @@ function gameLogic() {
   }
 
   // LOGIC TO NOT FALL THROUGH GROUND
-  if (SHEMAR.position.y <= 330) {
+  if (SHEMAR.position.y <= 730) {
     SHEMAR.velocity.y += GRAVITY;
-  } else if (SHEMAR.position.y >= 390) {
+  } else if (SHEMAR.position.y >= 730) {
     SHEMAR.velocity.y = 0
   }
 
   //Lizard logic
-  if (LIZARD != undefined && LIZARD.position.y >= 390) {
-    LIZARD.position.y = 390;
+  if (LIZARD != undefined && LIZARD.position.y >= 700) {
+    LIZARD.position.y = 700;
   }
   if (LIZARD != undefined && alpha > 127) {
     if (SHEMAR.collide(LIZARD)) {
       textSize(20);
       textAlign(CENTER, CENTER);
       text("SHIP WINS", width / 2, 20);
-      endGame("Ship");
+      endGame("ship");
       console.log(winningPlayerName)
       noLoop();
     }
@@ -241,17 +268,6 @@ function mainMovementsDraw() {
     SHIP.attractionPoint(70, mouseX, mouseY);
   }
 
-  // // PLAYER 2
-  // if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790 && team == 'shemar') {
-  //   SHEMAR.position.x += 10;
-  // } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
-  //   SHEMAR.position.x -= 10;
-  // }
-  //
-  // let data2 = {
-  //   x: SHEMAR.position.x
-  // }
-  // socket.emit('linearS1', data2)
 }
 
 function mainMovements() {
@@ -272,9 +288,9 @@ function mainMovements() {
       socket.emit('jumpS1', data)
     }
 
-  } else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 570 && SHEMAR.position.x <= 650 && SHEMAR.position.y === 390 && team == 'shemar') {
+  } else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 880 && SHEMAR.position.x <= 930 && SHEMAR.position.y === 730 && team == 'shemar') {
 
-    SHEMAR.position.x = 200
+    SHEMAR.position.x = 260
     SHEMAR.position.y = 200
 
     let data = {
@@ -302,7 +318,7 @@ function mainMovements() {
 
     // PLAYER TWO CONTROLS
   } else if (keyIsDown(32) && team == 'ship') {
-    BULLET = createSprite(width / 4, height / 4, 2, 10);
+    BULLET = createSprite(width / 2, height / 2, 2, 10);
 
     BULLET.velocity.y = 2;
     BULLET.velocity.x = random(-1, 1);
@@ -321,6 +337,7 @@ function mainMovements() {
   } else if (keyIsDown(90) && lizardCount === 0 && team == 'ship') {
 
     LIZARD = createSprite(400, 0, 20, 20)
+    LIZARD.addImage(lizardImg, width / 2, height / 2)
     LIZARD.velocity.y = 2;
     lizardCount++;
     lizardPenalty += 5;

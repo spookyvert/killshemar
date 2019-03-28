@@ -10,13 +10,15 @@ h4 {
   color: white;
 }
 
+input {
+  border: none;
+}
+
 canvas {
   position: relative;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  margin-left: auto !important;
+  padding-left: 0;
+  padding-right: 0;
   margin-right: auto !important;
-  margin-top: 20vh;
   display: none;
   -webkit-animation-name: canvasUp;
   -webkit-animation-duration: 1s;
