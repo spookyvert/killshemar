@@ -71,7 +71,7 @@ function setup() {
   let tmp = new Platform
   let tmp2 = new Platform
   let tmp3 = new Platform
-
+  //
   // platform 1
   let p = tmp.sprite()
   // platform 2
@@ -157,6 +157,7 @@ function setup() {
   randomDirection()
 
   platform1 = createSprite(platformX, p.y, p.w, 20)
+  // platform1.shapeColor = color(0, 0, 0, 0);
 
   let p1Data = {
     x: platformX,
@@ -164,11 +165,20 @@ function setup() {
     w: p.w
   }
   socket.emit('platform1', p1Data)
+
   socket.on('platform1', (data) => {
-    platform1 = createSprite(data.x, data.y, data.w, 20)
+    // platform1 = createSprite(data.x, data.y, data.w, 20)
+    platform1.position.x = data.x
+    platform1.position.w = data.y
+    platform1.width = data.w
+    platform1.shapeColor = color(0, 255, 0);
+
   });
 
+
+
   platform2 = createSprite(platformX, p.y - 50, p.w, 20)
+  // platform2.shapeColor = color(0, 0, 0, 0);
 
   let plaformData2 = {
     x: platformX,
@@ -176,8 +186,13 @@ function setup() {
     w: p.w
   }
   socket.emit('platform2', plaformData2)
+
   socket.on('platform2', (data) => {
-    platform2 = createSprite(data.x, data.y, data.w, 20)
+    platform2.position.x = data.x
+    platform2.position.w = data.y
+    platform2.width = data.w
+
+    platform2.shapeColor = color(255, 0, 0);
   });
 
   platformSTATIC = createSprite(200, 220, 40, 20)
