@@ -1,27 +1,3 @@
-const playerOne = {
-  // SPECS FOR PLAYER 1
-  x: 400,
-  y: 390,
-  w: 20,
-  h: 20
-}
-
-const playerTwo = {
-  // SPECS FOR PLAYER 2
-  x: 400,
-  y: 100,
-  w: 20,
-  h: 20
-}
-
-const portal = {
-  // PORTAL SPECS
-  x: 604,
-  y: 390,
-  w: 75,
-  h: 25
-}
-
 let gameStarted;
 let team;
 
@@ -29,13 +5,15 @@ function preload() {
   // load images here
   img = loadImage('assets/images/grass.png');
   rocketImg = loadImage('assets/images/rocket.png');
+  lizardImg = loadImage('assets/images/lizard.png');
+  portalImg = loadImage('assets/images/portal.gif');
   bg = loadImage('assets/images/background.png');
   bgTop = loadImage('assets/images/topbg.png');
 
 }
 
 function setup() {
-  createCanvas(800, 400);
+  createCanvas(windowWidth - 250, windowHeight);
 
 
   fill(0, 255, 0)
@@ -45,7 +23,6 @@ function setup() {
 
   // Create an Audio input
   mic = new p5.AudioIn();
-
   // start the Audio Input.
   // By default, it does not .connect() (to the computer speakers)
   mic.start();
@@ -56,6 +33,8 @@ function setup() {
 
 
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
+  PORTAL.addImage(portalImg)
+
 
   SHEMAR = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
   SHEMAR.shapeColor = color(255, 0, 0, alpha);
@@ -135,6 +114,7 @@ function setup() {
 
   socket.on('lizard', (data) => {
     LIZARD = createSprite(400, 0, 20, 20)
+    LIZARD.addImage(lizardImg, width, height)
     LIZARD.velocity.y = data.yV
 
   });
@@ -156,7 +136,7 @@ function setup() {
 
   randomDirection()
 
-  platform1 = createSprite(platformX, p.y, p.w, 20)
+  platform1 = createSprite(platformX, p.y + 250, p.w + random(10, 30), 20)
   // platform1.shapeColor = color(0, 0, 0, 0);
 
   let p1Data = {
@@ -177,7 +157,7 @@ function setup() {
 
 
 
-  platform2 = createSprite(platformX, p.y - 50, p.w, 20)
+  platform2 = createSprite(platformX, p.y + 300, p.w + random(10, 30), 20)
   // platform2.shapeColor = color(0, 0, 0, 0);
 
   let plaformData2 = {
@@ -195,18 +175,19 @@ function setup() {
     platform2.shapeColor = color(255, 0, 0);
   });
 
-  platformSTATIC = createSprite(200, 220, 40, 20)
+  platformSTATIC = createSprite(276, 355, 60, 20)
 
   // create clear button
+  ulTag = createElement('ul');
   startButton = createButton('Start Game').addClass('start-button');
   textH = createElement('h4', 'what is your name?');
-  textH.position(580, 450);
+  textH.position(500, 300);
   input = createInput()
 
-  input.position(580, 500);
+  input.position(505, 350);
   sB = document.querySelector('.start-button')
 
-  startButton.position(615, 550);
+  startButton.position(535, 400);
 
   sB.addEventListener('click', (event) => {
     gameStarted = true;
@@ -255,7 +236,7 @@ function draw() {
     }
 
     // shemar controls, weird glitch in mainMovementsDraw(), work here!
-    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < 790 && team == 'shemar') {
+    if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
       SHEMAR.position.x += 10;
     } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
       SHEMAR.position.x -= 10;
