@@ -16,10 +16,11 @@ function randomDirection() {
 
 function groundLayout() {
   return (
-    image(img, 0, GROUND_Y + 15, img.width / 8, img.height / 8),
-    image(img, 220, GROUND_Y + 15, img.width / 8, img.height / 8),
-    image(img, 450, GROUND_Y + 15, img.width / 8, img.height / 8),
-    image(img, 600, GROUND_Y + 15, img.width / 8, img.height / 8)
+    image(img, 0, GROUND_Y + 15, img.width / 3, img.height / 3),
+    image(img, 400, GROUND_Y + 15, img.width / 3, img.height / 3),
+    image(img, 800, GROUND_Y + 15, img.width / 3, img.height / 3),
+    image(img, 1400, GROUND_Y + 15, img.width / 3, img.height / 3)
+
   )
 }
 
@@ -289,39 +290,6 @@ function mainMovements() {
     }
     socket.emit('lizard', data)
   }
-}
-
-// wave
-function wave() {
-  bgWave = fill(19, 19, 19);
-  bgWave
-  noStroke();
-  // We are going to draw a polygon out of the wave points
-  beginShape();
-
-  let xoff = 0; // Option #1: 2D Noise
-  // let xoff = yoff; // Option #2: 1D Noise
-
-  // Iterate over horizontal pixels
-  for (let x = 0; x <= width; x += 10) {
-    // Calculate a y value according to noise, map to
-
-    // Option #1: 2D Noise
-    let y = map(noise(xoff, yoff), 0, 1, 200, 300);
-
-    // Option #2: 1D Noise
-    // let y = map(noise(xoff), 0, 1, 200,300);
-
-    // Set the vertex
-    vertex(x, y);
-    // Increment x dimension for noise
-    xoff += 0.05;
-  }
-  // increment y dimension for noise
-  yoff += 0.01;
-  vertex(width, height);
-  vertex(0, height);
-  endShape(CLOSE);
 }
 
 //rain

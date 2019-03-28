@@ -34,7 +34,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 400);
+  createCanvas(windowWidth, windowHeight);
   fill(0, 255, 0)
 
   socket = io.connect('http://localhost:8000/')
@@ -49,6 +49,7 @@ function setup() {
 
   // set gameStarted equal to false
   gameStarted = false;
+
 
 
 
@@ -207,7 +208,7 @@ function draw() {
   let bgWave
 
   // scene
-  wave()
+
   rainRun()
   image(bgTop, 0, 0, window.width, window.height);
   groundLayout()

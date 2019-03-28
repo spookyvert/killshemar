@@ -8,41 +8,7 @@ body {
 
 canvas {
   position: relative;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  margin-top: 20vh;
   display: none;
-  -webkit-animation-name: canvasUp;
-  -webkit-animation-duration: 1s;
-  animation-name: canvasUp;
-  animation-duration: 1s
-  animation-duration: 1s;
-}
-
-@-webkit-keyframes canvasUp {
-  from {
-    bottom: -100px;
-    opacity: 0
-  }
-
-  to {
-    bottom: 0px;
-    opacity: 1
-  }
-}
-
-@keyframes canvasUp {
-  from {
-    bottom: -100px;
-    opacity: 0
-  }
-
-  to {
-    bottom: 0;
-    opacity: 1
-  }
 }
 
 #loader {
