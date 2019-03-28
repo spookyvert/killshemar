@@ -11,12 +11,14 @@ let server = http.createServer(handleRequest);
 const io = require('socket.io').listen(server)
 
 //  initalliy setting both players to false, meaning they arent set yet
-let hasShip = false;
-let hasShemar = false;
+
 let playerIndex = 0
 server.listen(8000);
 console.log("Server is running on http://localhost:8000 😌 ")
 
+// resets back to false
+let hasShip = false;
+let hasShemar = false;
 
 io.sockets.on('connection', (socket) => {
 
@@ -25,6 +27,7 @@ io.sockets.on('connection', (socket) => {
     socket.emit('team', 'ship')
     hasShip = true
   } else if (!hasShemar) {
+    // the first player that joins will be the Ship! so the 2nd will always be Shemar
     socket.emit('team', 'shemar')
     hasShemar = true
   }
@@ -36,6 +39,7 @@ io.sockets.on('connection', (socket) => {
 
 
   socket.on('disconnect', function() {
+    // set it to false when they leave
     hasShip = false;
     hasShemar = false;
     socket.emit('team', 'shemar')
