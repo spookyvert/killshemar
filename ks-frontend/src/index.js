@@ -17,24 +17,17 @@ function showPage() {
   document.getElementById("loader").style.display = "none";
   document.querySelector("canvas").style.display = "block";
 }
-// let ulTag = document.querySelector('ul')
-
-// let arrayOfLis;
 
 
 ScoreAdaptor.getUsers().then(players => {
   //array
   // players
 
+  for (let user of players) {
 
-  for(let user of players){
-    ulTag.innerHTML += `<li data-id="${user.id}" data-name="${user.name}" data-win="${user.win}" data-score="${user.score}" id="${user.id}">Name: ${user.name} Wins: ${user.win} High Score: ${user.score}</li>`
+    ulTag.innerHTML += `<li data-id="${user.id}" data-name="${user.name}" data-win="${user.win}" data-score="${user.score}" id="${user.id}"><b id="white">${user.name}</b> <b>Ws:</b> ${user.win} / <i>High Score: ${user.score}</i></li>`
+
+
   }
-  arrayOfLis = ulTag.querySelectorAll('li')
-  })
-
-//   for (let user of players) {
-//     ulTag.innerHTML += `<li data-id="${user.id}" data-name="${user.name}" data-win="${user.win}" data-score="${user.score}" id="${user.id}">Name: ${user.name} Wins: ${user.win} High Score: ${user.score}</li>`
-//   }
-//   arrayOfLis = ulTag.querySelectorAll('li')
-// })
+  // arrayOfLis = ulTag.querySelectorAll('li')
+})

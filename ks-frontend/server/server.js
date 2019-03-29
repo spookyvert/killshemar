@@ -50,7 +50,6 @@ io.sockets.on('connection', (socket) => {
 
 
 
-
   });
 
   socket.emit('player-number', playerIndex);

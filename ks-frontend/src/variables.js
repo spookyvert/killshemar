@@ -3,7 +3,7 @@ let SHEMAR;
 let SHIP;
 // PLAYER TWO
 
-let ulTag = document.querySelector('ul')
+let ulTag = document.querySelector('#list')
 
 let playerOneScore = 0;
 let playerTwoScore = 0;
@@ -13,6 +13,8 @@ let playerTwoName;
 let winningPlayerName;
 let winningPlayer;
 
+let users = ""
+let li;
 let BULLET;
 let LIZARD;
 let lizardCount = 0;

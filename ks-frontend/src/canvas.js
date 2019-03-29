@@ -4,9 +4,11 @@ let team;
 function preload() {
   // load images here
   img = loadImage('assets/images/grass.png');
+  bulletImg = loadImage('assets/images/bullet.png');
   rocketImg = loadImage('assets/images/rocket.png');
   lizardImg = loadImage('assets/images/lizard.png');
   portalImg = loadImage('assets/images/portal.gif');
+  cloudImg = loadImage('assets/images/cloud.png');
   bg = loadImage('assets/images/background.png');
   bgTop = loadImage('assets/images/topbg.png');
 
@@ -89,6 +91,7 @@ function setup() {
 
   socket.on('shoot', (data) => {
     BULLET = createSprite(width / 4, height / 4, 2, 10);
+    BULLET.addImage(bulletImg)
     BULLET.velocity.y = data.velocityY;
     BULLET.velocity.x = data.velocityX;
     BULLET.position.x = data.x;
@@ -137,6 +140,8 @@ function setup() {
   randomDirection()
 
   platform1 = createSprite(platformX, p.y + 250, p.w + random(10, 30), 20)
+  platform1.addImage(cloudImg)
+
   // platform1.shapeColor = color(0, 0, 0, 0);
 
   let p1Data = {
@@ -158,6 +163,7 @@ function setup() {
 
 
   platform2 = createSprite(platformX, p.y + 300, p.w + random(10, 30), 20)
+  platform2.addImage(cloudImg)
   // platform2.shapeColor = color(0, 0, 0, 0);
 
   let plaformData2 = {
@@ -176,19 +182,20 @@ function setup() {
   });
 
   platformSTATIC = createSprite(276, 355, 60, 20)
+  platformSTATIC.addImage(cloudImg)
 
   // create clear button
-  ulTag = createElement('ul');
-  startButton = createButton('Start Game').addClass('start-button');
+  // startButton = createButton('Start Game').addClass('eightbit-btn eightbit-btn--reset');
+  titleLogo = createElement('p', '🔪 Kill 🔪<br><br> Shemar').addClass('title')
+  titleLogo.position(425, 200);
+  startButton = createButton('Start Game').addClass('eightbit-btn eightbit-btn--reset');
   textH = createElement('h4', 'what is your name?');
   textH.position(500, 300);
   input = createInput()
-
   input.position(505, 350);
-  sB = document.querySelector('.start-button')
+  sB = document.querySelector('.eightbit-btn')
 
-  startButton.position(535, 400);
-
+  startButton.position(525, 390);
   sB.addEventListener('click', (event) => {
     gameStarted = true;
 
@@ -221,10 +228,11 @@ function draw() {
 
   if (gameStarted == true) {
 
-
     textH.hide();
     input.hide();
     startButton.hide();
+    titleLogo.hide();
+
 
     if (invisible === true) {
       SHEMAR.shapeColor = color(255, 0, 0, alpha)
