@@ -4,6 +4,7 @@ let SHIP;
 // PLAYER TWO
 
 let ulTag = document.querySelector('#list')
+let nameFound = false;
 
 let playerOneScore = 0;
 let playerTwoScore = 0;
