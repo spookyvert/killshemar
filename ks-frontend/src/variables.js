@@ -23,7 +23,7 @@ let timerAdjustLizard = 0
 
 let GRAVITY = 0.8;
 let GROUND_Y = 670;
-let JUMP = -8; // how powerful is jump?
+let JUMP = -20; // how powerful is jump?
 
 let PORTAL;
 
@@ -50,7 +50,7 @@ let yoff = 0.0
 const playerOne = {
   // SPECS FOR PLAYER 1
   x: 400,
-  y: 690,
+  y: 650,
   w: 20,
   h: 20
 }

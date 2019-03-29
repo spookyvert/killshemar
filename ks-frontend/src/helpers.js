@@ -159,8 +159,8 @@ function timerSetter() {
 // Sprite LOGIC
 function gameLogic() {
   //boundaries for player 1
-  if (SHEMAR.position.y >= 730) {
-    SHEMAR.position.y = 730;
+  if (SHEMAR.position.y >= 690) {
+    SHEMAR.position.y = 690;
   }
   if (SHEMAR.position.x >= windowWidth - 260) {
     SHEMAR.position.x = windowWidth - 260;
@@ -168,27 +168,27 @@ function gameLogic() {
   if (SHEMAR.position.x <= 10) {
     SHEMAR.position.x = 10;
   }
-  if (SHEMAR.position.y >= 730) {
-    SHEMAR.velocity.x = 0
+  if (SHEMAR.position.y <= 0) {
+    SHEMAR.position.y = 0
   }
 
   //limits player 1 jumping to 2 consecutive jumps
-  if (SHEMAR.position.y >= 730) {
+  if (SHEMAR.position.y >= 690) {
     jumpCount = 0
     jumpSwitch = true
   }
 
   //player 1 platform collisions
   if (SHEMAR.collide(platformSTATIC)) {
-    jumpCount = -1;
+    jumpCount = 0;
     jumpSwitch = true;
     SHEMAR.velocity.y = GRAVITY * 2
   }
 
   if (SHEMAR.collide(platform1) || SHEMAR.collide(platform2)) {
-    jumpCount = -1;
+    jumpCount = 0;
     jumpSwitch = true;
-    if ((platformSwitch === false) || (platform2 === false)) {
+    if ((platformSwitch === false)) {
       SHEMAR.velocity.x = -1.5
     } else {
       SHEMAR.velocity.x = 1.5
@@ -250,10 +250,13 @@ function gameLogic() {
   }
 
   // LOGIC TO NOT FALL THROUGH GROUND
-  if (SHEMAR.position.y <= 730) {
+  if (SHEMAR.position.y <= 690) {
     SHEMAR.velocity.y += GRAVITY;
-  } else if (SHEMAR.position.y >= 730) {
+    SHEMAR.velocity.x = 0
+  } else if (SHEMAR.position.y >= 690) {
     SHEMAR.velocity.y = 0
+    SHEMAR.velocity.x = 0
+
   }
 
   //Lizard logic
@@ -346,7 +349,9 @@ function mainMovements() {
 
   // PLAYER ONE CONTROLS
   if (keyIsDown(UP_ARROW) && jumpSwitch && team == 'shemar') {
-    if (jumpCount >= 1) {
+    SHEMAR.addImage(jumpImg)
+
+    if (jumpCount >= 2) {
       jumpSwitch = false
     } else {
       SHEMAR.velocity.y = JUMP;
@@ -360,10 +365,10 @@ function mainMovements() {
       socket.emit('jumpS1', data)
     }
 
-  } else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 880 && SHEMAR.position.x <= 930 && SHEMAR.position.y === 730 && team == 'shemar') {
+  } else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 860 && SHEMAR.position.x <= 930 && SHEMAR.position.y === 690 && team == 'shemar') {
 
-    SHEMAR.position.x = 260
-    SHEMAR.position.y = 200
+    SHEMAR.position.x = 275
+    SHEMAR.position.y = 220
 
     let data = {
       x: SHEMAR.position.x,

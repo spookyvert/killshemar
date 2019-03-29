@@ -1,8 +1,22 @@
 let gameStarted;
 let team;
 
+let spreadsheet1
+let spritedata1
+let animationLeft = []
+
+let spreadsheet2
+let spritedata2
+let animationRight = []
+let count = 0
+
 function preload() {
   // load images here
+  spritedata1 = loadJSON('assets/shemar/left.json')
+  spritesheet1 = loadImage('assets/shemar/left.png')
+  spritedata2 = loadJSON('assets/shemar/right.json')
+  spritesheet2 = loadImage('assets/shemar/right.png')
+  jumpImg = loadImage('assets/shemar/up.png')
   img = loadImage('assets/images/grass.png');
   bulletImg = loadImage('assets/images/bullet.png');
   rocketImg = loadImage('assets/images/rocket.png');
@@ -39,6 +53,24 @@ function setup() {
 
 
   SHEMAR = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
+
+  let leftFrames = spritedata1.frames
+  let rightFrames = spritedata2.frames
+
+  for (i in leftFrames) {
+    let pos = leftFrames[i].position
+
+    let img = spritesheet1.get(pos.x, pos.y, pos.w, pos.h);
+    animationLeft.push(img)
+  }
+  for (i in rightFrames) {
+    let pos = rightFrames[i].position
+
+    let img = spritesheet2.get(pos.x, pos.y, pos.w, pos.h);
+    animationRight.push(img)
+  }
+
+
   SHEMAR.shapeColor = color(255, 0, 0, alpha);
   SHEMAR.velocity.y = 0;
 
@@ -139,7 +171,7 @@ function setup() {
 
   randomDirection()
 
-  platform1 = createSprite(platformX, p.y + 250, p.w + random(10, 30), 20)
+  platform1 = createSprite(platformX, p.y + random(100, 150), p.w, 20)
   platform1.addImage(cloudImg)
 
   // platform1.shapeColor = color(0, 0, 0, 0);
@@ -162,7 +194,7 @@ function setup() {
 
 
 
-  platform2 = createSprite(platformX, p.y + 300, p.w + random(10, 30), 20)
+  platform2 = createSprite(platformX, p.y + random(150, 200), p.w, 20)
   platform2.addImage(cloudImg)
   // platform2.shapeColor = color(0, 0, 0, 0);
 
@@ -220,6 +252,9 @@ function draw() {
   noStroke();
   let bgWave
 
+  SHEMAR.addImage(animationLeft[count])
+
+
   // scene
   wave()
   rainRun()
@@ -245,9 +280,26 @@ function draw() {
 
     // shemar controls, weird glitch in mainMovementsDraw(), work here!
     if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
+      SHEMAR.addImage(animationRight[count])
       SHEMAR.position.x += 10;
+      tmpCount = count
+      tmpCount++
+      if (tmpCount >= 3) {
+        tmpCount = 0
+      }
+      count = tmpCount;
+
+
+
     } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
+      SHEMAR.addImage(animationLeft[count])
       SHEMAR.position.x -= 10;
+      tmpCount = count
+      tmpCount++
+      if (tmpCount >= 3) {
+        tmpCount = 0
+      }
+      count = tmpCount;
     }
 
     let data2 = {
