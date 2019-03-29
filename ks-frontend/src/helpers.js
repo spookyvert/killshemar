@@ -15,19 +15,7 @@ function endGame(winningPlayer) {
 
       winningPlayerName = document.querySelector('#ship').value
 
-<<<<<<< HEAD
-      for (let li of ulTag.querySelectorAll('li')){
-
-        console.log(li.dataset.name)
-        if (li.dataset.name === winningPlayerName){
-          let newHighScore;
-          let win = Number(li.dataset.win) + 1
-          if (li.dataset.score < playerTwoScore){
-            newHighScore = playerTwoScore
-          }
-          else {
-=======
-      for (let li of ulTag.querySelectorAll('li')) {
+      for (let li of document.querySelectorAll('li')) {
 
         console.log(li.dataset.name)
         if (li.dataset.name === winningPlayerName) {
@@ -36,7 +24,7 @@ function endGame(winningPlayer) {
           if (li.dataset.score < playerTwoScore) {
             newHighScore = playerTwoScore
           } else {
->>>>>>> a1e898a3a01b42413735e510501a3d88b9de913c
+
             newHighScore = li.dataset.score
           }
           let configObj = {
@@ -46,7 +34,7 @@ function endGame(winningPlayer) {
               'Accept': 'application/json'
             },
             body: JSON.stringify({
-<<<<<<< HEAD
+
             	name: winningPlayerName,
             	win: win,
             	score: newHighScore
@@ -55,10 +43,15 @@ function endGame(winningPlayer) {
           console.log(configObj)
           fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
             .then(response => response.json())
-            // .then(json => {
-            //   let liTag = document.getElementById(li.dataset.id)
-            //   liTag = `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}">Name: ${json.name} Wins: ${json.win} High Score: ${json.score}</li>`
-            // })
+            .then(json => {
+              console.log(json)
+              let liTag = document.getElementById(li.dataset.id)
+              console.log("yo")
+              console.log(document.getElementById(li.dataset.id))
+              debugger
+              liTag.innerText = `Name: ${json.name} Wins: ${json.win} High Score: ${json.score}`
+              console.log(liTag)
+            })
 
           //if score is less than new score
 
@@ -66,28 +59,7 @@ function endGame(winningPlayer) {
       }//for loop
     }//if querySelector
   } //if ship end
-=======
-              name: winningPlayerName,
-              win: win,
-              score: newHighScore
-            }) //body
-          } //configObj
-          console.log(configObj)
-          fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
-            .then(response => response.json())
-          // .then(json => {
-          //   let liTag = document.getElementById(li.dataset.id)
-          //   liTag = `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}">Name: ${json.name} Wins: ${json.win} High Score: ${json.score}</li>`
-          // })
 
-          //if score is less than new score
-
-        } //if dataname is winningPlayerName
-      } //for loop
-    } //if querySelector
-  } //if ship end
-
->>>>>>> a1e898a3a01b42413735e510501a3d88b9de913c
 
   if (winningPlayer === "shemar") {
 

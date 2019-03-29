@@ -3,6 +3,8 @@ let SHEMAR;
 let SHIP;
 // PLAYER TWO
 
+let ulTag = document.querySelector('ul')
+
 let playerOneScore = 0;
 let playerTwoScore = 0;
 
