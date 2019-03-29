@@ -67,6 +67,7 @@ function endGame(winningPlayer) {
           score: playerTwoScore
         }) //body
       } //configObj
+
       if (winningPlayer != undefined) {
         fetch(`http://localhost:3000/api/v1/users`, configObj)
           .then(response => response.json())
@@ -148,12 +149,13 @@ function endGame(winningPlayer) {
         score: playerOneScore
       }) //body
     } //configObj
+
     if (winningPlayer != undefined) {
       fetch(`http://localhost:3000/api/v1/users`, configObj)
         .then(response => response.json())
         .then(json => {
 
-          ulTag.innerHTML += `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}"><b id="white">${json.name}</b> <b>Ws:</b> ${json.win} / <i>High Score: ${json.score}</i>
+          ulTag.innerHTML += `<li data-id="${json.id}" data-name="${input.value()}" data-win="${json.win}" data-score="${json.score}" id="${json.id}"><b id="white">${input.value()}</b> <b>Ws:</b> ${json.win} / <i>High Score: ${json.score}</i>
         </li>`
 
         })
@@ -198,7 +200,7 @@ function timerSetter() {
 
     console.log(winningPlayerName)
     noLoop();
-    location.reload();
+    location.reload(true);
   }
   if ((timerAdjustInvisible === true && invisibilityCount === 1) || (timerAdjustInvisible === true && invisibilityCount === 2) || (timerAdjustInvisible === true && invisibilityCount === 3)) {
     timer++
@@ -256,7 +258,7 @@ function gameLogic() {
       text(`${input.value()} WINS`, width / 2, 20);
     }
     noLoop();
-    location.reload();
+    location.reload(true);
 
   }
   if (SHIP.collide(SHEMAR)) {
@@ -272,7 +274,7 @@ function gameLogic() {
     }
     console.log(winningPlayerName)
     noLoop();
-    location.reload();
+    location.reload(true);
 
   }
 
@@ -292,7 +294,7 @@ function gameLogic() {
 
 
         noLoop();
-        location.reload();
+        location.reload(true);
 
       } else if (b.collide(platformSTATIC) || b.collide(platform1) || b.collide(platform2)) {
         b.remove()
@@ -327,7 +329,7 @@ function gameLogic() {
       }
       console.log(winningPlayerName)
       noLoop();
-      location.reload();
+      location.reload(true);
 
     }
     if (bullets.length != 0) {

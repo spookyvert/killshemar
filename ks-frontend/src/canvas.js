@@ -34,7 +34,7 @@ function setup() {
 
   fill(0, 255, 0)
 
-  socket = io.connect('http://localhost:8000/')
+  socket = io.connect('http://shemar.local:8000/')
 
 
   // Create an Audio input
