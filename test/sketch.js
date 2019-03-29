@@ -22,15 +22,16 @@ function setup() {
     let img = spritesheet1.get(pos.x, pos.y, pos.w, pos.h);
     a.push(img)
   }
+
+
   console.log(spritedata1)
 }
 
 function draw() {
 
   background(255);
+
   image(a[b], 0, 0)
-
-
 
 
 
