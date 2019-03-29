@@ -140,10 +140,12 @@ function setup() {
   });
 
   socket.on('invisible', (data) => {
-    invisible = data.invis,
-      alpha = 0,
-      invisibilityCount = data.iC,
-      timerAdjustInvisible = data.tAI
+
+    SHEMAR.hide()
+    // invisible = data.invis,
+    //   alpha = 0,
+    //   invisibilityCount = data.iC,
+    //   timerAdjustInvisible = data.tAI
 
   });
 

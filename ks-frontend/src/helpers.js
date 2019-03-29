@@ -41,17 +41,20 @@ function endGame(winningPlayer) {
             }) //body
           } //configObj
           console.log(configObj)
-          fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
-            .then(response => response.json())
-            .then(json => {
-              let liTag = document.getElementById(li.dataset.id)
-              liTag.innerText = `Name: ${json.name} Wins: ${json.win} High Score: ${json.score}`
-            })
+          if (winningPlayer != undefined) {
+            fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+              .then(response => response.json())
+              .then(json => {
+                let liTag = document.getElementById(li.dataset.id)
+                liTag.innerText = `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}"><b id="white">${json.name}</b> <b>Ws:</b> ${json.win} / <i>High Score: ${json.score}</i>
+              </li>`
+              })
+          }
           //if score is less than new score
         } //if dataname is winningPlayerName
       } //for loop
     } //if querySelector
-    if (document.querySelector('#ship') != null && nameFound === false){
+    if (document.querySelector('#ship') != null && nameFound === false) {
       let configObj = {
         method: 'POST',
         headers: {
@@ -64,15 +67,17 @@ function endGame(winningPlayer) {
           score: playerTwoScore
         }) //body
       } //configObj
+      if (winningPlayer != undefined) {
+        fetch(`http://localhost:3000/api/v1/users`, configObj)
+          .then(response => response.json())
+          .then(json => {
 
-      fetch(`http://localhost:3000/api/v1/users`, configObj)
-        .then(response => response.json())
-        .then(json => {
+            ulTag.innerHTML += `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}"><b id="white">${json.name}</b> <b>Ws:</b> ${json.win} / <i>High Score: ${json.score}</i>
+          </li>`
 
-          ulTag.innerHTML += `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}">Name: ${json.name} Wins: ${json.win} High Score: ${json.score}</li>`
-
-        })
+          })
       }
+    }
   } //if ship end
 
 
@@ -108,44 +113,52 @@ function endGame(winningPlayer) {
           }) //body
         } //configObj
         console.log(configObj)
-        fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
-          .then(response => response.json())
-          .then(json => {
-            console.log(json)
-            let liTag = document.getElementById(li.dataset.id)
-            console.log("yo")
-            console.log(document.getElementById(li.dataset.id))
-            debugger
-            liTag.innerText = `Name: ${json.name} Wins: ${json.win} High Score: ${json.score}`
-            console.log(liTag)
-          })
+        if (winningPlayer != undefined) {
+          fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+            .then(response => response.json())
+            .then(json => {
+              console.log(json)
+              let liTag = document.getElementById(li.dataset.id)
+              console.log("yo")
+              console.log(document.getElementById(li.dataset.id))
+
+              liTag.innerText = `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}"><b id="white">${json.name}</b> <b>Ws:</b> ${json.win} / <i>High Score: ${json.score}</i>
+            </li>`
+
+
+              console.log(liTag)
+            })
+        }
 
         //if score is less than new score
 
       } //if dataname is winningPlayerName
     } //for loop
   } //if querySelector
-  else if (document.querySelector('#shemar') != null && nameFound === false){
-      let configObj = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: winningPlayerName,
-          win: 1,
-          score: playerOneScore
-        }) //body
-      } //configObj
-
+  else if (document.querySelector('#shemar') != null && nameFound === false) {
+    let configObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: winningPlayerName,
+        win: 1,
+        score: playerOneScore
+      }) //body
+    } //configObj
+    if (winningPlayer != undefined) {
       fetch(`http://localhost:3000/api/v1/users`, configObj)
         .then(response => response.json())
         .then(json => {
 
-          ulTag.innerHTML += `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}">Name: ${json.name} Wins: ${json.win} High Score: ${json.score}</li>`
+          ulTag.innerHTML += `<li data-id="${json.id}" data-name="${json.name}" data-win="${json.win}" data-score="${json.score}" id="${json.id}"><b id="white">${json.name}</b> <b>Ws:</b> ${json.win} / <i>High Score: ${json.score}</i>
+        </li>`
 
         })
+    }
+
   }
 
 } //function end
@@ -185,7 +198,7 @@ function timerSetter() {
 
     console.log(winningPlayerName)
     noLoop();
-    location.reload
+    location.reload();
   }
   if ((timerAdjustInvisible === true && invisibilityCount === 1) || (timerAdjustInvisible === true && invisibilityCount === 2) || (timerAdjustInvisible === true && invisibilityCount === 3)) {
     timer++
@@ -243,7 +256,7 @@ function gameLogic() {
       text(`${input.value()} WINS`, width / 2, 20);
     }
     noLoop();
-    location.reload
+    location.reload();
 
   }
   if (SHIP.collide(SHEMAR)) {
@@ -259,7 +272,7 @@ function gameLogic() {
     }
     console.log(winningPlayerName)
     noLoop();
-    location.reload
+    location.reload();
 
   }
 
@@ -279,7 +292,7 @@ function gameLogic() {
 
 
         noLoop();
-        location.reload
+        location.reload();
 
       } else if (b.collide(platformSTATIC) || b.collide(platform1) || b.collide(platform2)) {
         b.remove()
@@ -314,6 +327,8 @@ function gameLogic() {
       }
       console.log(winningPlayerName)
       noLoop();
+      location.reload();
+
     }
     if (bullets.length != 0) {
       for (let b of bullets) {
@@ -418,6 +433,7 @@ function mainMovements() {
 
     // invisibility trigger
   } else if (keyIsDown(16) && invisibilityCount < 3 && team == 'shemar') {
+
     invisible = true
     alpha = 0
     invisibilityCount += 1
