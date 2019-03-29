@@ -39,6 +39,7 @@ let portalImg;
 let platformSwitch;
 let platformSwitch2;
 
+let gameFont;
 
 let jumpSwitch = true;
 let jumpCount = 0;
@@ -77,3 +78,34 @@ let invisible = false
 let alpha = 255;
 let invisibilityCount = 0
 let timerAdjustInvisible = false
+
+
+
+const sidebar = document.querySelector(".sidebar");
+
+const btn = document.querySelector(".sidebar-btn");
+
+const links = document.querySelector(".sidebar ul");
+
+const arrow1 = document.querySelector(".sidebar-btn span:nth-child(1)");
+
+const arrow2 = document.querySelector(".sidebar-btn span:nth-child(2)");
+
+const arrow3 = document.querySelector(".sidebar-btn span:nth-child(3)");
+
+
+function togglemenu() {
+
+  sidebar.classList.toggle("visible");
+
+  btn.classList.toggle("open");
+
+  links.classList.toggle("display");
+
+  arrow1.classList.toggle("topRotate");
+
+  arrow3.classList.toggle("buttomRotate");
+
+  arrow2.classList.toggle("arrow");
+
+}

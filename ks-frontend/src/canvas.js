@@ -11,13 +11,19 @@ let animationRight = []
 let count = 0
 
 function preload() {
+  //font
+  gameFont = loadFont('assets/fonts/PressStart2P.ttf');
   // load images here
   spritedata1 = loadJSON('assets/shemar/left.json')
   spritesheet1 = loadImage('assets/shemar/left.png')
+
   spritedata2 = loadJSON('assets/shemar/right.json')
   spritesheet2 = loadImage('assets/shemar/right.png')
+
   jumpImg = loadImage('assets/shemar/up.png')
+
   img = loadImage('assets/images/grass.png');
+
   bulletImg = loadImage('assets/images/bullet.png');
   rocketImg = loadImage('assets/images/rocket.png');
   lizardImg = loadImage('assets/images/lizard.png');
@@ -29,13 +35,10 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth - 250, windowHeight);
+  createCanvas(windowWidth, windowHeight);
 
-
-  fill(0, 255, 0)
-
-  socket = io.connect('http://shemar.local:8000/')
-
+  // socket = io.connect('http://shemar.local:8000/')
+  socket = io.connect('http://localhost:8000/')
 
   // Create an Audio input
   mic = new p5.AudioIn();
@@ -63,6 +66,7 @@ function setup() {
     let img = spritesheet1.get(pos.x, pos.y, pos.w, pos.h);
     animationLeft.push(img)
   }
+
   for (i in rightFrames) {
     let pos = rightFrames[i].position
 
@@ -70,8 +74,8 @@ function setup() {
     animationRight.push(img)
   }
 
-
-  SHEMAR.shapeColor = color(255, 0, 0, alpha);
+  // being used?
+  // SHEMAR.shapeColor = color(255, 0, 0, alpha);
   SHEMAR.velocity.y = 0;
 
   SHIP = createSprite(playerTwo.x, playerTwo.y, playerTwo.w, playerTwo.h);
@@ -84,7 +88,7 @@ function setup() {
   let tmp = new Platform
   let tmp2 = new Platform
   let tmp3 = new Platform
-  //
+
   // platform 1
   let p = tmp.sprite()
   // platform 2
@@ -92,24 +96,24 @@ function setup() {
   // static platform
   let s = tmp.sprite()
 
-  // Player Count
+  // Player Limit Checker
   socket.on('player-number', (data) => {
     if (data == 1) {
       console.log("Player 1 Has Joined")
       console.log("Waiting for Player 2")
     } else if (data == 2) {
       console.log("Player 2 Has Joined")
-    } else if (data >= 3) {
-      alert("game is full")
-    }
 
+    } else if (data >= 3) {
+      alert("Game is Full!")
+    }
 
   });
 
-  // Team Setter
+  // team assigner
   socket.on('team', (data) => {
     team = data
-    // Puts Team Name in Input!
+    // puts Team( either ship or shemar ) name in Input box!
     document.querySelector('input').id += team;
   })
 
@@ -161,7 +165,6 @@ function setup() {
   });
 
   socket.on('portal', (data) => {
-
     SHEMAR.position.y = data.y,
       SHEMAR.position.x = data.x,
       SHEMAR.velocity.x = data.vX,
@@ -169,14 +172,14 @@ function setup() {
 
   });
 
-  // Socket.io end
+  // socket.io end
 
+  // platforms + socket.io
+  // platforms come from different directions!
   randomDirection()
 
   platform1 = createSprite(platformX, p.y + random(100, 150), p.w, 20)
   platform1.addImage(cloudImg)
-
-  // platform1.shapeColor = color(0, 0, 0, 0);
 
   let p1Data = {
     x: platformX,
@@ -194,11 +197,8 @@ function setup() {
 
   });
 
-
-
   platform2 = createSprite(platformX, p.y + random(150, 200), p.w, 20)
   platform2.addImage(cloudImg)
-  // platform2.shapeColor = color(0, 0, 0, 0);
 
   let plaformData2 = {
     x: platformX,
@@ -218,18 +218,27 @@ function setup() {
   platformSTATIC = createSprite(276, 355, 60, 20)
   platformSTATIC.addImage(cloudImg)
 
+  // platforms + socket.io end
+
   // create clear button
-  // startButton = createButton('Start Game').addClass('eightbit-btn eightbit-btn--reset');
+
   titleLogo = createElement('p', '🔪 Kill 🔪<br><br> Shemar').addClass('title')
-  titleLogo.position(425, 200);
-  startButton = createButton('Start Game').addClass('eightbit-btn eightbit-btn--reset');
+  titleLogo.position(windowWidth / 2.5, 200);
+
+
+
   textH = createElement('h4', 'what is your name?');
-  textH.position(500, 300);
+  textH.position(windowWidth / 2.2, 300);
+
   input = createInput()
-  input.position(505, 350);
+  input.position(windowWidth / 2.17, 350);
+
+  startButton = createButton('Start Game').addClass('eightbit-btn eightbit-btn--reset');
+  startButton.position(windowWidth / 2.11, 390);
+  // start button
   sB = document.querySelector('.eightbit-btn')
 
-  startButton.position(525, 390);
+  // starts the game!
   sB.addEventListener('click', (event) => {
     gameStarted = true;
 
@@ -269,6 +278,8 @@ function draw() {
     input.hide();
     startButton.hide();
     titleLogo.hide();
+    menuBtn = document.querySelector('.sidebar-btn')
+    menuBtn.style.display = 'block'
 
 
     if (invisible === true) {
@@ -290,8 +301,6 @@ function draw() {
         tmpCount = 0
       }
       count = tmpCount;
-
-
 
     } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
       SHEMAR.addImage(animationLeft[count])
@@ -324,3 +333,7 @@ function draw() {
 function keyPressed() {
   mainMovements()
 }
+
+// function windowResized() {
+//   resizeCanvas(windowWidth, windowHeight);
+// }

@@ -16,6 +16,11 @@ body {
   display: block;
 }
 
+.game-font {
+  font-family: 'Press Start 2P', cursive;
+  text-transform: uppercase;
+}
+
 h4 {
   color: white;
 }
@@ -34,6 +39,7 @@ canvas {
   -webkit-animation-duration: 1s;
   animation-name: canvasUp;
   animation-duration: 1s animation-duration: 1s;
+  z-index: 0;
 }
 
 @-webkit-keyframes canvasUp {
@@ -190,4 +196,106 @@ ul {
 
 .eightbit-btn--reset:active {
   box-shadow: inset 4px 4px 0px 0px #8C2022;
+}
+
+.sidebar {
+  width: 100%;
+  height: 80px;
+  top: 0px;
+  left: 0px;
+  background-color: transparent;
+  transition: 0.5s;
+  position: fixed;
+  /* opacity: 0.9; */
+  z-index: 1;
+}
+
+.visible {
+  height: 100%;
+  transition: 0.5s;
+  animation: fadeIn 0.7s 1 linear;
+  background-color: #000000c4;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.sidebar ul {
+  list-style: none;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+  display: none;
+  float: right;
+  margin-top: 5%;
+}
+
+.sidebar ul li {
+  margin-top: 5px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #ccc;
+  padding: 12px;
+  width: 200px;
+  display: block;
+  opacity: 1;
+}
+
+.sidebar .display {
+  display: block;
+}
+
+.sidebar ul li a:hover {
+  padding-right: 20px;
+  transition: 0.5s;
+}
+
+.sidebar-btn {
+  display: none;
+  top: 10%;
+  width: 30px;
+  left: calc(100% - 65px);
+  cursor: pointer;
+  transition: 0.3s;
+  position: fixed;
+  z-index: 2;
+}
+
+.open {
+  transition: 0.5s;
+  z-index: 2;
+}
+
+.sidebar-btn span {
+  width: 20px;
+  height: 3px;
+  background-color: #78bbff;
+  margin-top: 5px;
+  display: block;
+}
+
+.topRotate {
+  transform: rotate(45deg);
+  transition: 0.7s linear;
+  width: 15px;
+}
+
+.arrow {
+  margin-left: -15px;
+  transition: 0.7s linear;
+}
+
+.buttomRotate {
+  transform: rotate(-45deg);
+  transition: 0.7s linear;
+  width: 15px;
 }

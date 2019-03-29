@@ -173,7 +173,9 @@ function groundLayout() {
   return (
     image(img, 0, GROUND_Y + 15, img.width / 4, img.height / 4),
     image(img, 400, GROUND_Y + 15, img.width / 4, img.height / 4),
-    image(img, 800, GROUND_Y + 15, img.width / 4, img.height / 4)
+    image(img, 800, GROUND_Y + 15, img.width / 4, img.height / 4),
+    image(img, 1000, GROUND_Y + 15, img.width / 4, img.height / 4)
+
   )
 }
 
@@ -183,9 +185,14 @@ function timerSetter() {
     timer--;
   }
   if (timer != 0) {
-
+    fill(251, 214, 42)
+    textFont(gameFont)
+    textAlign(RIGHT);
     textSize(18);
-    text(timer + "s", width - 30, 20)
+    text(timer + "s", width - 30, 40)
+
+
+
   }
   if (timer <= 0) {
     textSize(20);
@@ -194,8 +201,8 @@ function timerSetter() {
     winner = "shemar"
     endGame(winner);
     if (input.id() == winner) {
-
-      text(`${input.value()} WINS`, width / 2, 20);
+      textFont(gameFont);
+      text(`${input.value().toUpperCase()} WINS`, width / 2, 20)
     }
 
     console.log(winningPlayerName)
@@ -215,8 +222,8 @@ function gameLogic() {
   if (SHEMAR.position.y >= 690) {
     SHEMAR.position.y = 690;
   }
-  if (SHEMAR.position.x >= windowWidth - 260) {
-    SHEMAR.position.x = windowWidth - 260;
+  if (SHEMAR.position.x >= windowWidth) {
+    SHEMAR.position.x = windowWidth;
   }
   if (SHEMAR.position.x <= 10) {
     SHEMAR.position.x = 10;
@@ -254,8 +261,8 @@ function gameLogic() {
 
     endGame(winner);
     if (input.id() == winner) {
-
-      text(`${input.value()} WINS`, width / 2, 20);
+      textFont(gameFont);
+      text(`${input.value().toUpperCase()} WINS`, width / 2, 20)
     }
     noLoop();
     location.reload(true);
@@ -269,8 +276,8 @@ function gameLogic() {
 
     endGame(winner);
     if (input.id() == winner) {
-
-      text(`${input.value()} WINS`, width / 2, 20);
+      textFont(gameFont);
+      text(`${input.value().toUpperCase()} WINS`, width / 2, 20)
     }
     console.log(winningPlayerName)
     noLoop();
@@ -288,8 +295,8 @@ function gameLogic() {
 
         endGame(winner);
         if (input.id() == winner) {
-
-          text(`${input.value()} WINS`, width / 2, 20);
+          textFont(gameFont);
+          text(`${input.value().toUpperCase()} WINS`, width / 2, 20)
         }
 
 
@@ -324,8 +331,8 @@ function gameLogic() {
 
       endGame(winner);
       if (input.id() == winner) {
-
-        text(`${input.value()} WINS`, width / 2, 20);
+        textFont(gameFont);
+        text(`${input.value().toUpperCase()} WINS`, width / 2, 20)
       }
       console.log(winningPlayerName)
       noLoop();
