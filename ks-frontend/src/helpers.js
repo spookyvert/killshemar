@@ -65,9 +65,50 @@ function endGame(winningPlayer) {
 
     if (document.querySelector('#shemar') != null) {
       winningPlayerName = document.querySelector('#shemar').value
-      console.log(winningPlayerName)
     }
-  }
+    for (let li of document.querySelectorAll('li')) {
+
+      console.log(li.dataset.name)
+      if (li.dataset.name === winningPlayerName) {
+        let newHighScore;
+        let win = Number(li.dataset.win) + 1
+        if (li.dataset.score < playerTwoScore) {
+          newHighScore = playerTwoScore
+        } else {
+
+          newHighScore = li.dataset.score
+        }
+        let configObj = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+
+            name: winningPlayerName,
+            win: win,
+            score: newHighScore
+          })//body
+        }//configObj
+        console.log(configObj)
+        fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+          .then(response => response.json())
+          .then(json => {
+            console.log(json)
+            let liTag = document.getElementById(li.dataset.id)
+            console.log("yo")
+            console.log(document.getElementById(li.dataset.id))
+            debugger
+            liTag.innerText = `Name: ${json.name} Wins: ${json.win} High Score: ${json.score}`
+            console.log(liTag)
+          })
+
+        //if score is less than new score
+
+      }//if dataname is winningPlayerName
+    }//for loop
+  }//if querySelector
 
 } //function end
 
