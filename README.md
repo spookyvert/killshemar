@@ -31,6 +31,7 @@ Commands to run project
 * [p5](https://p5js.org/)
 
 
-## 𝕸𝖊𝖓𝖙𝖎𝖔𝖓𝖘
+## 𝕮𝖔𝖑𝖑𝖆𝖇𝖔𝖗𝖆𝖙𝖔𝖗𝖘
 
-* [rails](https://rubyonrails.org/)
+Shemar Dacosta 
+Seann Branchfield
