@@ -1,2 +1,1 @@
-web: node server.js
-web: http-server
+web: node server.js && http-server
