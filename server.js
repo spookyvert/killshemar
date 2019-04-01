@@ -14,7 +14,7 @@ const io = require('socket.io').listen(server)
 
 let playerIndex = 0
 server.listen(8000);
-console.log("Server is running on http://localhost:8000 😌 ")
+console.log("Server is running 😌 ")
 
 // resets back to false
 let hasShemar = false;
