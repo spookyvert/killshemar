@@ -1,11 +1,13 @@
-class ScoreAdaptor {
-  static async getUsers() {
-    return await fetch('http://localhost:3000/api/v1/users')
-      .then(response =>
-        response.json())
-  }
+https: //quiet-brushlands-57599.herokuapp.com/api/v1/
 
-  // static async updateScore() {
-  //
-  // }
-}
+  class ScoreAdaptor {
+    static async getUsers() {
+      return await fetch('https://quiet-brushlands-57599.herokuapp.com/api/v1/users')
+        .then(response =>
+          response.json())
+    }
+
+    // static async updateScore() {
+    //
+    // }
+  }
