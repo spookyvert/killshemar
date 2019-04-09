@@ -2,6 +2,8 @@
 
 platformSwitch = false;
 platformSwitch2 = true;
+// const BASE_URL = "https://quiet-brushlands-57599.herokuapp.com/"
+const BASE_URL = "http://localhost:3000/"
 
 function endGame(winningPlayer) {
   //Shemar score affected by invisibilityCount!
@@ -43,7 +45,7 @@ function endGame(winningPlayer) {
           console.log(configObj)
           if (winningPlayer != undefined) {
 
-            fetch(`https://quiet-brushlands-57599.herokuapp.com/api/v1/users/${li.dataset.id}`, configObj)
+            fetch(`${BASE_URL}api/v1/users/${li.dataset.id}`, configObj)
               .then(response => response.json())
               .then(json => {
                 let liTag = document.getElementById(li.dataset.id)
@@ -70,7 +72,7 @@ function endGame(winningPlayer) {
       } //configObj
 
       if (winningPlayer != undefined) {
-        fetch(`https://quiet-brushlands-57599.herokuapp.com/api/v1/users`, configObj)
+        fetch(`${BASE_URL}api/v1/users`, configObj)
           .then(response => response.json())
           .then(json => {
 
@@ -116,7 +118,7 @@ function endGame(winningPlayer) {
         } //configObj
         console.log(configObj)
         if (winningPlayer != undefined) {
-          fetch(`https://quiet-brushlands-57599.herokuapp.com/api/v1/users/${li.dataset.id}`, configObj)
+          fetch(`${BASE_URL}api/v1/users/${li.dataset.id}`, configObj)
             .then(response => response.json())
             .then(json => {
               console.log(json)
@@ -152,7 +154,7 @@ function endGame(winningPlayer) {
     } //configObj
 
     if (winningPlayer != undefined) {
-      fetch(`https://quiet-brushlands-57599.herokuapp.com/api/v1/users`, configObj)
+      fetch(`${BASE_URL}api/v1/users`, configObj)
         .then(response => response.json())
         .then(json => {
 
