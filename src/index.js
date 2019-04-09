@@ -1,3 +1,14 @@
+class ScoreAdaptor {
+  static async getUsers() {
+    return await fetch('https://quiet-brushlands-57599.herokuapp.com/api/v1/users')
+      .then(response =>
+        response.json())
+  }
+
+  // static async updateScore() {
+  //
+  // }
+}
 // Preloader
 function randombg() {
   var random = Math.floor(Math.random() * 3) + 0;
