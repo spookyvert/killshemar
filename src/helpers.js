@@ -2,8 +2,8 @@
 
 platformSwitch = false;
 platformSwitch2 = true;
-// const BASE_URL = "https://quiet-brushlands-57599.herokuapp.com/"
-const BASE_URL = "http://localhost:3000/"
+const BASE_URL = "https://quiet-brushlands-57599.herokuapp.com/"
+// const BASE_URL = "http://localhost:3000/"
 
 function endGame(winningPlayer) {
   //Shemar score affected by invisibilityCount!
