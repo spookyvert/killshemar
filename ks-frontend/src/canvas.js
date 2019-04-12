@@ -23,6 +23,7 @@ function preload() {
   jumpImg = loadImage('assets/shemar/up.png')
 
   img = loadImage('assets/images/grass.png');
+  fameImg = loadImage('assets/images/fame.png');
 
   bulletImg = loadImage('assets/images/bullet.png');
   rocketImg = loadImage('assets/images/rocket.png');

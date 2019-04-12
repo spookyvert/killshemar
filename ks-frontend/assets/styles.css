@@ -21,6 +21,12 @@ body {
   text-transform: uppercase;
 }
 
+li {
+  color: #fbd62a;
+  font-family: 'Press Start 2P', cursive;
+  text-transform: uppercase;
+}
+
 h4 {
   color: white;
 }
