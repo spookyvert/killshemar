@@ -1,27 +1,30 @@
-const http = require('http');
+'use strict';
 
-let handleRequest = function(request, response) {
-  response.writeHead(200, {
-    'Content-Type': 'text/plain'
-  });
-  response.end('Hello World\n');
-};
-let server = http.createServer(handleRequest);
+const express = require('express');
+const socketIO = require('socket.io');
+const path = require('path');
 
-const io = require('socket.io').listen(server)
+const PORT = process.env.PORT || 8000;
+const INDEX = path.join(__dirname, 'index.html');
+
+const server = express()
+  .use((req, res) => res.sendFile(INDEX))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+const io = socketIO(server);
+
 
 //  initalliy setting both players to false, meaning they arent set yet
 
 let playerIndex = 0
-server.listen(8000);
-console.log("Server is running on http://localhost:8000 😌 ")
+console.log("Server is running 😌 ")
 
 // resets back to false
 let hasShemar = false;
 let hasShip = false;
 
+io.on('connection', (socket) => {
 
-io.sockets.on('connection', (socket) => {
 
   // sets player controls
   if (!hasShemar) {
@@ -117,4 +120,6 @@ io.sockets.on('connection', (socket) => {
   });
 
 
-})
+});
+
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);

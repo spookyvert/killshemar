@@ -2,6 +2,8 @@
 
 platformSwitch = false;
 platformSwitch2 = true;
+const BASE_URL = "https://quiet-brushlands-57599.herokuapp.com/"
+// const BASE_URL = "http://localhost:3000/"
 
 function endGame(winningPlayer) {
   //Shemar score affected by invisibilityCount!
@@ -42,7 +44,8 @@ function endGame(winningPlayer) {
           } //configObj
           console.log(configObj)
           if (winningPlayer != undefined) {
-            fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+
+            fetch(`${BASE_URL}api/v1/users/${li.dataset.id}`, configObj)
               .then(response => response.json())
               .then(json => {
                 let liTag = document.getElementById(li.dataset.id)
@@ -69,7 +72,7 @@ function endGame(winningPlayer) {
       } //configObj
 
       if (winningPlayer != undefined) {
-        fetch(`http://localhost:3000/api/v1/users`, configObj)
+        fetch(`${BASE_URL}api/v1/users`, configObj)
           .then(response => response.json())
           .then(json => {
 
@@ -115,7 +118,7 @@ function endGame(winningPlayer) {
         } //configObj
         console.log(configObj)
         if (winningPlayer != undefined) {
-          fetch(`http://localhost:3000/api/v1/users/${li.dataset.id}`, configObj)
+          fetch(`${BASE_URL}api/v1/users/${li.dataset.id}`, configObj)
             .then(response => response.json())
             .then(json => {
               console.log(json)
@@ -151,7 +154,7 @@ function endGame(winningPlayer) {
     } //configObj
 
     if (winningPlayer != undefined) {
-      fetch(`http://localhost:3000/api/v1/users`, configObj)
+      fetch(`${BASE_URL}api/v1/users`, configObj)
         .then(response => response.json())
         .then(json => {
 
@@ -174,7 +177,10 @@ function groundLayout() {
     image(img, 0, GROUND_Y + 15, img.width / 4, img.height / 4),
     image(img, 400, GROUND_Y + 15, img.width / 4, img.height / 4),
     image(img, 800, GROUND_Y + 15, img.width / 4, img.height / 4),
-    image(img, 1000, GROUND_Y + 15, img.width / 4, img.height / 4)
+    image(img, 1000, GROUND_Y + 15, img.width / 4, img.height / 4),
+    image(img, 1450, GROUND_Y + 15, img.width / 4, img.height / 4),
+    image(img, 1600, GROUND_Y + 15, img.width / 4, img.height / 4)
+
 
   )
 }
@@ -222,8 +228,8 @@ function gameLogic() {
   if (SHEMAR.position.y >= 690) {
     SHEMAR.position.y = 690;
   }
-  if (SHEMAR.position.x >= windowWidth) {
-    SHEMAR.position.x = windowWidth;
+  if (SHEMAR.position.x >= 1920) {
+    SHEMAR.position.x = 1920;
   }
   if (SHEMAR.position.x <= 10) {
     SHEMAR.position.x = 10;
