@@ -177,7 +177,10 @@ function groundLayout() {
     image(img, 0, GROUND_Y + 15, img.width / 4, img.height / 4),
     image(img, 400, GROUND_Y + 15, img.width / 4, img.height / 4),
     image(img, 800, GROUND_Y + 15, img.width / 4, img.height / 4),
-    image(img, 1000, GROUND_Y + 15, img.width / 4, img.height / 4)
+    image(img, 1000, GROUND_Y + 15, img.width / 4, img.height / 4),
+    image(img, 1450, GROUND_Y + 15, img.width / 4, img.height / 4),
+    image(img, 1600, GROUND_Y + 15, img.width / 4, img.height / 4)
+
 
   )
 }
@@ -225,8 +228,8 @@ function gameLogic() {
   if (SHEMAR.position.y >= 690) {
     SHEMAR.position.y = 690;
   }
-  if (SHEMAR.position.x >= windowWidth) {
-    SHEMAR.position.x = windowWidth;
+  if (SHEMAR.position.x >= 1920) {
+    SHEMAR.position.x = 1920;
   }
   if (SHEMAR.position.x <= 10) {
     SHEMAR.position.x = 10;

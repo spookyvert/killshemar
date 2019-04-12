@@ -28,6 +28,7 @@ function preload() {
   rocketImg = loadImage('assets/images/rocket.png');
   lizardImg = loadImage('assets/images/lizard.png');
   portalImg = loadImage('assets/images/portal.gif');
+  rockImg = loadImage('assets/images/rock.png');
   cloudImg = loadImage('assets/images/cloud.png');
   bg = loadImage('assets/images/background.png');
   bgTop = loadImage('assets/images/topbg.png');
@@ -53,6 +54,9 @@ function setup() {
 
   PORTAL = createSprite(portal.x, portal.y, portal.w, portal.h)
   PORTAL.addImage(portalImg)
+
+  ROCK = createSprite(portal.x + 890, portal.y + 30, portal.w, portal.h)
+  ROCK.addImage(rockImg)
 
 
   SHEMAR = createSprite(playerOne.x, playerOne.y, playerOne.w, playerOne.h);
@@ -228,13 +232,13 @@ function setup() {
 
 
   textH = createElement('h4', 'what is your name?');
-  textH.position(windowWidth / 2.2, 300);
+  textH.position(windowWidth / 2.26, 300);
 
   input = createInput()
-  input.position(windowWidth / 2.17, 350);
+  input.position(windowWidth / 2.23, 350);
 
   startButton = createButton('Start Game').addClass('eightbit-btn eightbit-btn--reset');
-  startButton.position(windowWidth / 2.11, 390);
+  startButton.position(windowWidth / 2.18, 390);
   // start button
   sB = document.querySelector('.eightbit-btn')
 

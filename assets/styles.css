@@ -235,6 +235,8 @@ ul {
   display: none;
   float: right;
   margin-top: 5%;
+  position: absolute;
+  left: 0;
 }
 
 .sidebar ul li {
