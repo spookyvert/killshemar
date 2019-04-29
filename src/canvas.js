@@ -23,6 +23,7 @@ function preload() {
   jumpImg = loadImage('assets/shemar/up.png')
 
   img = loadImage('assets/images/grass.png');
+  fameImg = loadImage('assets/images/fame.png');
 
   bulletImg = loadImage('assets/images/bullet.png');
   rocketImg = loadImage('assets/images/rocket.png');
@@ -37,6 +38,8 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+
 
   // socket = io.connect('http://shemar.local:8000/')
   socket = io.connect('http://localhost:8000/')
