@@ -39,6 +39,8 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+
+
   // socket = io.connect('http://shemar.local:8000/')
   socket = io.connect('http://localhost:8000/')
 
