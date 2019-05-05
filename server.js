@@ -8,23 +8,29 @@
 //
 // server.listen(3000);
 
-const express = require('express');
-const socketIO = require('socket.io');
-const path = require('path');
-
-const PORT = process.env.PORT || 8000;
-const INDEX = path.join(__dirname, 'index.html');
-
-const server = express()
-	.use((req, res) => res.sendFile(INDEX))
-	.listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
-const io = socketIO(server);
+// const express = require('express');
+// const socketIO = require('socket.io');
+// const path = require('path');
+//
+// const PORT = process.env.PORT || 8000;
+// const INDEX = path.join(__dirname, 'index.html');
+//
+// const server = express()
+// 	.use((req, res) => res.sendFile(INDEX))
+// 	.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+//
+// const io = socketIO(server);
 
 // Heroku won 't actually allow us to use WebSockets
 // so we have to setup polling instead.
 // https: //devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
 //
+
+let express = require('express'),
+	app = express.createServer(express.logger()),
+	io = require('socket.io').listen(app)
+
+
 io.configure(function() {
 	io.set("transports", ["xhr-polling"]);
 	io.set("polling duration", 10);
