@@ -14,17 +14,11 @@
   <script src="https://cdn.jsdelivr.net/p5.gif.js/latest/mainfile">
 
   </script>
-  <script src="lib/p5.play.js" charset="utf-8"></script>
+  <script src="./lib/p5.play.js" charset="utf-8"></script>
   <script src="lib/p5.collide2d.js" charset="utf-8"></script>
 
   <link rel="stylesheet" href="assets/styles.css">
   <title>killshemar</title>
-
-
-</head>
-
-<body onload="preloader()">
-  <div id="loader" onload="randombg()" />
 
   <div class="sidebar-btn" onclick="togglemenu()">
 
@@ -39,6 +33,11 @@
 
     </ul>
   </div>
+</head>
+
+<body onload="preloader()">
+  <div id="loader" onload="randombg()" />
+
 
   <script>
     socket = io();
