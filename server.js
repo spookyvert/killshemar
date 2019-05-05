@@ -3,10 +3,6 @@
 const express = require('express');
 const path = require('path');
 
-const app = express()
-
-app.use('/build', express.static('build'));
-
 
 
 
@@ -15,13 +11,15 @@ const PORT = process.env.PORT || 8000;
 
 const INDEX = path.join(__dirname, 'index.html');
 
-app.get('*', function(req, res) {
+app
+
+const server = express()
+  .use('/build', express.static('build'));
+.get('*', function(req, res) {
   res.sendFile(INDEX);
   //__dirname : It will resolve to your project folder.
 });
-
-const server = express()
-  .use((req, res) => res.sendFile(INDEX))
+.use((req, res) => res.sendFile(INDEX))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
