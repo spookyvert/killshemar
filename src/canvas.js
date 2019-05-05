@@ -40,9 +40,9 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
 
-
+  console.log(process.env.PORT);
   // socket = io.connect('http://shemar.local:8000/')
-  socket = io.connect('https://killshemar.herokuapp.com:8000')
+  socket = io.connect('https://killshemar.herokuapp.com')
   // socket = io.connect('http://localhost:8000/')
 
   // Create an Audio input
