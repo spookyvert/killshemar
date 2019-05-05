@@ -1,19 +1,8 @@
 'use strict';
 
-// var express = require('express'),
-// 	http = require('http');
-// var app = express();
-// var server = http.createServer(app);
-// var io = require('socket.io').listen(server);
-//
-// server.listen(8000);
-
 const express = require('express');
 
 const path = require('path');
-
-
-// const INDEX = path.join(__dirname, 'index.html');
 
 const app = express();
 app.set('port', (process.env.PORT || 8000));

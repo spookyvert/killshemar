@@ -42,7 +42,7 @@ function setup() {
 
 
   // socket = io.connect('http://shemar.local:8000/')
-  socket = io.connect('https://killshemar.herokuapp.com:8000')
+  socket = io.();
   // socket = io.connect('http://localhost:8000/')
 
   // Create an Audio input
