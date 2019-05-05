@@ -12,10 +12,13 @@ const express = require('express');
 
 const path = require('path');
 
-const PORT = process.env.PORT || 8000;
+
 // const INDEX = path.join(__dirname, 'index.html');
 
 const app = express();
+app.set('port', (process.env.PORT || 8000));
+
+const PORT = process.env.PORT || 8000;
 const socketIO = require('socket.io');
 const server = express()
 	.use(app)
