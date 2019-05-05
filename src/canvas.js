@@ -1,3 +1,4 @@
+import "../server.js"
 let gameStarted;
 let team;
 
