@@ -15,10 +15,7 @@ app
 
 const server = express()
   .use('/build', express.static('build'));
-.get('*', function(req, res) {
-  res.sendFile(INDEX);
-  //__dirname : It will resolve to your project folder.
-});
+
 .use((req, res) => res.sendFile(INDEX))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
