@@ -5,13 +5,21 @@ const path = require('path');
 
 const app = express()
 
-app.use('/static', express.static('public'))
+app.use(express.static('build'));
+
+
+app.use(express.static(path.join(__dirname, "public")));
 
 
 const socketIO = require('socket.io');
 const PORT = process.env.PORT || 8000;
 
 const INDEX = path.join(__dirname, 'index.html');
+
+app.get('*', function(req, res) {
+  res.sendFile(INDEX);
+  //__dirname : It will resolve to your project folder.
+});
 
 const server = express()
   .use((req, res) => res.sendFile(INDEX))
