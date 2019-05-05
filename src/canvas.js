@@ -42,7 +42,7 @@ function setup() {
 
 
   // socket = io.connect('http://shemar.local:8000/')
-  socket = io.connect(window.location.hostname)
+  socket = io.connect('https://killshemar.herokuapp.com:3080')
 
   // Create an Audio input
   mic = new p5.AudioIn();
