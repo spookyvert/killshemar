@@ -1,27 +1,27 @@
 'use strict';
 
-var express = require('express'),
-	http = require('http');
-var app = express();
-var server = http.createServer(app);
-var io = require('socket.io').listen(server);
+// var express = require('express'),
+// 	http = require('http');
+// var app = express();
+// var server = http.createServer(app);
+// var io = require('socket.io').listen(server);
+//
+// server.listen(8000);
 
-server.listen(8000);
+const express = require('express');
 
-// const express = require('express');
-//
-// const path = require('path');
-//
-// const PORT = process.env.PORT || 8000;
-// // const INDEX = path.join(__dirname, 'index.html');
-//
-// const app = express();
-// const socketIO = require('socket.io');
-// const server = express()
-// 	.use(app)
-// 	.listen(PORT, () => console.log(`Listening Socket on ${ PORT }`));
-//
-// const io = socketIO(server);
+const path = require('path');
+
+const PORT = process.env.PORT || 8000;
+// const INDEX = path.join(__dirname, 'index.html');
+
+const app = express();
+const socketIO = require('socket.io');
+const server = express()
+	.use(app)
+	.listen(PORT, () => console.log(`Listening Socket on ${ PORT }`));
+
+const io = socketIO(server);
 
 // Heroku won 't actually allow us to use WebSockets
 // so we have to setup polling instead.
