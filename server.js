@@ -7,8 +7,8 @@ const path = require('path');
 const app = express();
 
 
-export const PORT = process.env.PORT || 8000;
-console.log(PORT);
+const PORT = process.env.PORT || 8000;
+
 const socketIO = require('socket.io');
 const server = express()
 	.use(app)
