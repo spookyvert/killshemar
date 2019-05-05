@@ -1,7 +1,11 @@
 'use strict';
 
 const express = require('express');
+var router = express.Router();
 
+router.get('/', function(req, res, next) {
+	res.status(200).send("Hi, It works!")
+});
 const path = require('path');
 
 const app = express();
