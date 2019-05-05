@@ -5,7 +5,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-app.set('port', (process.env.PORT || 8000));
+app.set('port', 8000);
 
 const PORT = process.env.PORT || 8000;
 const socketIO = require('socket.io');
