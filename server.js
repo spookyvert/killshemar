@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 const path = require('path');
 
 const app = express();
+app.use(express.static(path.join(__dirname, './lib')));
 
 const socketIO = require('socket.io');
 const PORT = process.env.PORT || 8000;
