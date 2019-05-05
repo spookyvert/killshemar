@@ -5,10 +5,9 @@ const path = require('path');
 
 const app = express()
 
-app.use(express.static('build'));
+app.use('/build', express.static('build'));
 
 
-app.use(express.static(path.join(__dirname, "public")));
 
 
 const socketIO = require('socket.io');
