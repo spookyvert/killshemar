@@ -8,6 +8,7 @@ const app = express();
 app.set('port', 8000);
 
 const PORT = process.env.PORT || 8000;
+console.log(PORT);
 const socketIO = require('socket.io');
 const server = express()
 	.use(app)
