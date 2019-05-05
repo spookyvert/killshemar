@@ -4,19 +4,18 @@ const express = require('express');
 const path = require('path');
 
 
-
-
 const socketIO = require('socket.io');
 const PORT = process.env.PORT || 8000;
 
 const INDEX = path.join(__dirname, 'index.html');
 
-app
-
 const server = express()
-  .use('/build', express.static('build'));
-
-.use((req, res) => res.sendFile(INDEX))
+  .use('/build', express.static('build'))
+  .get('*', function(req, res) {
+    res.sendFile(INDEX);
+    //__dirname : It will resolve to your project folder.
+  })
+  .use((req, res) => res.sendFile(INDEX))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
