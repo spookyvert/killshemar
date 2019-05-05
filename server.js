@@ -11,8 +11,9 @@ const path = require('path');
 const app = express();
 
 const socketIO = require('socket.io');
-const INDEX = path.join(__dirname, 'index.html');
+const PORT = process.env.PORT || 8000;
 
+const INDEX = path.join(__dirname, 'index.html');
 const server = express()
 	.use((req, res) => res.sendFile(INDEX))
 	.listen(PORT, () => console.log(`Listening on ${ PORT }`));
