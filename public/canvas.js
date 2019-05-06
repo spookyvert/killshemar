@@ -305,11 +305,7 @@ function draw() {
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
 
-			let data2 = {
-				x: SHEMAR.position.x
-			}
 
-			socket.emit('linearS1', data2)
 
 			tmpCount = count
 			tmpCount++
@@ -322,11 +318,7 @@ function draw() {
 			SHEMAR.addImage(animationLeft[count])
 			SHEMAR.position.x -= 10;
 
-			let data2 = {
-				x: SHEMAR.position.x
-			}
 
-			socket.emit('linearS1', data2)
 			tmpCount = count
 			tmpCount++
 			if (tmpCount >= 3) {
@@ -334,6 +326,12 @@ function draw() {
 			}
 			count = tmpCount;
 		}
+
+		let data2 = {
+			x: SHEMAR.position.x
+		}
+
+		socket.emit('linearS1', data2)
 
 
 
