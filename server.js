@@ -20,7 +20,7 @@ const io = socketIO(server);
 
 //  initalliy setting both players to false, meaning they arent set yet
 
-let playerIndex = 1
+let playerIndex = 0
 console.log("Server is running 😌 ")
 
 // resets back to false
