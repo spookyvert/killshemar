@@ -286,8 +286,8 @@ function draw() {
 		input.hide();
 		startButton.hide();
 		titleLogo.hide();
-		menuBtn = document.querySelector('.sidebar-btn')
-		menuBtn.style.display = 'block'
+		menuBtn = document.querySelector('.sidebar-btn');
+		menuBtn.style.display = 'block';
 
 
 		if (invisible === true) {
@@ -332,16 +332,16 @@ function draw() {
 		timerSetter() gameLogic() drawSprites();
 
 		mainMovementsDraw()
-
-
-
 	}
 
-	//  MOVEMENTS
-	function keyPressed() {
-		mainMovements()
-	}
 
-	// function windowResized() {
-	//   resizeCanvas(windowWidth, windowHeight);
-	// }
+}
+
+//  MOVEMENTS
+function keyPressed() {
+	mainMovements()
+}
+
+// function windowResized() {
+//   resizeCanvas(windowWidth, windowHeight);
+// }
