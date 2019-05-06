@@ -118,7 +118,7 @@ function setup() {
 
 	// team assigner
 	socket.on('team', (data) => {
-		console.log(data);
+		alert(data);
 		team = data
 		// puts Team( either ship or shemar ) name in Input box!
 		document.querySelector('input').id += team;
