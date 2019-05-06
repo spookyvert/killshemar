@@ -298,11 +298,7 @@ function draw() {
 		}
 
 
-		if (keyIsDown(RIGHT_ARROW)) {
-			console.log("hello");
-		}
-		console.log(team);
-		console.log(SHEMAR.position.x);
+
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
 		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
 			console.log("here");

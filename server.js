@@ -31,14 +31,15 @@ io.on('connection', (socket) => {
 
 
   // sets player controls
-  if (!hasShemar) {
+  if (hasShemar === false) {
     socket.emit('team', 'shemar')
     hasShemar = true
 
-  } else if (!hasShip) {
+  } else if (hasShip === false) {
     // the first player that joins will be the Ship! so the 2nd will always be Shemar
     socket.emit('team', 'ship')
     hasShip = true
+
 
   }
 
@@ -52,7 +53,7 @@ io.on('connection', (socket) => {
     // set it to false when they leave
     hasShip = false;
     hasShemar = false;
-    socket.emit('team', 'shemar')
+
     playerIndex--
 
     console.log("user left! " + playerIndex + " left")
