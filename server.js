@@ -60,7 +60,12 @@ io.on('connection', (socket) => {
 
 	});
 
-	socket.broadcast.emit('player-number', playerIndex);
+	socket.on('player-number', function(data) {
+		console.log("Received: 'startGame' " + data);
+		socket.broadcast.emit('player-number', playerIndex);
+	});
+
+
 
 
 	socket.on('startGame', function(data) {
