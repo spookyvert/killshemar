@@ -323,7 +323,7 @@ function draw() {
 			x: SHEMAR.position.x
 		}
 
-		socket.emit('linearS1', data2)
+		socket.broadcast.emit('linearS1', data2)
 
 		timerSetter()
 		gameLogic()
