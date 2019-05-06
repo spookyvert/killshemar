@@ -1,9 +1,9 @@
 // Preloader
 function randombg() {
   var random = Math.floor(Math.random() * 3) + 0;
-  var bigSize = ["url('./assets/rollercoaster1.gif')",
-    "url('./assests/rollercoaster2.gif')",
-    "url('./assests/rollercoaster3.gif')"
+  var bigSize = ["url('./public/assets/rollercoaster1.gif')",
+    "url('./public/assests/rollercoaster2.gif')",
+    "url('./public/assests/rollercoaster3.gif')"
   ];
 
   document.getElementById("loader").style.backgroundImage = bigSize[random];
