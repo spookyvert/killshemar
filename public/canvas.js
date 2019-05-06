@@ -280,9 +280,7 @@ function draw() {
 
 	if (gameStarted === true) {
 
-		if (keyIsDown(RIGHT_ARROW)) {
-			console.log("hi");
-		}
+
 
 		textH.hide();
 		input.hide();
