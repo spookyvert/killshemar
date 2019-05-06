@@ -34,12 +34,12 @@ io.on('connection', (socket) => {
   if (!hasShemar) {
     socket.emit('team', 'shemar')
     hasShemar = true
-    console.log(hasShemar);
+    console.log("has shemar" + hasShemar);
   } else if (!hasShip) {
     // the first player that joins will be the Ship! so the 2nd will always be Shemar
     socket.emit('team', 'ship')
     hasShip = true
-    console.log(hasShemar);
+    console.log("has ship" + hasShemar);
   }
 
   playerIndex++
