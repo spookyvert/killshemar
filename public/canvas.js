@@ -305,6 +305,13 @@ function draw() {
 			console.log("here");
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
+
+			let data2 = {
+				x: SHEMAR.position.x
+			}
+
+			socket.emit('linearS1', data2)
+
 			tmpCount = count
 			tmpCount++
 			if (tmpCount >= 3) {
@@ -315,6 +322,12 @@ function draw() {
 		} else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
 			SHEMAR.addImage(animationLeft[count])
 			SHEMAR.position.x -= 10;
+
+			let data2 = {
+				x: SHEMAR.position.x
+			}
+
+			socket.emit('linearS1', data2)
 			tmpCount = count
 			tmpCount++
 			if (tmpCount >= 3) {
@@ -323,11 +336,7 @@ function draw() {
 			count = tmpCount;
 		}
 
-		let data2 = {
-			x: SHEMAR.position.x
-		}
 
-		socket.emit('linearS1', data2)
 
 		timerSetter()
 		gameLogic()
