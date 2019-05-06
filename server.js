@@ -97,11 +97,11 @@ io.on('connection', (socket) => {
 
   });
 
-  socket.on('linearS1', function(data) {
-    console.log("Received: 'linearS1' " + data.x);
-    socket.broadcast.emit('linearS1', data);
-
-  });
+  // socket.on('linearS1', function(data) {
+  //   console.log("Received: 'linearS1' " + data.x);
+  //   socket.broadcast.emit('linearS1', data);
+  //
+  // });
 
   socket.on('invisible', function(data) {
     console.log("Received: 'invisible' ");
