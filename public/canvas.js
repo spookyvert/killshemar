@@ -297,13 +297,6 @@ function draw() {
 			}
 		}
 
-		function keyPressed() {
-			if (keyCode === LEFT_ARROW) {
-				console.log("left");
-			} else if (keyCode === RIGHT_ARROW) {
-				console.log("right");
-			}
-		}
 
 
 
@@ -334,7 +327,7 @@ function draw() {
 			x: SHEMAR.position.x
 		}
 
-		socket.emit('linearS1', data2)
+		// socket.emit('linearS1', data2)
 
 		timerSetter()
 		gameLogic()
