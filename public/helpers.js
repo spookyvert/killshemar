@@ -401,13 +401,12 @@ function mainMovementsDraw() {
 	// PLAYER 1
 	if (mouseIsPressed && team == 'ship') {
 		getAudioContext().resume()
-		// THIS SENDS IT TO THE SERVER, OTHER SERVER
 
-		// let data = {
-		//   x: mouseX,
-		//   y: mouseY
-		// }
-		// socket.emit('mouse', data)
+		let data = {
+			x: mouseX,
+			y: mouseY
+		}
+		socket.emit('mouse', data)
 
 		SHIP.attractionPoint(70, mouseX, mouseY);
 	}
