@@ -299,12 +299,12 @@ function draw() {
 
 
 
+
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
 		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
 			console.log("here");
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
-
 
 
 			tmpCount = count
@@ -317,8 +317,6 @@ function draw() {
 		} else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
 			SHEMAR.addImage(animationLeft[count])
 			SHEMAR.position.x -= 10;
-
-
 			tmpCount = count
 			tmpCount++
 			if (tmpCount >= 3) {
@@ -332,8 +330,6 @@ function draw() {
 		}
 
 		socket.emit('linearS1', data2)
-
-
 
 		timerSetter()
 		gameLogic()
