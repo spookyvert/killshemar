@@ -302,7 +302,8 @@ function draw() {
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
 		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260) {
 			console.log("here");
-			SHEMAR.addImage(animationRight[count]) SHEMAR.position.x += 10;
+			SHEMAR.addImage(animationRight[count])
+			SHEMAR.position.x += 10;
 
 
 
