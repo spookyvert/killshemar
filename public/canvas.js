@@ -297,8 +297,10 @@ function draw() {
 			}
 		}
 
+
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
 		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
+
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
 			tmpCount = count
@@ -325,21 +327,19 @@ function draw() {
 
 		socket.emit('linearS1', data2)
 
-		timerSetter()
-		gameLogic()
-		drawSprites();
+		timerSetter() gameLogic() drawSprites();
 
 		mainMovementsDraw()
 
+
+
 	}
 
-}
+	//  MOVEMENTS
+	function keyPressed() {
+		mainMovements()
+	}
 
-//  MOVEMENTS
-function keyPressed() {
-	mainMovements()
-}
-
-// function windowResized() {
-//   resizeCanvas(windowWidth, windowHeight);
-// }
+	// function windowResized() {
+	//   resizeCanvas(windowWidth, windowHeight);
+	// }

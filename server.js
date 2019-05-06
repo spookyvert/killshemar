@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
 
 	socket.on('linearS1', function(data) {
 		console.log("Received: 'linearS1' " + data.x);
-		socket.emit('linearS1', data);
+		socket.broadcast.emit('linearS1', data);
 
 	});
 
