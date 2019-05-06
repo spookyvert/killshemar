@@ -278,7 +278,11 @@ function draw() {
 	image(bgTop, 0, 0, window.width, window.height);
 	groundLayout()
 
-	if (gameStarted == true) {
+	if (gameStarted === true) {
+
+		if (keyIsDown(RIGHT_ARROW)) {
+			console.log("hi");
+		}
 
 		textH.hide();
 		input.hide();
