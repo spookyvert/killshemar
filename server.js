@@ -17,12 +17,6 @@ const server = express()
 
 const io = socketIO(server);
 
-io.configure(function() {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
-});
-
-
 
 //  initalliy setting both players to false, meaning they arent set yet
 
