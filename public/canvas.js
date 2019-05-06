@@ -105,10 +105,10 @@ function setup() {
 	// Player Limit Checker
 	socket.on('player-number', (data) => {
 		if (data == 1) {
-			alert("Player 1 Has Joined")
-			alert("Waiting for Player 2")
+			console.log("Player 1 Has Joined")
+			console.log("Waiting for Player 2")
 		} else if (data == 2) {
-			alert("Player 2 Has Joined")
+			console.log("Player 2 Has Joined")
 
 		} else if (data >= 3) {
 			alert("Game is Full!")
