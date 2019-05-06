@@ -301,7 +301,7 @@ function draw() {
 
 
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
-		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
+		if (keyIsDown(RIGHT_ARROW)) {
 			console.log("here");
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
@@ -314,7 +314,7 @@ function draw() {
 			}
 			count = tmpCount;
 
-		} else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
+		} else if (keyIsDown(LEFT_ARROW)) {
 			SHEMAR.addImage(animationLeft[count])
 			SHEMAR.position.x -= 10;
 			tmpCount = count
