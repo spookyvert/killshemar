@@ -12,7 +12,7 @@ let count = 0
 
 function preload() {
   //font
-  gameFont = loadFont('./assets/fonts/PressStart2P.ttf');
+  gameFont = loadFont('./public/assets/fonts/PressStart2P.ttf');
   // load images here
   spritedata1 = loadJSON('assets/shemar/left.json')
   spritesheet1 = loadImage('assets/shemar/left.png')
