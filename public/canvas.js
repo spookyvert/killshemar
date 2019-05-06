@@ -278,16 +278,14 @@ function draw() {
 	image(bgTop, 0, 0, window.width, window.height);
 	groundLayout()
 
-	if (gameStarted === true) {
-
-
+	if (gameStarted == true) {
 
 		textH.hide();
 		input.hide();
 		startButton.hide();
 		titleLogo.hide();
-		menuBtn = document.querySelector('.sidebar-btn');
-		menuBtn.style.display = 'block';
+		menuBtn = document.querySelector('.sidebar-btn')
+		menuBtn.style.display = 'block'
 
 
 		if (invisible === true) {
@@ -299,10 +297,8 @@ function draw() {
 			}
 		}
 
-
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
 		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
-
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
 			tmpCount = count
@@ -329,11 +325,13 @@ function draw() {
 
 		socket.emit('linearS1', data2)
 
-		timerSetter() gameLogic() drawSprites();
+		timerSetter()
+		gameLogic()
+		drawSprites();
 
 		mainMovementsDraw()
-	}
 
+	}
 
 }
 
