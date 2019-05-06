@@ -118,6 +118,7 @@ function setup() {
 
 	// team assigner
 	socket.on('team', (data) => {
+		console.log(data);
 		team = data
 		// puts Team( either ship or shemar ) name in Input box!
 		document.querySelector('input').id += team;
@@ -301,12 +302,10 @@ function draw() {
 
 
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
-		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260) {
+		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
 			console.log("here");
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
-
-
 			tmpCount = count
 			tmpCount++
 			if (tmpCount >= 3) {
@@ -314,7 +313,7 @@ function draw() {
 			}
 			count = tmpCount;
 
-		} else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
+		} else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
 			SHEMAR.addImage(animationLeft[count])
 			SHEMAR.position.x -= 10;
 			tmpCount = count
