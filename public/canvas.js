@@ -14,25 +14,25 @@ function preload() {
   //font
   gameFont = loadFont('./public/assets/fonts/PressStart2P.ttf');
   // load images here
-  spritedata1 = loadJSON('assets/shemar/left.json')
-  spritesheet1 = loadImage('assets/shemar/left.png')
+  spritedata1 = loadJSON('./public/assets/shemar/left.json')
+  spritesheet1 = loadImage('./public/assets/shemar/left.png')
 
-  spritedata2 = loadJSON('assets/shemar/right.json')
-  spritesheet2 = loadImage('assets/shemar/right.png')
+  spritedata2 = loadJSON('./public/assets/shemar/right.json')
+  spritesheet2 = loadImage('./public/assets/shemar/right.png')
 
-  jumpImg = loadImage('assets/shemar/up.png')
+  jumpImg = loadImage('./public/assets/shemar/up.png')
 
-  img = loadImage('assets/images/grass.png');
-  fameImg = loadImage('assets/images/fame.png');
+  img = loadImage('./public/assets/images/grass.png');
+  fameImg = loadImage('./public/assets/images/fame.png');
 
-  bulletImg = loadImage('assets/images/bullet.png');
-  rocketImg = loadImage('assets/images/rocket.png');
-  lizardImg = loadImage('assets/images/lizard.png');
-  portalImg = loadImage('assets/images/portal.gif');
-  rockImg = loadImage('assets/images/rock.png');
-  cloudImg = loadImage('assets/images/cloud.png');
-  bg = loadImage('assets/images/background.png');
-  bgTop = loadImage('assets/images/topbg.png');
+  bulletImg = loadImage('./public/assets/images/bullet.png');
+  rocketImg = loadImage('./public/assets/images/rocket.png');
+  lizardImg = loadImage('./public/assets/images/lizard.png');
+  portalImg = loadImage('./public/assets/images/portal.gif');
+  rockImg = loadImage('./public/assets/images/rock.png');
+  cloudImg = loadImage('./public/assets/images/cloud.png');
+  bg = loadImage('./public/assets/images/background.png');
+  bgTop = loadImage('./public/assets/images/topbg.png');
 
 }
 
