@@ -2,12 +2,16 @@
 
 const express = require('express');
 const path = require('path');
-
+import http from 'http';
 
 const socketIO = require('socket.io');
 const PORT = process.env.PORT || 8000;
 
 const INDEX = path.join(__dirname, 'index.html');
+
+setInterval(() => {
+  http.get('http://killshemar.herokuapp.com');
+}, 300000);
 
 const server = express()
   .use('/public', express.static('public'))
@@ -34,11 +38,13 @@ io.on('connection', (socket) => {
   if (hasShemar === false) {
     socket.emit('team', 'shemar')
     hasShemar = true
+    console.log(hasShemar);
 
   } else if (hasShip === false) {
-    // the first player that joins will be the Ship! so the 2nd will always be Shemar
+    // the first player that joins will be the Shemar! so the 2nd will always be Ship
     socket.emit('team', 'ship')
     hasShip = true
+    console.log(hasShip);
 
 
   }
