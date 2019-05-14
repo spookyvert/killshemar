@@ -30,7 +30,7 @@ let hasShip = false;
 
 io.on('connection', (socket) => {
 
-	console.log("hi im here: ", socket.clientsCount);
+	console.log(socket.clientsCount);
 
 	// sets player controls
 	if (hasShemar === false) {
