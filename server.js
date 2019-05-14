@@ -47,13 +47,14 @@ io.on('connection', (socket) => {
 
 		}
 
-		playerIndex++
 
-		console.log("new user connected! 😛 ");
-		console.log("players count: " + playerIndex);
 
 	}
 
+	playerIndex++
+
+	console.log("new user connected! 😛 ");
+	console.log("players count: " + playerIndex);
 
 
 
