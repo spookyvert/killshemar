@@ -29,11 +29,9 @@ let hasShemar = false;
 let hasShip = false;
 
 io.on('connection', (socket) => {
-	console.log(JSON.stringify(socket));
+	console.log(JSON.stringify(connection));
 
-	console.log(socket.Server);
-	console.log(socket["Server"]);
-	console.log(socket);
+
 	// sets player controls
 	if (hasShemar === false) {
 		socket.emit('team', 'shemar')
@@ -51,8 +49,7 @@ io.on('connection', (socket) => {
 
 	playerIndex++
 
-	console.log("new user connected! 😛 ")
-	console.log("players count: " + playerIndex)
+	console.log("new user connected! 😛 ") console.log("players count: " + playerIndex)
 
 
 	socket.on('disconnect', function() {
