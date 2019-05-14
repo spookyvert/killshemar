@@ -1,6 +1,9 @@
 let gameStarted;
 let team;
 
+let hasShemar = false;
+let hasShip = false;
+
 let spreadsheet1
 let spritedata1
 let animationLeft = []
@@ -118,12 +121,25 @@ function setup() {
 
 	// team assigner
 	socket.on('team', (data) => {
-		console.log("team :", team);
-		console.log("team data :", data);
 
-		team = data
-		console.log("2nd team data :", data);
-		console.log("2nd team :", team);
+		if (hasShemar === false) {
+
+			hasShemar = true
+
+			team = "shemar"
+
+		} else if (hasShip === false) {
+
+			hasShip = true
+			team = "ship"
+
+
+
+		}
+
+		// team = data
+		console.log("the team:", team);
+
 		// puts Team( either ship or shemar ) name in Input box!
 		document.querySelector('input').id += team;
 	})
