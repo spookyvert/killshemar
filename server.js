@@ -55,7 +55,8 @@ io.on('connection', (socket) => {
 
 	console.log("new user connected! 😛 ");
 
-	console.log(io.clients());
+	console.log(io.sockets.clients());
+	console.log(Object.keys(io.sockets.sockets));
 
 
 	socket.on('disconnect', function() {
