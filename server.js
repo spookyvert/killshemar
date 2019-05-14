@@ -29,10 +29,11 @@ let hasShemar = false;
 let hasShip = false;
 
 io.on('connection', (socket) => {
-	console.log(socket);
+	console.log(JSON.stringify(socket));
+
 	console.log(socket.Server);
 	console.log(socket["Server"]);
-
+	console.log(socket);
 	// sets player controls
 	if (hasShemar === false) {
 		socket.emit('team', 'shemar')
