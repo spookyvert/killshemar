@@ -31,28 +31,31 @@ let hasShip = false;
 io.on('connection', (socket) => {
 
 	if (socket) {
-		console.log("Hello");
+		// sets player controls
+		if (hasShemar === false) {
+			socket.broadcast.emit('team', 'shemar')
+			hasShemar = true
+			console.log(hasShemar);
+
+		} else if (hasShip === false) {
+			// the first player that joins will be the Shemar! so the 2nd will always be Ship
+			socket.broadcast.emit('team', 'ship')
+			hasShip = true
+			console.log(hasShip);
+
+
+
+		}
+
+		playerIndex++
+
+		console.log("new user connected! 😛 ");
+		console.log("players count: " + playerIndex);
+
 	}
-	// sets player controls
-	if (hasShemar === false) {
-		socket.broadcast.emit('team', 'shemar')
-		hasShemar = true
-		console.log(hasShemar);
-
-	} else if (hasShip === false) {
-		// the first player that joins will be the Shemar! so the 2nd will always be Ship
-		socket.broadcast.emit('team', 'ship')
-		hasShip = true
-		console.log(hasShip);
 
 
 
-	}
-
-	playerIndex++
-
-	console.log("new user connected! 😛 ");
-	console.log("players count: " + playerIndex);
 
 
 	socket.on('disconnect', function() {
