@@ -49,7 +49,8 @@ io.on('connection', (socket) => {
 
 	playerIndex++
 
-	console.log("new user connected! 😛 ") console.log("players count: " + playerIndex)
+	console.log("new user connected! 😛 ");
+	console.log("players count: " + playerIndex);
 
 
 	socket.on('disconnect', function() {
