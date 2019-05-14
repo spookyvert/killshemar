@@ -29,8 +29,8 @@ let hasShemar = false;
 let hasShip = false;
 
 io.on('connection', (socket) => {
-	console.log(JSON.stringify(connection));
-
+	console.log("first :", hasShemar);
+	console.log("first :", hasShip);
 
 	// sets player controls
 	if (hasShemar === false) {
@@ -38,11 +38,15 @@ io.on('connection', (socket) => {
 		hasShemar = true
 		console.log(hasShemar);
 
+		console.log("2nd :", hasShemar);
+		console.log("2nd :", hasShip);
 	} else if (hasShip === false) {
 		// the first player that joins will be the Shemar! so the 2nd will always be Ship
 		socket.emit('team', 'ship')
 		hasShip = true
 		console.log(hasShip);
+		console.log("third :", hasShemar);
+		console.log("third :", hasShip);
 
 
 	}
