@@ -30,6 +30,9 @@ let hasShip = false;
 
 io.on('connection', (socket) => {
 
+	if (socket) {
+		console.log("Hello");
+	}
 	// sets player controls
 	if (hasShemar === false) {
 		socket.broadcast.emit('team', 'shemar')
