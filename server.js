@@ -29,7 +29,7 @@ let hasShemar = false;
 let hasShip = false;
 
 io.on('connection', (socket) => {
-
+	console.log(socket);
 	console.log(socket.Server);
 	console.log(socket["Server"]);
 
