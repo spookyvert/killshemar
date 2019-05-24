@@ -122,23 +122,8 @@ function setup() {
 	// team assigner
 	socket.on('team', (data) => {
 
-		if (hasShemar === false) {
 
-			hasShemar = true
-
-			team = "shemar"
-
-		} else if (hasShip === false) {
-
-			hasShip = true
-			team = "ship"
-
-
-
-		}
-
-		// team = data
-		console.log("the team:", team);
+		team = data
 
 		// puts Team( either ship or shemar ) name in Input box!
 		document.querySelector('input').id += team;
