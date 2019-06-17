@@ -31,6 +31,14 @@ h4 {
   color: white;
 }
 
+.name {
+  position: absolute;
+  left: 42.5vw;
+  top: 42vh;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+}
+
 input {
   border: none;
 }
@@ -185,6 +193,9 @@ ul {
   line-height: 0.8;
   color: #fbd62a;
   text-shadow: 0 -1px 15px rgba(0, 0, 0, 0.9), 0 1px 0 #7f6303, 0 3px 0 #846703, 0 5px 0 #896b03, 0 7px 0 #8e6f03, 0 9px 0 #937203, 0 6px 50px rgba(252, 223, 92, 0.8);
+  position: absolute;
+  left: 39vw;
+  top: 200px;
 }
 
 .title:first-line {

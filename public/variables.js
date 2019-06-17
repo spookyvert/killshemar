@@ -22,6 +22,7 @@ let lizardCount = 0;
 let lizardPenalty = 0;
 let timerAdjustLizard = 0
 
+
 let GRAVITY = 0.8;
 let GROUND_Y = 670;
 let JUMP = -20; // how powerful is jump?
@@ -50,27 +51,27 @@ let rainA = [];
 let yoff = 0.0
 
 const playerOne = {
-  // SPECS FOR PLAYER 1
-  x: 400,
-  y: 650,
-  w: 20,
-  h: 20
+	// SPECS FOR PLAYER 1
+	x: 400,
+	y: 650,
+	w: 20,
+	h: 20
 }
 
 const playerTwo = {
-  // SPECS FOR PLAYER 2
-  x: 400,
-  y: 100,
-  w: 20,
-  h: 20
+	// SPECS FOR PLAYER 2
+	x: 400,
+	y: 100,
+	w: 20,
+	h: 20
 }
 
 const portal = {
-  // PORTAL SPECS
-  x: 900,
-  y: 670,
-  w: 75,
-  h: 25
+	// PORTAL SPECS
+	x: 900,
+	y: 670,
+	w: 75,
+	h: 25
 }
 
 //invisibility variables
@@ -96,16 +97,16 @@ const arrow3 = document.querySelector(".sidebar-btn span:nth-child(3)");
 
 function togglemenu() {
 
-  sidebar.classList.toggle("visible");
+	sidebar.classList.toggle("visible");
 
-  btn.classList.toggle("open");
+	btn.classList.toggle("open");
 
-  links.classList.toggle("display");
+	links.classList.toggle("display");
 
-  arrow1.classList.toggle("topRotate");
+	arrow1.classList.toggle("topRotate");
 
-  arrow3.classList.toggle("buttomRotate");
+	arrow3.classList.toggle("buttomRotate");
 
-  arrow2.classList.toggle("arrow");
+	arrow2.classList.toggle("arrow");
 
 }

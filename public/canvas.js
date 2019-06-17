@@ -234,12 +234,12 @@ function setup() {
 
 	// create clear button
 
-	titleLogo = createElement('p', '🔪 Kill 🔪<br><br> Shemar').addClass('title')
+	titleLogo = createElement('p', '🔪 Kill 🔪<br><br> Shemar').addClass('title');
 	titleLogo.position(windowWidth / 2.5, 200);
 
 
 
-	textH = createElement('h4', 'what is your name?');
+	textH = createElement('h4', 'what is your name?').addClass('name');
 	textH.position(windowWidth / 2.26, 300);
 
 	input = createInput()
