@@ -1,19 +1,20 @@
-'use strict';
+
 
 const express = require('express');
 const path = require('path');
 
 
 const socketIO = require('socket.io');
+
 const PORT = process.env.PORT || 8000;
 
 const INDEX = path.join(__dirname, 'index.html');
 
 
 const server = express()
-	.use('/public', express.static('public'))
-	.use((req, res) => res.sendFile(INDEX))
-	.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  .use('/public', express.static('public'))
+  .use((req, res) => res.sendFile(INDEX))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 
 const io = socketIO(server);
@@ -21,119 +22,126 @@ const io = socketIO(server);
 
 //  initalliy setting both players to false, meaning they arent set yet
 
-let playerIndex = 0
-console.log("Server is running 😌 ")
+let playerIndex = 0;
+console.log('Server is running 😌 ');
 
 // resets back to false
 let hasShemar = false;
 let hasShip = false;
 
-io.on('connection', (socket) => {
 
 
-	if (hasShemar === false) {
-		socket.broadcast.emit('team', 'shemar')
-		hasShemar = true
-		console.log(hasShemar);
+io.on('connection', function (socket) {
+  console.log(socket.id);
+  const connections = [null, null];
+  let playerIndex = -1;
+  for (var i in connections) {
+    if (connections[i] === null) {
 
-	} else if (hasShip === false) {
-		// the first player that joins will be the Shemar! so the 2nd will always be Ship
-		socket.broadcast.emit('team', 'ship')
-		hasShip = true
-		console.log(hasShip);
+	  playerIndex = i;
+	  console.log(555, i, 555);
+	  
+    }
+  }
 
+// socket.emit('player-number', playerIndex);
 
+ // Ignore player 3
+ if (playerIndex == -1) return;
+  
+ connections[playerIndex] = socket;
+ console.log(connections.length);
+ 
 
-	}
+ socket.broadcast.emit('player-connect', playerIndex);
 
-
-	playerIndex++
-
-	console.log("new user connected! 😛 ");
-
-	console.log(io.sockets.clients());
-	console.log(Object.keys(io.sockets.sockets));
-
-
-	socket.on('disconnect', function() {
-		// set it to false when they leave
-		hasShip = false;
-		hasShemar = false;
-
-		playerIndex--
-
-		console.log("user left! " + playerIndex + " left")
-
-
+//   if (hasShemar === false) {
+//     socket.broadcast.emit('team', 'shemar');
+//     hasShemar = true;
+//   } else if (hasShip === false) {
+//     // the first player that joins will be the Shemar! so the 2nd will always be Ship
+//     socket.broadcast.emit('team', 'ship');
+//     hasShip = true;
+//   }
 
 
-	});
+//   playerIndex++;
 
 
-	socket.broadcast.emit('player-number', playerIndex);
+
+  console.log('new user connected! 😛 ');
 
 
-	socket.on('startGame', function(data) {
-		console.log("Received: 'startGame' " + data.start);
-		socket.broadcast.emit('startGame', data);
+  socket.on('disconnect', () => {
+    // set it to false when they leave
+    hasShip = false;
+    hasShemar = false;
 
-	});
+    playerIndex--;
 
-	socket.on('mouse', function(data) {
-		console.log("Received: 'mouse' " + data.x + " " + data.y);
-		socket.broadcast.emit('mouse', data);
-
-	});
-
-	socket.on('shoot', function(data) {
-		console.log("Received: 'shoot' " + data.x + " " + data.y);
-		socket.broadcast.emit('shoot', data);
-
-	});
-
-	socket.on('platform1', function(data) {
-		console.log("Received: 'platform1' " + data.x + " " + data.y);
-		socket.broadcast.emit('platform1', data);
-
-	});
-
-	socket.on('platform2', function(data) {
-		console.log("Received: 'platform2' " + data.x + " " + data.y);
-		socket.broadcast.emit('platform2', data);
-
-	});
-
-	socket.on('linearS1', function(data) {
-		console.log("Received: 'linearS1' " + data.x);
-		socket.broadcast.emit('linearS1', data);
-
-	});
-
-	socket.on('invisible', function(data) {
-		console.log("Received: 'invisible' ");
-		socket.broadcast.emit('invisible', data);
-
-	});
-
-	socket.on('lizard', function(data) {
-		console.log("Received: 'lizard' ");
-		socket.broadcast.emit('lizard', data);
-
-	});
-
-	socket.on('jumpS1', function(data) {
-		console.log("Received: 'jumpS1' " + data.y);
-		socket.broadcast.emit('jumpS1', data);
-
-	});
-
-	socket.on('portal', function(data) {
-		console.log("Received: 'portal' " + data.y);
-		socket.broadcast.emit('portal', data);
-
-	});
+    console.log(111, 'user left! ' + playerIndex + ' left');
+  });
 
 
+  socket.broadcast.emit('player-number', playerIndex);
+
+  if (playerIndex === 2) {
+    const two = true;
+    // disease
+    console.log(2, two);
+
+    // socket.broadcast.emit('player-two', two);
+  }
+
+
+  socket.on('startGame', (data) => {
+    console.log(`Received: 'startGame' ${  data.start}`);
+    socket.broadcast.emit('startGame', data);
+  });
+
+  socket.on('mouse', (data) => {
+    console.log(`Received: 'mouse' ${  data.x  } ${  data.y}`);
+    socket.broadcast.emit('mouse', data);
+  });
+
+  socket.on('shoot', (data) => {
+    console.log(`Received: 'shoot' ${  data.x  } ${  data.y}`);
+    socket.broadcast.emit('shoot', data);
+  });
+
+  socket.on('platform1', (data) => {
+    console.log(`Received: 'platform1' ${  data.x  } ${  data.y}`);
+    socket.broadcast.emit('platform1', data);
+  });
+
+  socket.on('platform2', (data) => {
+    console.log(`Received: 'platform2' ${  data.x  } ${  data.y}`);
+    socket.broadcast.emit('platform2', data);
+  });
+
+  socket.on('linearS1', (data) => {
+    socket.broadcast.emit('linearS1', data);
+  });
+
+  socket.on('invisible', (data) => {
+    console.log("Received: 'invisible' ");
+    socket.broadcast.emit('invisible', data);
+  });
+
+  socket.on('lizard', (data) => {
+    console.log("Received: 'lizard' ");
+    socket.broadcast.emit('lizard', data);
+  });
+
+  socket.on('jumpS1', (data) => {
+    console.log(`Received: 'jumpS1' ${  data.y}`);
+    socket.broadcast.emit('jumpS1', data);
+  });
+
+  socket.on('portal', (data) => {
+    console.log(`Received: 'portal' ${  data.y}`);
+    socket.broadcast.emit('portal', data);
+  });
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);

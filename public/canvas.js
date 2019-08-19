@@ -106,22 +106,68 @@ function setup() {
 	let s = tmp.sprite()
 
 	// Player Limit Checker
-	socket.on('player-number', (data) => {
-		if (data == 1) {
-			console.log("Player 1 Has Joined")
-			console.log("Waiting for Player 2")
-		} else if (data == 2) {
-			console.log("Player 2 Has Joined")
+	// socket.on('player-number', (data) => {
+	// 	if (data == 1) {
+	// 		console.log("Player 1 Has Joined")
+	// 		console.log("Waiting for Player 2")
+	// 	} else if (data == 2) {
+	// 		console.log("Player 2 Has Joined")
 
-		} else if (data >= 3) {
-			alert("Game is Full!")
+	// 	} else if (data >= 3) {
+	// 		alert("Game is Full!")
+	// 		window.location = 'https://www.google.com'
+	// 	}
+
+	// });
+	function waitingPlayerTwo(show) {
+		console.log("waiting...");
+		
+		// const messageContainer = document.querySelector('.waiting-message');
+		// messageContainer.style.display = show ? 'block' : 'none';
+	}
+	  
+
+
+	socket.on('player-number', function (playerNumber) {
+		if (playerNumber == 1) {
+		  waitingPlayerTwo(true); // Show waiting message
+		  console.log(111);
+		  
+		  // On 2nd player connect, start the game
+		  socket.on('player-connect', function() {
+			waitingPlayerTwo(false); // Hide waiting message
+			console.log(222);
+			
+		  });
+		} else { // Immediately start the game if we're player two
+			window.location = 'https://www.google.com'
 		}
+	  });
 
+	socket.on('player-two', (data) => {
+		console.log(data);
+		
+		// if (data === true) {
+		// 	console.log(666,)
+		// }
 	});
+
+	socket.on('message', (data) => {
+		console.log(111111);
+		
+		console.log(data);
+		
+		// if (data === true) {
+		// 	console.log(666,)
+		// }
+	});
+
+
 
 	// team assigner
 	socket.on('team', (data) => {
-
+		console.log(666,data);
+		
 
 		team = data
 
