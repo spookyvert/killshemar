@@ -25,47 +25,29 @@ const io = socketIO(server);
 let playerIndex = 0;
 console.log('Server is running 😌 ');
 
-// resets back to false
+  // resets back to false
 let hasShemar = false;
 let hasShip = false;
 
-
-
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
   console.log(socket.id);
-  const connections = [null, null];
-  let playerIndex = -1;
-  for (var i in connections) {
-    if (connections[i] === null) {
 
-	  playerIndex = i;
-	  console.log(555, i, 555);
-	  
-    }
+
+
+
+
+  if (hasShemar === false) {
+    socket.broadcast.emit('team', 'shemar');
+    hasShemar = true;
+  } 
+  if (hasShemar !== false) {
+    // the first player that joins will be the Shemar! so the 2nd will always be Ship
+    socket.broadcast.emit('team', 'ship');
+    hasShip = true;
   }
 
-// socket.emit('player-number', playerIndex);
 
- // Ignore player 3
- if (playerIndex == -1) return;
-  
- connections[playerIndex] = socket;
- console.log(connections.length);
- 
-
- socket.broadcast.emit('player-connect', playerIndex);
-
-//   if (hasShemar === false) {
-//     socket.broadcast.emit('team', 'shemar');
-//     hasShemar = true;
-//   } else if (hasShip === false) {
-//     // the first player that joins will be the Shemar! so the 2nd will always be Ship
-//     socket.broadcast.emit('team', 'ship');
-//     hasShip = true;
-//   }
-
-
-//   playerIndex++;
+  playerIndex++;
 
 
 

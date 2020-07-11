@@ -399,7 +399,8 @@ function gameLogic() {
 
 function mainMovementsDraw() {
 	// PLAYER 1
-	if (mouseIsPressed && team == 'ship') {
+	if (mouseIsPressed) {
+	// if (mouseIsPressed && team == 'ship') {
 		getAudioContext().resume()
 
 		let data = {
@@ -416,7 +417,8 @@ function mainMovementsDraw() {
 function mainMovements() {
 
 	// PLAYER ONE CONTROLS
-	if (keyIsDown(UP_ARROW) && jumpSwitch && team == 'shemar') {
+	if (keyIsDown(UP_ARROW) && jumpSwitch ) {
+	// if (keyIsDown(UP_ARROW) && jumpSwitch && team == 'shemar') {
 		SHEMAR.addImage(jumpImg)
 
 		if (jumpCount >= 2) {
@@ -432,8 +434,8 @@ function mainMovements() {
 
 			socket.emit('jumpS1', data)
 		}
-
-	} else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 860 && SHEMAR.position.x <= 930 && SHEMAR.position.y === 690 && team == 'shemar') {
+	} else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 860 && SHEMAR.position.x <= 930 && SHEMAR.position.y === 690 ) {
+	// } else if (keyIsDown(DOWN_ARROW) && SHEMAR.position.x >= 860 && SHEMAR.position.x <= 930 && SHEMAR.position.y === 690 && team == 'shemar') {
 
 		SHEMAR.position.x = 275
 		SHEMAR.position.y = 220
@@ -447,7 +449,8 @@ function mainMovements() {
 		socket.emit('portal', data)
 
 		// invisibility trigger
-	} else if (keyIsDown(16) && invisibilityCount < 3 && team == 'shemar') {
+	} else if (keyIsDown(16) && invisibilityCount < 3 ) {
+	// } else if (keyIsDown(16) && invisibilityCount < 3 && team == 'shemar') {
 
 		invisible = true
 		alpha = 0
@@ -463,7 +466,8 @@ function mainMovements() {
 		socket.emit('invisible', data)
 
 		// PLAYER TWO CONTROLS
-	} else if (keyIsDown(32) && team == 'ship') {
+	} else if (keyIsDown(32)) {
+	// } else if (keyIsDown(32) && team == 'ship') {
 		BULLET = createSprite(width / 2, height / 2, 2, 10);
 		BULLET.addImage(bulletImg)
 		BULLET.velocity.y = 2;
@@ -480,7 +484,8 @@ function mainMovements() {
 		}
 		socket.emit('shoot', data)
 		//space lizards
-	} else if (keyIsDown(90) && lizardCount === 0 && team == 'ship') {
+	} else if (keyIsDown(90) && lizardCount === 0 ) {
+	// } else if (keyIsDown(90) && lizardCount === 0 && team == 'ship') {
 
 		LIZARD = createSprite(400, 0, 20, 20)
 		LIZARD.addImage(lizardImg, width / 2, height / 2)

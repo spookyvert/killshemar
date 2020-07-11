@@ -140,7 +140,7 @@ function setup() {
 			
 		  });
 		} else { // Immediately start the game if we're player two
-			window.location = 'https://www.google.com'
+			// window.location = 'https://www.google.com'
 		}
 	  });
 
@@ -353,7 +353,8 @@ function draw() {
 
 
 		// shemar controls, weird glitch in mainMovementsDraw(), work here!
-		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
+		if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 ) {
+		// if (keyIsDown(RIGHT_ARROW) && SHEMAR.position.x < windowWidth - 260 && team == 'shemar') {
 			console.log("here");
 			SHEMAR.addImage(animationRight[count])
 			SHEMAR.position.x += 10;
@@ -363,8 +364,8 @@ function draw() {
 				tmpCount = 0
 			}
 			count = tmpCount;
-
-		} else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
+		} else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10) {
+		// } else if (keyIsDown(LEFT_ARROW) && SHEMAR.position.x > 10 && team == 'shemar') {
 			SHEMAR.addImage(animationLeft[count])
 			SHEMAR.position.x -= 10;
 			tmpCount = count
