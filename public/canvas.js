@@ -13,6 +13,12 @@ let spritedata2
 let animationRight = []
 let count = 0
 
+// Adjust speed and store image width for bgTop
+let bgTopOffset1 = 0;
+let bgTopOffset2 = 0;
+let bgTopSpeed = 0.5; // Slower speed
+let bgTopImgWidth; // Will be set in preload
+
 function preload() {
 	//font
 	gameFont = loadFont('./public/assets/fonts/PressStart2P.ttf');
@@ -41,10 +47,16 @@ function preload() {
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-
-
-
-
+	// Make canvas fill the whole screen and always resize responsively
+	let cnv = document.querySelector('canvas');
+	if (cnv) {
+		cnv.style.position = 'fixed';
+		cnv.style.top = '0';
+		cnv.style.left = '0';
+		cnv.style.width = '100vw';
+		cnv.style.height = '100vh';
+		cnv.style.zIndex = '1';
+	}
 
 	// Create an Audio input
 	mic = new p5.AudioIn();
@@ -235,18 +247,12 @@ function setup() {
 	// create clear button
 
 	titleLogo = createElement('p', '🔪 Kill 🔪<br><br> Shemar').addClass('title');
-	titleLogo.position(windowWidth / 2.5, 200);
-
-
-
 	textH = createElement('h4', 'what is your name?').addClass('name');
-	textH.position(windowWidth / 2.26, 300);
-
-	input = createInput()
-	input.position(windowWidth / 2.23, 350);
-
+	input = createInput().addClass('game-input'); // Add class here
 	startButton = createButton('Start Game').addClass('eightbit-btn eightbit-btn--reset');
-	startButton.position(windowWidth / 2.18, 390);
+
+	positionUIElements(); // Responsive positioning
+
 	// start button
 	sB = document.querySelector('.eightbit-btn')
 
@@ -266,11 +272,29 @@ function setup() {
 
 	})
 
+	// Store the original width of bgTop after it's loaded
+	bgTopImgWidth = bgTop.width;
 }
 // setup() ends here
 
 function draw() {
-	background(bg);
+	// Responsive background: fill screen, no repeat on mobile
+	if (windowWidth < 700) {
+		// On mobile, stretch bg to fill the canvas (no repeat)
+		image(bg, 0, 0, windowWidth, windowHeight);
+	} else {
+		// On desktop, tile as before
+		const bgTileWidth = bg.width;
+		const bgTileHeight = bg.height;
+		const tilesX = Math.ceil(windowWidth / bgTileWidth) + 1;
+		const tilesY = Math.ceil(windowHeight / bgTileHeight) + 1;
+		for (let y = 0; y < tilesY; y++) {
+			for (let x = 0; x < tilesX; x++) {
+				image(bg, x * bgTileWidth, y * bgTileHeight, bgTileWidth, bgTileHeight);
+			}
+		}
+	}
+
 	fill(255);
 	noStroke();
 	let bgWave
@@ -279,17 +303,32 @@ function draw() {
 
 
 	// scene
-	wave()
+	// wave()
 	rainRun()
-	image(bgTop, 0, 0, window.width, window.height);
-	groundLayout()
+
+	// Responsive height for the "castle" strip
+	const bgTopHeight = Math.ceil(windowHeight * 0.28);
+
+	// Make castles (bgTop) bigger on mobile
+	let scaleFactor = 1;
+	if (windowWidth < 700) {
+		scaleFactor = 1.7; // Increase for mobile, adjust as needed
+	}
+	const bgTopDrawHeight = bgTop.height * scaleFactor;
+	const bgTopY = windowHeight - bgTopDrawHeight;
+
+	bgTopOffset1 -= bgTopSpeed;
+	bgTopOffset2 += bgTopSpeed;
+	if (bgTopOffset1 <= -bgTopImgWidth) bgTopOffset1 = bgTopImgWidth;
+	if (bgTopOffset2 >= bgTopImgWidth) bgTopOffset2 = -bgTopImgWidth;
+
+	image(bgTop, bgTopOffset1, bgTopY, bgTopImgWidth, bgTopDrawHeight);
+	image(bgTop, bgTopOffset2, bgTopY, bgTopImgWidth, bgTopDrawHeight);
+
+	groundLayout();
 
 	if (gameStarted == true) {
 
-		textH.hide();
-		input.hide();
-		startButton.hide();
-		titleLogo.hide();
 		menuBtn = document.querySelector('.sidebar-btn')
 		menuBtn.style.display = 'block'
 
@@ -350,6 +389,145 @@ function keyPressed() {
 	mainMovements()
 }
 
-// function windowResized() {
-//   resizeCanvas(windowWidth, windowHeight);
-// }
+function positionUIElements() {
+	// Create or select a flex container for UI elements
+	let flexContainer = document.getElementById('ui-flex-container');
+	if (!flexContainer) {
+		flexContainer = document.createElement('div');
+		flexContainer.id = 'ui-flex-container';
+		document.body.appendChild(flexContainer);
+	}
+	// Style the flex container
+	Object.assign(flexContainer.style, {
+		width: '100vw',
+		height: '100vh',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		zIndex: 10,
+		pointerEvents: 'none',
+		background: 'none'
+	});
+
+	// Helper to move p5 elements into the flex container
+	function moveToFlex(el) {
+		if (el && el.elt && el.elt.parentNode !== flexContainer) {
+			flexContainer.appendChild(el.elt);
+		}
+		if (el && el.style) {
+			// .title will be fixed, not flexed
+			if (el.hasClass && el.hasClass('title')) {
+				el.style('position', 'fixed');
+				el.style('top', '8vh');
+				el.style('left', '0');
+				el.style('right', '0');
+				el.style('margin', '0 auto');
+				el.style('z-index', '20');
+				el.style('display', 'block');
+				el.style('pointer-events', 'none');
+			} else {
+				el.style('position', 'static');
+				el.style('margin', '16px 0');
+				el.style('pointer-events', 'auto');
+			}
+		}
+	}
+
+	function animateShow(el) {
+		if (el && el.elt) {
+			el.elt.classList.remove('show');
+			void el.elt.offsetWidth;
+			el.elt.classList.add('show');
+		}
+	}
+
+	moveToFlex(titleLogo);
+	moveToFlex(textH);
+	moveToFlex(input);
+	moveToFlex(startButton);
+
+	// Hide or show the flex container depending on game state
+	if (typeof gameStarted !== 'undefined' && gameStarted) {
+		flexContainer.style.display = 'none';
+	} else {
+		flexContainer.style.display = 'flex';
+	}
+	// Always show the title and trigger animation
+	if (titleLogo && titleLogo.elt) {
+		titleLogo.show();
+		animateShow(titleLogo);
+	}
+	// Animate the rest (slide from bottom and unblur)
+	animateShow(textH);
+	animateShow(input);
+	animateShow(startButton);
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+	let cnv = document.querySelector('canvas');
+	if (cnv) {
+		cnv.style.width = '100vw';
+		cnv.style.height = '100vh';
+	}
+	positionUIElements();
+}
+
+// Responsive ground layout: stretch grass image to cover bottom 30% of the screen, but preserve aspect ratio and fill horizontally
+function groundLayout() {
+	const groundHeight = Math.ceil(windowHeight * 0.3); // Use 0.3, not -5
+	const aspect = img.width / img.height;
+	const targetWidth = windowWidth;
+	const targetHeight = groundHeight;
+
+	let drawWidth = targetWidth;
+	let drawHeight = drawWidth / aspect;
+
+	if (drawHeight < targetHeight) {
+		drawHeight = targetHeight;
+		drawWidth = drawHeight * aspect;
+	}
+
+	const x = (windowWidth - drawWidth) / 2;
+	const y = windowHeight - drawHeight;
+
+	// Hide overflow below the grass by drawing a black rect after the grass
+	image(
+		img,
+		x,
+		y,
+		drawWidth,
+		drawHeight
+	);
+
+	// Draw a black rectangle below the grass to hide any overflow
+	noStroke();
+	fill(0);
+	rect(0, windowHeight, windowWidth, 100); // 100px is enough to cover any overflow
+}
+
+// Responsive parallax wave
+function wave() {
+	bgWave = fill(19, 19, 19);
+	bgWave
+	noStroke();
+	beginShape();
+
+	let xoff = 0;
+	// Make the wave much shorter on mobile
+	let isMobile = windowWidth < 700;
+	let waveTop = windowHeight * (isMobile ? 0.03 : 0.18);
+	let waveBottom = windowHeight * (isMobile ? 0.10 : 0.28);
+
+	for (let x = 0; x <= windowWidth; x += 10) {
+		let y = map(noise(xoff, yoff), 0, 1, waveTop, waveBottom);
+		vertex(x, y);
+		xoff += 0.05;
+	}
+	yoff += 0.01;
+	vertex(windowWidth, windowHeight); // bottom right
+	vertex(0, windowHeight);           // bottom left
+	endShape(CLOSE);
+}
+

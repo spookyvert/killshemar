@@ -1,5 +1,15 @@
 body {
   background-color: black;
+  overflow: hidden; /* Prevent scrolling */
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Prevent scrolling on html as well */
+html {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 
 @font-face {
@@ -33,10 +43,14 @@ h4 {
 
 .name {
   position: absolute;
-  left: 42.5vw;
-  top: 42vh;
+  top: 39vh;
   font-family: 'Press Start 2P', cursive;
   font-size: 12px;
+}
+
+.game-input {
+    top: 43vh;
+
 }
 
 input {
@@ -131,6 +145,7 @@ ul {
   color: white;
   box-shadow: inset -4px -4px 0px 0px #4AA52E;
   padding: 5px;
+  top: 47vh;
 }
 
 .eightbit-btn:hover, .eightbit-btn:focus {
@@ -174,32 +189,105 @@ ul {
   box-shadow: inset -6px -6px 0px 0px #8C2022;
 }
 
+#ui-flex-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+  background: none;
+}
+
+#ui-flex-container > *:not(.title) {
+  margin: 16px 0;
+  pointer-events: auto;
+  font-family: 'Press Start 2P', cursive !important;
+  text-align: center;
+  /* Animation for slide-in and unblur */
+  animation: ui-slide-unblur 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  filter: blur(8px);
+  opacity: 0;
+}
+
+#ui-flex-container > .show,
+#ui-flex-container > *:not(.title).show {
+  filter: blur(0);
+  opacity: 1;
+}
+
+/* Keyframes for sliding from bottom and unblurring */
+@keyframes ui-slide-unblur {
+  0% {
+    transform: translateY(80px);
+    filter: blur(8px);
+    opacity: 0;
+  }
+  60% {
+    filter: blur(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+#ui-flex-container > .title,
 .title {
-  text-decoration: none;
+    position: absolute !important;
+    top: 26vh !important;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 20;
+  display: block !important;
+  pointer-events: none;
+  font-family: 'Press Start 2P', cursive !important;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fbd62a;
+  text-shadow: 0 -1px 15px rgba(0, 0, 0, 0.9), 0 1px 0 #7f6303, 0 3px 0 #846703, 0 5px 0 #896b03, 0 7px 0 #8e6f03, 0 9px 0 #937203, 0 6px 50px rgba(252, 223, 92, 0.8);
+  line-height: 0.8;
+  /* keep transform for 3D effect */
   -webkit-transform: perspective(2.5em) rotateX(15deg) scaleY(0.8);
   -moz-transform: perspective(2.5em) rotateX(15deg) scaleY(0.8);
   -ms-transform: perspective(2.5em) rotateX(15deg) scaleY(0.8);
   -o-transform: perspective(2.5em) rotateX(15deg) scaleY(0.8);
   transform: perspective(2.5em) rotateX(15deg) scaleY(0.8);
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  transition: all 0.5s;
-  display: inline-block;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 40px;
-  font-weight: 700;
-  font-family: 'Press Start 2P', cursive;
-  line-height: 0.8;
-  color: #fbd62a;
-  text-shadow: 0 -1px 15px rgba(0, 0, 0, 0.9), 0 1px 0 #7f6303, 0 3px 0 #846703, 0 5px 0 #896b03, 0 7px 0 #8e6f03, 0 9px 0 #937203, 0 6px 50px rgba(252, 223, 92, 0.8);
-  position: absolute;
-  left: 39vw;
-  top: 200px;
+  /* Animation for slide-in and unblur */
+  animation: title-slide-unblur 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  filter: blur(8px);
+  opacity: 0;
 }
 
-.title:first-line {
-  font-size: 0.8em;
+#ui-flex-container > .title.show,
+.title.show {
+  filter: blur(0);
+  opacity: 1;
+}
+
+/* Keyframes for sliding from top and unblurring */
+@keyframes title-slide-unblur {
+  0% {
+    transform: translateY(-80px) perspective(2.5em) rotateX(15deg) scaleY(0.8);
+    filter: blur(8px);
+    opacity: 0;
+  }
+  60% {
+    filter: blur(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) perspective(2.5em) rotateX(15deg) scaleY(0.8);
+    filter: blur(0);
+    opacity: 1;
+  }
 }
 
 .title:hover {
@@ -317,4 +405,34 @@ ul {
   transform: rotate(-45deg);
   transition: 0.7s linear;
   width: 15px;
+}
+
+/* Responsive font sizes for mobile */
+@media (max-width: 700px) {
+  #ui-flex-container > *:not(.title) {
+    font-size: 18px !important;
+  }
+  .game-input {
+    font-size: 18px !important;
+    padding: 12px !important;
+  }
+  .eightbit-btn {
+    font-size: 16px !important;
+    padding: 12px 18px !important;
+  }
+  #ui-flex-container > .title,
+  .title {
+    font-size: 56px !important;
+    top: 10vh !important;
+    line-height: 1.1 !important;
+  }
+}
+
+/* Prevent background image repeat on mobile and fill screen */
+@media (max-width: 700px) {
+  canvas {
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
 }
