@@ -3,6 +3,7 @@ body {
   overflow: hidden; /* Prevent scrolling */
   height: 100vh;
   width: 100vw;
+  touch-action: none;
 }
 
 /* Prevent scrolling on html as well */
@@ -10,6 +11,65 @@ html {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+}
+#touch-controls {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  z-index: 10;
+  display: none;
+  pointer-events: auto;
+}
+
+.dpad {
+  display: grid;
+  grid-template-columns: 56px 56px 56px;
+  grid-template-rows: 56px 56px 56px;
+  gap: 6px;
+}
+
+.dpad .touch-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  border: 2px solid #fbd62a;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fbd62a;
+  font-size: 20px;
+  font-family: 'Press Start 2P', cursive;
+  touch-action: none;
+}
+
+.dpad .touch-btn:nth-child(1) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.dpad .touch-btn:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.dpad .touch-btn:nth-child(3) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.dpad .touch-btn:nth-child(4) {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+@media (max-width: 700px) {
+  .dpad {
+    grid-template-columns: 46px 46px 46px;
+    grid-template-rows: 46px 46px 46px;
+  }
+  .dpad .touch-btn {
+    width: 46px;
+    height: 46px;
+    font-size: 16px;
+  }
 }
 
 @font-face {
@@ -68,6 +128,52 @@ canvas {
   animation-name: canvasUp;
   animation-duration: 1s animation-duration: 1s;
   z-index: 0;
+}
+
+#connection-status,
+#lobby-status,
+#session-status {
+  font-family: 'Press Start 2P', cursive;
+  text-transform: uppercase;
+  color: #fbd62a;
+  z-index: 5;
+  pointer-events: none;
+}
+
+#connection-status {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 10px;
+  border: 1px solid #fbd62a;
+}
+
+#lobby-status,
+#session-status {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 8px 14px;
+  border: 1px solid #fbd62a;
+  text-align: center;
+  max-width: 90vw;
+}
+
+#session-status {
+  top: 54px;
+  font-size: 10px;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+#lobby-status:empty,
+#session-status:empty {
+  display: none;
 }
 
 @-webkit-keyframes canvasUp {
@@ -301,6 +407,11 @@ ul {
 
 .eightbit-btn--reset:active {
   box-shadow: inset 4px 4px 0px 0px #8C2022;
+}
+
+#ready-button {
+  position: relative;
+  z-index: 30;
 }
 
 .sidebar {

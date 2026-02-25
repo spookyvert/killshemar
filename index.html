@@ -20,11 +20,6 @@
   <link rel="stylesheet" href="./public/assets/styles.css">
   <title>killshemar</title>
 
-  <div class="sidebar-btn" onclick="togglemenu()">
-
-    <img id="bemo" src="./public/assets/images/highscore.png" />
-
-  </div>
   <div class="sidebar">
 
     <ul id="list">
@@ -39,16 +34,14 @@
   <div id="loader" onload="randombg()" />
 
 
-  <script>
-    socket = io();
-  </script>
-
-  <script src="/public/variables.js"></script>
-  <script src="./public/helpers.js"></script>
-  <script src="./public/scoreAdaptor.js"></script>
-  <script src="./public/platform.js"></script>
-  <script src="./public/index.js"></script>
-  <script src="./public/canvas.js"></script>
+  <script src="./public/src/constants.js"></script>
+  <script src="./public/src/state.js"></script>
+  <script src="./public/src/ui.js"></script>
+  <script src="./public/src/network.js"></script>
+  <script src="./public/src/input.js"></script>
+  <script src="./public/src/scoreAdaptor.js"></script>
+  <script src="./public/src/game.js"></script>
+  <script src="./public/src/main.js"></script>
 
 </body>
 
