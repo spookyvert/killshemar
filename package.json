@@ -1,21 +1,16 @@
 {
-  "name": "ks-frontend",
+  "name": "killshemar",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
+  "private": true,
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "express": "4.16.4",
-    "http": "0.0.0",
-    "http-server": "^0.11.1",
-    "socket.io": "2.2.0"
+    "@socket.io/redis-adapter": "^8.3.0",
+    "@upstash/redis": "^1.35.3",
+    "express": "^4.21.2",
+    "ioredis": "^5.8.1",
+    "socket.io": "^4.8.1"
   }
 }

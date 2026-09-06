@@ -1,7 +1,8 @@
 {
   "functions": {
     "server.js": {
-      "includeFiles": "public/**"
+      "includeFiles": "{index.html,public/**}",
+      "maxDuration": 300
     }
   }
 }

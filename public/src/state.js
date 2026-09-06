@@ -8,7 +8,10 @@
       id: window.GameConstants.SESSION_ID,
       hostPresent: false,
       guestPresent: false,
-      locked: false
+      locked: false,
+      started: false,
+      hostReady: false,
+      guestReady: false
     },
     playerName: '',
     team: null

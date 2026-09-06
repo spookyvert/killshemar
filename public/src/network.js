@@ -1,11 +1,20 @@
 (() => {
+  const STORAGE_ROLE = 'killshemar:role';
+  const STORAGE_NAME = 'killshemar:name';
+
   const Network = {
     socket: null,
     hasRequestedSession: false,
     pendingReady: false,
 
     init() {
-      this.socket = io();
+      this.socket = io({
+        transports: ['websocket'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 400,
+        timeout: 10000,
+      });
       this.registerCoreHandlers();
       this.registerGameplayHandlers();
     },
@@ -14,51 +23,58 @@
       this.socket.on('connect', () => {
         window.GameState.setConnectionStatus('connected');
         window.UI.setConnectionStatus('Connected');
-        this.socket.emit('session:status', { id: window.GameConstants.SESSION_ID });
+        this.hasRequestedSession = false;
+        this.claimSeat();
+        this.startHeartbeat();
       });
 
       this.socket.on('disconnect', () => {
         window.GameState.setConnectionStatus('disconnected');
         window.GameState.setPhase(window.GameConstants.STATES.DISCONNECTED);
         window.UI.setConnectionStatus('Disconnected');
-        window.UI.setSessionStatus('Connection lost. Refresh to reconnect.');
-        this.hasRequestedSession = false;
+        window.UI.setSessionStatus('Connection lost. Reconnecting...');
       });
 
       this.socket.on('session:status', (data) => {
         window.GameState.setSessionStatus(data);
-        if (data.locked) {
+        if (data.started) {
+          window.GameState.setPhase(window.GameConstants.STATES.MATCH);
+        } else if (data.hostPresent || data.guestPresent) {
+          if (window.GameState.getTeam()) {
+            window.GameState.setPhase(window.GameConstants.STATES.LOBBY);
+          }
+        }
+        const team = window.GameState.getTeam() || sessionStorage.getItem(STORAGE_ROLE);
+        const missing =
+          (team === 'shemar' && !data.hostPresent) || (team === 'ship' && !data.guestPresent);
+        if (missing && this.socket.connected && Date.now() - (this._reclaimAt || 0) > 2000) {
+          this._reclaimAt = Date.now();
+          this.hasRequestedSession = false;
+          this.claimSeat();
+        }
+        if (data.hostPresent && data.guestPresent && !data.started) {
           const readyCount = (data.hostReady ? 1 : 0) + (data.guestReady ? 1 : 0);
-          window.UI.setSessionStatus(`Session locked. Ready ${readyCount}/2.`);
-        } else {
-          window.UI.clearSessionStatus();
+          window.UI.setSessionStatus(`Both players here. Ready ${readyCount}/2.`);
         }
         if (window.GameActions && window.GameActions.refreshUI) {
           window.GameActions.refreshUI();
         }
-        this.ensureSessionRequested();
       });
 
-      this.socket.on('session:created', (data) => {
+      this.socket.on('session:created', () => {
         window.GameState.setPhase(window.GameConstants.STATES.LOBBY);
-        window.UI.setLobbyStatus('Waiting for Player 2...');
-        window.UI.setSessionStatus(`Session ${data.id} created.`);
+        window.UI.setLobbyStatus('You are Shemar. Waiting for Player 2...');
         if (window.GameActions && window.GameActions.refreshUI) {
           window.GameActions.refreshUI();
         }
       });
 
-      this.socket.on('session:joined', (data) => {
+      this.socket.on('session:joined', () => {
         window.GameState.setPhase(window.GameConstants.STATES.LOBBY);
-        window.UI.setLobbyStatus('Joining match...');
-        window.UI.setSessionStatus(`Joined session ${data.id}.`);
+        window.UI.setLobbyStatus('You are the ship. Click Ready when both players are in.');
         if (window.GameActions && window.GameActions.refreshUI) {
           window.GameActions.refreshUI();
         }
-      });
-
-      this.socket.on('session:locked', () => {
-        window.UI.setSessionStatus('Session locked. Starting match...');
       });
 
       this.socket.on('session:started', () => {
@@ -74,32 +90,46 @@
       });
 
       this.socket.on('session:reset', () => {
+        sessionStorage.removeItem(STORAGE_ROLE);
+        sessionStorage.removeItem(STORAGE_NAME);
+        window.GameState.setTeam(null);
         window.GameState.setPhase(window.GameConstants.STATES.MENU);
-        window.UI.setLobbyStatus('Session reset. Start a new match.');
+        window.UI.setLobbyStatus('Session reset. Claiming a new seat...');
         if (window.GameActions && window.GameActions.setGameStarted) {
           window.GameActions.setGameStarted(false);
         }
+        this.hasRequestedSession = false;
+        this.claimSeat();
         if (window.GameActions && window.GameActions.refreshUI) {
           window.GameActions.refreshUI();
         }
-        this.hasRequestedSession = false;
       });
 
       this.socket.on('session:error', (data) => {
         window.UI.setSessionStatus(data.message || 'Unable to join session.');
-        if (data && data.message && data.message.toLowerCase().includes('not in the session')) {
-          this.hasRequestedSession = false;
+        this.hasRequestedSession = false;
+        if (!this._retryClaim) {
+          this._retryClaim = setTimeout(() => {
+            this._retryClaim = null;
+            this.claimSeat();
+          }, 2000);
         }
       });
 
       this.socket.on('player:role', (data) => {
+        sessionStorage.setItem(STORAGE_ROLE, data.role);
+        sessionStorage.setItem(STORAGE_NAME, data.name);
         window.GameState.setTeam(data.role);
+        window.GameState.setPlayerName(data.name);
         if (window.GameActions && window.GameActions.setTeam) {
           window.GameActions.setTeam(data.role);
         }
         if (this.pendingReady) {
           this.pendingReady = false;
           this.emitReady();
+        }
+        if (window.GameActions && window.GameActions.refreshUI) {
+          window.GameActions.refreshUI();
         }
       });
     },
@@ -169,26 +199,31 @@
       });
     },
 
-    requestSession(playerName) {
-      const session = window.GameState.getSessionStatus();
-      const resolvedName = playerName || this.generatePlayerName();
-      window.GameState.setPlayerName(resolvedName);
-      if (!session.hostPresent) {
-        this.socket.emit('session:create', { id: session.id, name: resolvedName });
-      } else if (!session.guestPresent && !session.locked) {
-        this.socket.emit('session:join', { id: session.id, name: resolvedName });
-      } else {
-        this.socket.emit('session:join', { id: session.id, name: resolvedName });
+    restoreSeat() {
+      const storedRole = sessionStorage.getItem(STORAGE_ROLE);
+      const storedName = sessionStorage.getItem(STORAGE_NAME);
+      if (storedName) window.GameState.setPlayerName(storedName);
+      if (storedRole && !window.GameState.getTeam()) {
+        window.GameState.setTeam(storedRole);
+        if (window.GameActions && window.GameActions.setTeam) {
+          window.GameActions.setTeam(storedRole);
+        }
       }
+      return { storedRole, storedName };
     },
-    ensureSessionRequested() {
-      if (this.hasRequestedSession && window.GameState.getTeam()) {
-        return;
-      }
-      const name = window.GameState.getPlayerName() || this.generatePlayerName();
+
+    claimSeat() {
+      if (this.hasRequestedSession || !this.socket || !this.socket.connected) return;
       this.hasRequestedSession = true;
-      this.requestSession(name);
+      const { storedRole, storedName } = this.restoreSeat();
+      const name = storedName || window.GameState.getPlayerName() || this.generatePlayerName();
+      window.GameState.setPlayerName(name);
+      this.socket.emit('session:claim', {
+        name,
+        resumeRole: storedRole || undefined,
+      });
     },
+
     generatePlayerName() {
       const suffix = Math.floor(Math.random() * 9000) + 1000;
       return `Player${suffix}`;
@@ -246,13 +281,27 @@
 
     emitReady() {
       if (!this.socket) return;
+      this.restoreSeat();
       const team = window.GameState.getTeam();
       if (!team) {
         this.pendingReady = true;
-        this.ensureSessionRequested();
+        this.hasRequestedSession = false;
+        this.claimSeat();
         return;
       }
-      this.socket.emit('session:ready');
+      this.socket.emit('session:ready', {
+        name: window.GameState.getPlayerName() || sessionStorage.getItem(STORAGE_NAME),
+      });
+    },
+
+    startHeartbeat() {
+      if (this._heartbeat) return;
+      this._heartbeat = setInterval(() => {
+        if (!this.socket || !this.socket.connected) return;
+        const name = window.GameState.getPlayerName() || sessionStorage.getItem(STORAGE_NAME);
+        if (!name) return;
+        this.socket.emit('session:heartbeat', { name });
+      }, 4000);
     }
   };
 

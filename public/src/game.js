@@ -303,7 +303,7 @@ window.setup = function setup() {
   titleLogo = createElement('p', '🔪 Kill 🔪<br><br> Shemar').addClass('title');
   readyButton = createButton('Ready').addClass('eightbit-btn eightbit-btn--reset');
   readyButton.attribute('id', 'ready-button');
-  readyButton.mousePressed(() => {
+  const sendReady = () => {
     if (window.Network && window.Network.emitReady) {
       window.Network.emitReady();
       if (window.UI && window.UI.setSessionStatus) {
@@ -312,7 +312,11 @@ window.setup = function setup() {
       readyButton.html('Ready!');
       readyButton.attribute('disabled', true);
     }
-  });
+  };
+  readyButton.mousePressed(sendReady);
+  if (readyButton.elt) {
+    readyButton.elt.addEventListener('click', sendReady);
+  }
 
   createTouchControls();
   positionUIElements();
@@ -505,9 +509,13 @@ function positionUIElements() {
 
   if (window.GameState.isMatch()) {
     flexContainer.style.display = 'none';
-  } else {
-    flexContainer.style.display = 'flex';
+    if (titleLogo && titleLogo.elt) titleLogo.elt.style.display = 'none';
+    if (readyButton && readyButton.elt) readyButton.elt.style.display = 'none';
+    updateTouchControls();
+    return;
   }
+
+  flexContainer.style.display = 'flex';
   if (titleLogo && titleLogo.elt) {
     titleLogo.show();
     animateShow(titleLogo);
@@ -525,13 +533,13 @@ function updateReadyButton() {
   const localTeam = window.GameState.getTeam();
   const isReady = (localTeam === 'shemar' && session.hostReady) || (localTeam === 'ship' && session.guestReady);
   const bothPresent = session.hostPresent && session.guestPresent;
-  if (phase === window.GameConstants.STATES.LOBBY && (session.locked || bothPresent)) {
+  if ((phase === window.GameConstants.STATES.LOBBY || localTeam) && (session.locked || bothPresent) && !window.GameState.isMatch()) {
     readyButton.show();
     if (isReady) {
       readyButton.attribute('disabled', true);
       readyButton.html('Ready!');
     } else {
-      readyButton.attribute('disabled', false);
+      if (readyButton.elt) readyButton.elt.removeAttribute('disabled');
       readyButton.html('Ready');
     }
   } else {
